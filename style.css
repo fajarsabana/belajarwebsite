@@ -264,33 +264,3 @@ header, nav {
 .parent-item.open .sublist {
     display: block;
 }
-
-/* Floating Scroll Button (Inside Map) */
-#scroll-down-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255, 165, 0, 0.7); /* Semi-transparent orange */
-    color: white;
-    padding: 12px 15px;
-    font-size: 20px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure it's above the map */
-    transition: background 0.3s;
-}
-
-/* Hover Effect */
-#scroll-down-btn:hover {
-    background: rgba(255, 140, 0, 0.9);
-}
-
-/* Show Button Only on Mobile */
-@media (max-width: 768px) {
-    #scroll-down-btn {
-        display: block;
-    }
-}
-
