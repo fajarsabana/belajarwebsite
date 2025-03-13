@@ -1,234 +1,103 @@
-/* Ensure the page allows scrolling */
-html, body {
-    overflow-y: auto;
-    height: auto;
+/* Reset Default Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    color: black;
 }
 
-
-/* Global Styles */
- body {
-     font-family: Arial, sans-serif;
-     margin: 0;
-     padding: 0;
-     background: #f4f4f4;
-     color: #333;
-     transition: background 0.3s, color 0.3s;
- }
- 
- /* Dark Mode */
- .dark-mode {
-     background: #222;
-     color: white;
- }
- 
- /* Navigation */
- header {
-     background: #222;
-     color: white;
-     padding: 20px;
-     text-align: center;
- }
- .nav-links {
-     list-style: none;
-     display: flex;
-     justify-content: center;
-     gap: 20px;
- }
- .nav-links a {
-     color: white;
-     text-decoration: none;
- }
- #dark-mode-toggle {
-     background: none;
-     border: none;
-     color: white;
-     font-size: 20px;
-     cursor: pointer;
- }
- 
- /* Hero Section */
- #hero {
-     background: url('images/hero.jpg') center/cover;
-     height: 400px;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
-     text-align: center;
-     color: white;
- }
- 
- /* Smooth Hover Effects */
- .btn {
-     background: #ff6600;
-     color: white;
-     padding: 12px 24px;
-     border: none;
-     border-radius: 5px;
-     cursor: pointer;
-     transition: background 0.3s, transform 0.2s;
- }
- .btn:hover {
-     background: #e65c00;
-     transform: scale(1.1);
- }
- 
- /* Image Hover Effect */
- .image-hover {
-     width: 300px;
-     height: 200px;
-     object-fit: cover;
-     transition: transform 0.3s;
- }
- .image-hover:hover {
-     transform: scale(1.1);
- }
- 
- /* Fade In Animation */
- @keyframes fadeIn {
-     from { opacity: 0; transform: translateY(20px); }
-     to { opacity: 1; transform: translateY(0); }
- }
- .fade-in {
-     opacity: 0;
-     animation: fadeIn 1s ease-in-out forwards;
- }
- 
- /* Bounce Animation */
- @keyframes bounce {
-     0%, 100% { transform: translateY(0); }
-     50% { transform: translateY(-10px); }
- }
- .bounce {
-     animation: bounce 0.5s infinite alternate;
- }
- 
- /* Flip Card */
- .flip-card {
-     perspective: 1000px;
- }
- .flip-card-inner {
-     width: 300px;
-     height: 200px;
-     transition: transform 0.6s;
-     transform-style: preserve-3d;
- }
- .flip-card:hover .flip-card-inner {
-     transform: rotateY(180deg);
- }
- .flip-card-front, .flip-card-back {
-     position: absolute;
-     width: 100%;
-     height: 100%;
-     backface-visibility: hidden;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     border-radius: 10px;
- }
- .flip-card-front {
-     background: #ff6600;
-     color: white;
- }
- .flip-card-back {
-     background: #333;
-     color: white;
-     transform: rotateY(180deg);
- }
- 
- /* Section Fade-in on Scroll */
- .fade-section {
-     opacity: 0;
-     transform: translateY(30px);
-     transition: opacity 0.6s, transform 0.6s;
- }
- .fade-section.visible {
-     opacity: 1;
-     transform: translateY(0);
- }
- /* Ensure all sections remain centered */
- section {
-     text-align: center;
- }
- 
- .map-container {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     width: 100%;
- }
- 
- /* Full-Screen Map */
- /* Full-screen map for desktop */
- #map-section {
-     width: 100vw;
-     height: 100vh;
-     position: relative;
-     overflow: hidden;
- }
- 
-@media (max-width: 768px) {
-    #map-section {
-        height: 60vh; /* Adjust height for better usability */
-    }
+/* Navigation */
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    background: black;
+    padding: 15px;
 }
- /* Make the map fill the entire screen */
- /* Ensure the map takes the full space */
- 
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Map Section */
+#map-section {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
 #map {
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1; /* Ensure the map is on top */
-}
- 
-
-.map-overlay {
-    display: none !important;
 }
 
-
-#map-section {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    z-index: 1; /* Lower priority than other sections */
-}
-
-/* Default light mode (background white, text black) */
+/* Other Sections */
 section {
+    text-align: center;
+    padding: 50px 20px;
     background: white;
-    color: black;
 }
 
-/* Fix dark mode - Ensure sections are visible */
-.dark-mode section {
-    background: #222; /* Dark background */
-    color: white; /* White text */
+/* Services */
+.service-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-/* Fix text hover effect in dark mode */
-.dark-mode .text-hover {
-    color: #f0f0f0;
+.service {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
-/* Ensure buttons & input fields are visible */
-.dark-mode input, .dark-mode textarea {
-    background: #333;
+/* Portfolio */
+.portfolio-grid {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.portfolio-grid img {
+    width: 200px;
+    height: 150px;
+    border-radius: 5px;
+}
+
+/* Contact Form */
+input, textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background: orange;
     color: white;
-    border: 1px solid #555;
+    border: none;
+    cursor: pointer;
 }
 
-/* Fix buttons in dark mode */
-.dark-mode .btn {
-    background: #ff6600;
+footer {
+    text-align: center;
+    padding: 20px;
+    background: black;
     color: white;
 }
-
-/* Fix portfolio images being too dark */
-.dark-mode .portfolio-grid img {
-    filter: brightness(90%); /* Reduce darkness in dark mode */
-}
-
