@@ -1,3 +1,10 @@
+/* Ensure the page allows scrolling */
+html, body {
+    overflow-y: auto;
+    height: auto;
+}
+
+
 /* Global Styles */
  body {
      font-family: Arial, sans-serif;
@@ -177,24 +184,24 @@
     z-index: 1; /* Ensure the map is on top */
 }
  
- 
- 
- 
- 
- 
 
 .map-overlay {
     display: none !important;
 }
 
- 
 
 #map-section {
     width: 100vw;
-    height: 100vh; /* Full height on desktop */
+    height: 100vh;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    z-index: 1; /* Lower priority than other sections */
 }
+
+section {
+    position: relative;
+    z-index: 2; /* Higher than map */
+    background: white;
+    padding: 50px 20px;
+    text-align: center;
+}
+
