@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize the Leaflet Map
     const map = L.map('map', {
         zoomControl: true,
-        scrollWheelZoom: true, // Enable zoom with mouse scroll
-        dragging: true, // Enable full dragging
+        scrollWheelZoom: true,
+        dragging: true,
         zoomSnap: 0.5,
         zoomDelta: 0.5,
         wheelPxPerZoomLevel: 60
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Custom Marker Icon
     const customIcon = L.icon({
-        iconUrl: 'images/marker.png', // Replace with your custom marker image
+        iconUrl: 'images/marker.png',
         iconSize: [40, 40],
         iconAnchor: [20, 40],
         popupAnchor: [0, -35]
@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const marker = L.marker([-6.2088, 106.8456], { icon: customIcon }).addTo(map);
     marker.bindPopup("<b>Jakarta</b><br>Welcome to Indonesia!").openPopup();
 
-    // **FORCE REFRESH THE MAP SIZE**
+    // **FORCE THE MAP TO RENDER PROPERLY**
     setTimeout(() => {
-        map.invalidateSize(); // Fixes map being "cut off" issue
+        map.invalidateSize();
     }, 500);
 });
