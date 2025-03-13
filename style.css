@@ -11,7 +11,7 @@ body {
 /* Dark Mode */
 .dark-mode {
     background: #222;
-    color: #fff;
+    color: white;
 }
 
 /* Navigation */
@@ -26,9 +26,6 @@ header {
     display: flex;
     justify-content: center;
     gap: 20px;
-}
-.nav-links li {
-    display: inline;
 }
 .nav-links a {
     color: white;
@@ -53,81 +50,8 @@ header {
     text-align: center;
     color: white;
 }
-.btn {
-    background: #ff6600;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: white;
-    border-radius: 5px;
-}
 
-/* Services */
-#services {
-    text-align: center;
-    padding: 50px;
-}
-.service-boxes {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-.service {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Portfolio */
-#portfolio {
-    text-align: center;
-    padding: 50px;
-}
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-.portfolio-item {
-    background: #ddd;
-    padding: 30px;
-}
-
-/* Testimonials */
-#testimonials {
-    text-align: center;
-    padding: 50px;
-    background: #333;
-    color: white;
-}
-
-/* Contact */
-#contact {
-    text-align: center;
-    padding: 50px;
-}
-form input, form textarea {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    display: block;
-    border: 1px solid #ddd;
-}
-form button {
-    background: #ff6600;
-    padding: 10px 20px;
-    border: none;
-    color: white;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #222;
-    color: white;
-}
-
+/* Smooth Hover Effects */
 .btn {
     background: #ff6600;
     color: white;
@@ -137,70 +61,55 @@ footer {
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
 }
-
 .btn:hover {
-    background: #e65c00; /* Darker color */
-    transform: scale(1.1); /* Slight zoom effect */
+    background: #e65c00;
+    transform: scale(1.1);
 }
 
+/* Image Hover Effect */
 .image-hover {
     width: 300px;
     height: 200px;
     object-fit: cover;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s;
 }
-
 .image-hover:hover {
-    transform: scale(1.1); /* Slight zoom effect */
+    transform: scale(1.1);
 }
 
+/* Fade In Animation */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
 .fade-in {
     opacity: 0;
     animation: fadeIn 1s ease-in-out forwards;
 }
 
-
+/* Bounce Animation */
 @keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
-
 .bounce {
     animation: bounce 0.5s infinite alternate;
 }
 
+/* Flip Card */
 .flip-card {
     perspective: 1000px;
 }
-
 .flip-card-inner {
     width: 300px;
     height: 200px;
     transition: transform 0.6s;
     transform-style: preserve-3d;
 }
-
 .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
 }
-
-.flip-card-front,
-.flip-card-back {
+.flip-card-front, .flip-card-back {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -210,48 +119,23 @@ footer {
     justify-content: center;
     border-radius: 10px;
 }
-
 .flip-card-front {
     background: #ff6600;
     color: white;
 }
-
 .flip-card-back {
     background: #333;
     color: white;
     transform: rotateY(180deg);
 }
 
-.text-hover {
-    position: relative;
-    text-decoration: none;
-    color: black;
-}
-
-.text-hover::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    width: 0;
-    height: 2px;
-    background: #ff6600;
-    transition: width 0.3s;
-}
-
-.text-hover:hover::after {
-    width: 100%;
-}
-
+/* Section Fade-in on Scroll */
 .fade-section {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s, transform 0.6s;
 }
-
 .fade-section.visible {
     opacity: 1;
     transform: translateY(0);
 }
-
-
