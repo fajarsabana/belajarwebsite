@@ -58,3 +58,15 @@ const marker = L.marker([-6.2088, 106.8456], { icon: customIcon }).addTo(map);
 // Add a Popup
 marker.bindPopup("<b>Jakarta</b><br>Welcome to Indonesia!").openPopup();
 
+const locations = [
+    { name: "Bandung", lat: -6.9175, lng: 107.6191 },
+    { name: "Surabaya", lat: -7.2575, lng: 112.7521 },
+    { name: "Yogyakarta", lat: -7.7956, lng: 110.3695 }
+];
+
+locations.forEach(location => {
+    L.marker([location.lat, location.lng], { icon: customIcon })
+        .addTo(map)
+        .bindPopup(`<b>${location.name}</b>`);
+});
+
