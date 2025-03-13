@@ -191,4 +191,54 @@ header, nav {
 }
 
 
+/* Sidebar Positioned Inside Map */
+#sidebar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 250px;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* List Styling */
+.clickable-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.clickable-list li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+}
+
+/* Hover effect */
+.clickable-list li:hover {
+    background: #ddd;
+}
+
+/* Sublist Styling */
+.sublist {
+    display: none; /* Hide sublist initially */
+    list-style: none;
+    padding-left: 15px;
+}
+
+.sublist li {
+    padding: 8px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Open/Close Effect */
+.parent-item.open .sublist {
+    display: block;
+}
+
 
