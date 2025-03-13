@@ -140,3 +140,49 @@ footer {
     background: black;
     color: white;
 }
+
+/* Ensure all sections are centered */
+section {
+    text-align: center; /* Centers text inside */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Centers vertically */
+    padding: 50px 20px;
+    background: white;
+}
+/* Ensure navigation bar is centered */
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center; /* Centers nav items */
+    background: black;
+    padding: 15px;
+}
+/* Center portfolio grid */
+.portfolio-grid {
+    display: flex;
+    justify-content: center; /* Centers images */
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Center flip-card */
+#flip-card-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flip-card {
+    margin: auto;
+}
+
+/* Center contact form */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
