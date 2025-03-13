@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Website</title>
+    <title>Animated Website</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
@@ -12,22 +12,22 @@
         <nav>
             <h1>MyBrand</h1>
             <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#services" class="text-hover">Services</a></li>
+                <li><a href="#portfolio" class="text-hover">Portfolio</a></li>
+                <li><a href="#testimonials" class="text-hover">Testimonials</a></li>
+                <li><a href="#contact" class="text-hover">Contact</a></li>
                 <li><button id="dark-mode-toggle">🌙</button></li>
             </ul>
         </nav>
     </header>
 
-    <section id="hero">
+    <section id="hero" class="fade-in">
         <h2>Build Your Future with Us</h2>
         <p>We create innovative solutions to elevate your business.</p>
-        <a href="#contact" class="btn">Get Started</a>
+        <a href="#contact" class="btn bounce">Get Started</a>
     </section>
 
-    <section id="services">
+    <section id="services" class="fade-section">
         <h2>Our Services</h2>
         <div class="service-boxes">
             <div class="service">🌐 Web Development</div>
@@ -36,27 +36,41 @@
         </div>
     </section>
 
-    <section id="portfolio">
+    <section id="portfolio" class="fade-section">
         <h2>Portfolio</h2>
         <div class="portfolio-grid">
-            <div class="portfolio-item">Project 1</div>
-            <div class="portfolio-item">Project 2</div>
-            <div class="portfolio-item">Project 3</div>
+            <img src="images/example.jpg" class="image-hover" alt="Project 1">
+            <img src="images/example.jpg" class="image-hover" alt="Project 2">
+            <img src="images/example.jpg" class="image-hover" alt="Project 3">
         </div>
     </section>
 
-    <section id="testimonials">
+    <section id="testimonials" class="fade-section">
         <h2>What Our Clients Say</h2>
         <blockquote>"Best service ever! Helped my company grow massively!" – John Doe</blockquote>
     </section>
 
-    <section id="contact">
+    <section id="flip-card-section" class="fade-section">
+        <h2>Exclusive Offer</h2>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h2>Front</h2>
+                </div>
+                <div class="flip-card-back">
+                    <h2>Special Discount Inside!</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="fade-section">
         <h2>Contact Us</h2>
         <form>
             <input type="text" placeholder="Your Name">
             <input type="email" placeholder="Your Email">
             <textarea placeholder="Your Message"></textarea>
-            <button type="submit">Send Message</button>
+            <button type="submit" class="btn">Send Message</button>
         </form>
     </section>
 
