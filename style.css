@@ -34,7 +34,7 @@ body, html {
 /* Map Section */
 #map-section {
     width: 100vw;
-    height: 70vh;
+    height: 50vh;
     position: relative;
     display: flex;
     align-items: center;
