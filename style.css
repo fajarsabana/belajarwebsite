@@ -196,5 +196,9 @@ section {
     border-radius: 10px;
 }
 
+.map-overlay {
+    pointer-events: none; /* Allows interaction with the map */
+}
+
 
 
