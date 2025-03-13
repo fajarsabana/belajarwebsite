@@ -17,8 +17,15 @@ function revealSections() {
 window.addEventListener("scroll", revealSections);
 revealSections();
 
-// Initialize the Leaflet Map
-const map = L.map('map').setView([-6.2088, 106.8456], 10); // Jakarta
+// Detect if user is on mobile
+const isMobile = window.innerWidth <= 768;
+
+// Initialize the map
+const map = L.map('map', {
+    scrollWheelZoom: false, // Disable scroll zoom globally
+    dragging: true,         // Enable dragging on all devices
+    tap: !isMobile,         // Prevents accidental taps on mobile
+}).setView([-6.2088, 106.8456], 10);
 
 // Load Map Tiles (Light Mode)
 const lightTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -54,16 +61,4 @@ const customIcon = L.icon({
 
 // Detect if user is on mobile
 const isMobile = window.innerWidth <= 768;
-
-// Initialize the map
-const map = L.map('map', {
-    scrollWheelZoom: false, // Disable scroll zoom globally
-    dragging: true,         // Enable dragging on all devices
-    tap: !isMobile,         // Prevents accidental taps on mobile
-}).setView([-6.2088, 106.8456], 10);
-
-// Load Map Tiles (Light Mode)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
 
