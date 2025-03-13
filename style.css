@@ -197,13 +197,38 @@ html, body {
     z-index: 1; /* Lower priority than other sections */
 }
 
-/* Ensure all sections have a visible background */
+/* Default light mode (background white, text black) */
 section {
     background: white;
     color: black;
 }
+
+/* Fix dark mode - Ensure sections are visible */
 .dark-mode section {
-    background: #222;
+    background: #222; /* Dark background */
+    color: white; /* White text */
+}
+
+/* Fix text hover effect in dark mode */
+.dark-mode .text-hover {
+    color: #f0f0f0;
+}
+
+/* Ensure buttons & input fields are visible */
+.dark-mode input, .dark-mode textarea {
+    background: #333;
     color: white;
+    border: 1px solid #555;
+}
+
+/* Fix buttons in dark mode */
+.dark-mode .btn {
+    background: #ff6600;
+    color: white;
+}
+
+/* Fix portfolio images being too dark */
+.dark-mode .portfolio-grid img {
+    filter: brightness(90%); /* Reduce darkness in dark mode */
 }
 
