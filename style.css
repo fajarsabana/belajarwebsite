@@ -156,9 +156,11 @@ section {
 #map-section {
     width: 100vw;
     height: 100vh;
+    min-height: 500px; /* Ensure it doesn’t collapse */
     position: relative;
     overflow: hidden;
 }
+
 
 @media (max-width: 768px) {
     #map-section {
