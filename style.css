@@ -31,24 +31,6 @@ body, html {
     color: orange;
 }
 
-/* Map Section */
-#map-section {
-    width: 100vw;
-    height: 55vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-#map {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 
 /* Fade-in Effect */
 .fade-in {
@@ -190,17 +172,34 @@ header, nav {
     max-width: 100%;
 }
 
+/* Map Section */
+#map-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
 
-/* Sidebar Positioned Inside Map */
+/* Map Styling */
+#map {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Ensure map is behind the sidebar */
+}
+
+/* Sidebar Positioned OVER the Map on the Left Side */
 #sidebar {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     width: 250px;
     background: rgba(255, 255, 255, 0.9); /* Semi-transparent */
     padding: 15px;
     border-radius: 8px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Higher than the map */
 }
 
 /* List Styling */
