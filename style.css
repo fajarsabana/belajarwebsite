@@ -1,0 +1,129 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background: #222;
+    color: #fff;
+}
+
+/* Navigation */
+header {
+    background: #222;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.nav-links li {
+    display: inline;
+}
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+#dark-mode-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Hero Section */
+#hero {
+    background: url('images/hero.jpg') center/cover;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+.btn {
+    background: #ff6600;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Services */
+#services {
+    text-align: center;
+    padding: 50px;
+}
+.service-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.service {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Portfolio */
+#portfolio {
+    text-align: center;
+    padding: 50px;
+}
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.portfolio-item {
+    background: #ddd;
+    padding: 30px;
+}
+
+/* Testimonials */
+#testimonials {
+    text-align: center;
+    padding: 50px;
+    background: #333;
+    color: white;
+}
+
+/* Contact */
+#contact {
+    text-align: center;
+    padding: 50px;
+}
+form input, form textarea {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    display: block;
+    border: 1px solid #ddd;
+}
+form button {
+    background: #ff6600;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #222;
+    color: white;
+}
