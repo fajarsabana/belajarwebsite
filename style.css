@@ -167,9 +167,15 @@ section {
 
 @media (max-width: 768px) {
     #map-section {
-        height: 60vh; /* Smaller map for better scrolling */
+        height: 60vh; /* Adjust map size on smaller screens */
+    }
+    #map {
+        height: 100%; /* Ensure map always takes full height */
     }
 }
+
+
+
 
 
 /* Make the map fill the entire screen */
@@ -204,5 +210,4 @@ section {
     height: 20px; /* Adds empty space above & below */
     background: white;
 }
-
 
