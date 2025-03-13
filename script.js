@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Initialize the Leaflet Map
     const map = L.map('map', {
-        zoomControl: true, // Keep zoom buttons
-        scrollWheelZoom: true, // Enable zooming with mouse scroll
-        dragging: true, // Allow dragging anywhere on the map
-        zoomSnap: 0.5, // Allows smooth zooming
-        zoomDelta: 0.5, // Ensures zooming isn't too fast
-        wheelPxPerZoomLevel: 60, // Makes zooming follow the mouse position
+        zoomControl: true,
+        scrollWheelZoom: true, // Enable zoom with mouse scroll
+        dragging: true, // Enable full dragging
+        zoomSnap: 0.5,
+        zoomDelta: 0.5,
+        wheelPxPerZoomLevel: 60
     }).setView([-6.2088, 106.8456], 10); // Center map on Jakarta
 
     // Load Map Tiles (Light Mode)
@@ -40,12 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add a Marker
     const marker = L.marker([-6.2088, 106.8456], { icon: customIcon }).addTo(map);
-
-    // Add a Popup
     marker.bindPopup("<b>Jakarta</b><br>Welcome to Indonesia!").openPopup();
 
-    // **FORCE REFRESH THE MAP SIZE TO FIX ANY DRAG ISSUES**
+    // **FORCE REFRESH THE MAP SIZE**
     setTimeout(() => {
-        map.invalidateSize();
+        map.invalidateSize(); // Fixes map being "cut off" issue
     }, 500);
 });
