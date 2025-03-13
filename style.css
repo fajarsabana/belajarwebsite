@@ -197,10 +197,13 @@ html, body {
     z-index: 1; /* Lower priority than other sections */
 }
 
-/* Make sure all sections are visible */
+/* Ensure all sections have a visible background */
 section {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    background: white;
+    color: black;
+}
+.dark-mode section {
+    background: #222;
+    color: white;
 }
 
