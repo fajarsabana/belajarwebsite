@@ -157,33 +157,34 @@ section {
 /* Full-screen map for desktop */
 #map-section {
     width: 100vw;
-    height: 100vh; /* Full height on large screens */
+    height: 100vh;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
 }
 
 @media (max-width: 768px) {
     #map-section {
-        height: 60vh; /* Adjust map size on smaller screens */
+        height: 60vh; /* Adjusted for better scrolling */
     }
     #map {
-        height: 100%; /* Ensure map always takes full height */
+        height: 100%;
     }
 }
 
-
-
-
-
+    }
 /* Make the map fill the entire screen */
+/* Ensure the map takes the full space */
 #map {
-    width: 100vw;
-    height: 100vh;
-
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
+
+
+
+
+
 
 /* Transparent Overlay for a Cool Effect */
 .map-overlay {
@@ -210,4 +211,6 @@ section {
     height: 20px; /* Adds empty space above & below */
     background: white;
 }
+
+
 
