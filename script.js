@@ -52,4 +52,18 @@ const customIcon = L.icon({
     popupAnchor: [0, -35]
 });
 
+// Detect if user is on mobile
+const isMobile = window.innerWidth <= 768;
+
+// Initialize the map
+const map = L.map('map', {
+    scrollWheelZoom: false, // Disable scroll zoom globally
+    dragging: true,         // Enable dragging on all devices
+    tap: !isMobile,         // Prevents accidental taps on mobile
+}).setView([-6.2088, 106.8456], 10);
+
+// Load Map Tiles (Light Mode)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
 
