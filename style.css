@@ -182,7 +182,9 @@ header, nav {
 /* Make the map only 75% height on mobile */
 @media (max-width: 768px) {
     #map-section {
-        height: 75vh; /* Only 75% of the screen */
+        width: 90%; /* Adjust this if needed */
+        height: 75vh; /* 75% of the screen height */
+        margin: 0 auto; /* Center the map */
     }
 }
 
@@ -215,7 +217,7 @@ header, nav {
     #sidebar {
         width: 100px; /* Make sidebar smaller */
         padding: 10px; /* Reduce padding */
-        font-size: 14px; /* Reduce text size */
+        font-size: 10px; /* Reduce text size */
     }
 }
 
