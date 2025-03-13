@@ -139,19 +139,29 @@ header {
     opacity: 1;
     transform: translateY(0);
 }
-/* Map Section */
-#map-section {
+/* Ensure all sections remain centered */
+section {
     text-align: center;
-    padding: 50px;
-    background: #f4f4f4;
 }
 
+/* Fix for map container */
+#map-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center everything inside */
+    justify-content: center;
+    text-align: center;
+}
+
+/* Ensure the map container doesn't affect layout */
 #map {
     width: 100%;
     max-width: 900px;
     height: 400px;
-    margin: auto;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+
+
 
