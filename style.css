@@ -197,11 +197,10 @@ html, body {
     z-index: 1; /* Lower priority than other sections */
 }
 
+/* Make sure all sections are visible */
 section {
-    position: relative;
-    z-index: 2; /* Higher than map */
-    background: white;
-    padding: 50px 20px;
-    text-align: center;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
