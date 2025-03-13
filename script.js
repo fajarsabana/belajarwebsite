@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
+        // Custom Marker Icon
+    const customIcon = L.icon({
+        iconUrl: 'images/marker.png', // Replace with your marker image
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -35]
+    });
+
     let activeMarker = null; // Store the currently active marker
 
     // Function to Add Marker on Click & Zoom to It
