@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Zoom into the marker
         map.setView([lat, lng], 14); // Zoom level 14 (adjustable)
     });
-});
 
     // Ensure the map resizes properly
     setTimeout(() => {
