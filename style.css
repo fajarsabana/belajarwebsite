@@ -139,3 +139,19 @@ header {
     opacity: 1;
     transform: translateY(0);
 }
+/* Map Section */
+#map-section {
+    text-align: center;
+    padding: 50px;
+    background: #f4f4f4;
+}
+
+#map {
+    width: 100%;
+    max-width: 900px;
+    height: 400px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
