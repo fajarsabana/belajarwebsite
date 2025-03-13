@@ -1,11 +1,11 @@
 // Dark Mode Toggle
-const toggle = document.getElementById('dark-mode-toggle');
-toggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
+const darkModeToggle = document.getElementById("dark-mode-toggle");
+darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
 });
 
+// Section Fade-in on Scroll
 const sections = document.querySelectorAll(".fade-section");
-
 function revealSections() {
     sections.forEach((section) => {
         const sectionTop = section.getBoundingClientRect().top;
@@ -14,7 +14,5 @@ function revealSections() {
         }
     });
 }
-
 window.addEventListener("scroll", revealSections);
-revealSections(); // Run on page load
-
+revealSections();
