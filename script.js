@@ -27,3 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
         map.invalidateSize();
     }, 500);
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Handle click on parent items to toggle sublist
+    document.querySelectorAll(".parent-item").forEach(item => {
+        item.addEventListener("click", function () {
+            this.classList.toggle("open"); // Toggle open class
+        });
+    });
+});
