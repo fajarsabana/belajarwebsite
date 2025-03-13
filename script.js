@@ -14,13 +14,26 @@ document.addEventListener("DOMContentLoaded", function () {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Custom Marker Icon
-    const customIcon = L.icon({
-        iconUrl: 'images/marker.png',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-        popupAnchor: [0, -35]
+    let activeMarker = null; // Store the currently active marker
+
+    // Function to Add Marker on Click & Zoom to It
+    map.on('click', function (e) {
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+
+        // Remove previous marker if exists
+        if (activeMarker) {
+            map.removeLayer(activeMarker);
+        }
+
+        // Add new marker at clicked position
+        activeMarker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+        activeMarker.bindPopup(`📍 You clicked here:<br>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`).openPopup();
+
+        // Zoom into the marker
+        map.setView([lat, lng], 14); // Zoom level 14 (adjustable)
     });
+});
 
     // Ensure the map resizes properly
     setTimeout(() => {
