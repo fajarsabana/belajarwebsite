@@ -22,10 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
         popupAnchor: [0, -35]
     });
 
-    // Add a Marker
-    const marker = L.marker([-6.2088, 106.8456], { icon: customIcon }).addTo(map);
-    marker.bindPopup("<b>Jakarta</b><br>Welcome to Indonesia!").openPopup();
-
     // Ensure the map resizes properly
     setTimeout(() => {
         map.invalidateSize();
