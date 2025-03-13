@@ -59,6 +59,3 @@ const customIcon = L.icon({
     popupAnchor: [0, -35]
 });
 
-// Detect if user is on mobile
-const isMobile = window.innerWidth <= 768;
-
