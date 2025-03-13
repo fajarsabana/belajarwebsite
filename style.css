@@ -219,3 +219,11 @@ header, nav {
     text-align: center;
 }
 
+#sidebar {
+    background: red !important;
+    width: 250px !important;
+    height: auto !important;
+    z-index: 1000 !important;
+    display: block !important;
+}
+
