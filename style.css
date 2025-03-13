@@ -154,15 +154,24 @@ section {
 }
 
 /* Full-Screen Map */
+/* Full-screen map for desktop */
 #map-section {
     width: 100vw;
-    height: 100vh;
+    height: 100vh; /* Full height on large screens */
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 }
+
+/* Smaller map for mobile (less than 768px width) */
+@media (max-width: 768px) {
+    #map-section {
+        height: 60vh; /* Only 60% of the viewport on mobile */
+    }
+}
+
 
 /* Make the map fill the entire screen */
 #map {
@@ -195,11 +204,6 @@ section {
     padding: 20px;
     border-radius: 10px;
 }
-
-.map-overlay {
-    pointer-events: none; /* Allows interaction with the map */
-}
-
 .spacer {
     height: 20px; /* Adds empty space above & below */
     background: white;
