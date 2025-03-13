@@ -195,13 +195,13 @@ header, nav {
     top: 20px;
     left: 20px;
     width: 250px;
-    height: auto;
-    background: rgba(255, 255, 255, 0.9); /* Semi-transparent */
+    background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure it's above the map */
-    display: block !important; /* Force visibility */
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
 /* Ensure List is Visible */
@@ -209,21 +209,58 @@ header, nav {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: block !important;
 }
 
-/* Ensure Sidebar Text is Readable */
+
 #sidebar h3 {
     margin-top: 0;
     font-size: 18px;
     text-align: center;
+    color: white;
+    font-weight: bold;
 }
 
-#sidebar {
-    background: red !important;
-    width: 250px !important;
-    height: auto !important;
-    z-index: 1000 !important;
-    display: block !important;
+/* Parent Item (Main Category) */
+.parent-item {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.2);
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background 0.3s;
 }
 
+/* Hover Effect */
+.parent-item:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Sublist Styling - Hide by Default */
+.sublist {
+    display: none;
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 5px;
+}
+
+/* Sublist Items */
+.sublist li {
+    padding: 8px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    margin-bottom: 3px;
+    transition: background 0.3s;
+}
+
+/* Sublist Hover */
+.sublist li:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* When Parent is Open - Show Sublist */
+.parent-item.open .sublist {
+    display: block;
+}
