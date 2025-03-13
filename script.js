@@ -1,12 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Initializing Leaflet Map..."); // Debugging
+    console.log("Initializing Leaflet Map..."); // Debugging log
 
     try {
-        // Initialize the map
+        // Ensure the map container exists
+        if (!document.getElementById("map")) {
+            console.error("Map container not found!");
+            return;
+        }
+
+        // Initialize the Leaflet Map
         const map = L.map('map', {
             zoomControl: true,
-            scrollWheelZoom: true,
-            dragging: true,
+            scrollWheelZoom: true, // Allow zooming with mouse scroll
+            dragging: true, // Allow dragging anywhere
             zoomSnap: 0.5,
             zoomDelta: 0.5,
             wheelPxPerZoomLevel: 60
@@ -37,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Custom Marker Icon
         const customIcon = L.icon({
-            iconUrl: 'images/marker.png',
+            iconUrl: 'images/marker.png', // Replace with your custom marker image
             iconSize: [40, 40],
             iconAnchor: [20, 40],
             popupAnchor: [0, -35]
@@ -47,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const marker = L.marker([-6.2088, 106.8456], { icon: customIcon }).addTo(map);
         marker.bindPopup("<b>Jakarta</b><br>Welcome to Indonesia!").openPopup();
 
-        // Force the map to resize properly
+        // **FORCE THE MAP TO RENDER PROPERLY**
         setTimeout(() => {
             map.invalidateSize();
             console.log("Map size refreshed");
