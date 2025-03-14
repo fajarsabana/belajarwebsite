@@ -81,4 +81,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     console.log("Markers added:", locations);
-});
