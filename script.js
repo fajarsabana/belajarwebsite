@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    async function loadMapData() {
         const { fetchLocations } = await import("./supabase.js");
     // Initialize the Leaflet Map
     const map = L.map('map', {
