@@ -53,6 +53,77 @@ export async function loadMapData(map) {
     console.log("✅ Map data successfully loaded!");
 }
 
+// ✅ Function to Generate Sidebar List
+function generateSidebar(locations, map) {
+    const sidebar = document.querySelector(".sidebar ul");
+
+    if (!sidebar) {
+        console.error("Sidebar list not found! Ensure index.html contains `<ul>` inside `.sidebar`.");
+        return;
+    }
+
+    // ✅ Organize locations by "Pemegang Wilus"
+    const groupedData = {};
+    locations.forEach((location) => {
+        if (!location["Pemegang Wilus"] || !location["Nama Lokasi"] || !location.geom) return;
+
+        let company = location["Pemegang Wilus"];
+        let place = location["Nama Lokasi"];
+
+        if (!groupedData[company]) {
+            groupedData[company] = [];
+        }
+        groupedData[company].push(location);
+    });
+
+    // ✅ Populate the Sidebar Dynamically
+    for (const company in groupedData) {
+        let companyItem = document.createElement("li");
+        companyItem.classList.add("parent-item");
+        companyItem.textContent = company;
+
+        let sublist = document.createElement("ul");
+        sublist.classList.add("sublist");
+
+        groupedData[company].forEach((location) => {
+            let subItem = document.createElement("li");
+            subItem.textContent = location["Nama Lokasi"];
+
+            // ✅ Click to Zoom into Marker/Polygon
+            subItem.addEventListener("click", function () {
+                if (location.geom.type === "Point") {
+                    let [lng, lat] = location.geom.coordinates;
+                    map.setView([lat, lng], 14);
+                } else if (location.geom.type === "Polygon") {
+                    let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+                    let bounds = L.latLngBounds(polygonCoordinates);
+                    map.fitBounds(bounds);
+                }
+            });
+
+            sublist.appendChild(subItem);
+        });
+
+        companyItem.appendChild(sublist);
+        sidebar.appendChild(companyItem);
+
+        // ✅ Sidebar Toggle Functionality
+        companyItem.addEventListener("click", function () {
+            this.classList.toggle("open");
+        });
+    }
+
+    console.log("✅ Sidebar successfully populated!");
+}
+
+// ✅ Exported Function to Initialize & Load Map Data + Sidebar
+export async function setupMap() {
+    const map = initializeMap();
+    const locations = await fetchLocations();
+    await loadMapData(map, locations);
+    generateSidebar(locations, map);
+}
+
 // ✅ Custom Marker Icon (Ensure this is accessible)
 const customIcon = L.icon({
     iconUrl: "images/marker.png",
@@ -60,9 +131,3 @@ const customIcon = L.icon({
     iconAnchor: [20, 40],
     popupAnchor: [0, -35],
 });
-
-// ✅ Exported Function to Initialize & Load Map Data
-export async function setupMap() {
-    const map = initializeMap();
-    await loadMapData(map);
-}
