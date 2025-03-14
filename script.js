@@ -1,58 +1,62 @@
-import { initializeMap, loadMapData } from "./mapHandler.js"; // ✅ Correct import
+import { fetchLocations } from "./supabase.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
-    // ✅ Prevent initializing the map twice
-    if (document.getElementById("map")._leaflet_id) {
-        console.warn("Map is already initialized, skipping...");
-        return;
-    }
+    console.log("Fetching locations from Supabase...");
+    const locations = await fetchLocations();
 
-    // ✅ Initialize the Map
-    const map = initializeMap();
+    console.log("Locations received:", locations);
 
-    // ✅ Load Map Data (Markers & Polygons)
-    await loadMapData(map);
+    const sidebar = document.querySelector(".sidebar ul"); // Select the sidebar list
+    const mapMarkers = {}; // Store markers for easy reference
 
-    /* ───────────────────────────────────── */
-    /* 📍 CLICK TO ADD MARKER & ZOOM         */
-    /* ───────────────────────────────────── */
+    // ✅ Organize locations by "Pemegang Wilus" (Company Name)
+    const groupedData = {};
+    locations.forEach((location) => {
+        if (!location["Pemegang Wilus"] || !location["Nama Lokasi"] || !location.geom) return;
 
-    let activeMarker = null;
+        let company = location["Pemegang Wilus"];
+        let place = location["Nama Lokasi"];
 
-    map.on("dblclick", function (e) {
-        let lat = e.latlng.lat;
-        let lng = e.latlng.lng;
-
-        // ✅ Remove previous marker if exists
-        if (activeMarker) {
-            map.removeLayer(activeMarker);
+        if (!groupedData[company]) {
+            groupedData[company] = [];
         }
-
-        // ✅ Add new marker at clicked position
-        activeMarker = L.marker([lat, lng]).addTo(map);
-        activeMarker.bindPopup(
-            `📍 You clicked here:<br>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`
-        ).openPopup();
-
-        // ✅ Zoom into the marker
-        map.setView([lat, lng], 14);
+        groupedData[company].push(location);
     });
 
-    /* ───────────────────────────────────── */
-    /* 📜 SIDEBAR CATEGORY CLICK HANDLING    */
-    /* ───────────────────────────────────── */
+    // ✅ Populate the Sidebar Dynamically
+    for (const company in groupedData) {
+        let companyItem = document.createElement("li");
+        companyItem.classList.add("parent-item");
+        companyItem.textContent = company;
 
-    document.querySelectorAll(".parent-item").forEach((item) => {
-        item.addEventListener("click", function () {
-            this.classList.toggle("open"); // ✅ Toggle sublist visibility
+        let sublist = document.createElement("ul");
+        sublist.classList.add("sublist");
+
+        groupedData[company].forEach((location) => {
+            let subItem = document.createElement("li");
+            subItem.textContent = location["Nama Lokasi"];
+
+            // ✅ Add event listener to zoom to the location when clicked
+            subItem.addEventListener("click", function () {
+                if (location.geom.type === "Point") {
+                    let [lng, lat] = location.geom.coordinates;
+                    map.setView([lat, lng], 14);
+                } else if (location.geom.type === "Polygon") {
+                    let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+                    let bounds = L.latLngBounds(polygonCoordinates);
+                    map.fitBounds(bounds);
+                }
+            });
+
+            sublist.appendChild(subItem);
         });
-    });
 
-    /* ───────────────────────────────────── */
-    /* 🔄 ENSURE MAP RESIZES PROPERLY        */
-    /* ───────────────────────────────────── */
+        companyItem.appendChild(sublist);
+        sidebar.appendChild(companyItem);
 
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 500);
+        // ✅ Sidebar Toggle Functionality
+        companyItem.addEventListener("click", function () {
+            this.classList.toggle("open");
+        });
+    }
 });
