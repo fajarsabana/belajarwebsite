@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let activeMarker = null;
 
-    map.on("click", function (e) {
+    map.on("dblclick", function (e) {
         let lat = e.latlng.lat;
         let lng = e.latlng.lng;
 
