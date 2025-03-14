@@ -9,7 +9,7 @@ export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ✅ Function to fetch location data using `rpc()`
 export async function fetchLocations() {
-    let { data, error } = await supabaseClient.rpc("get_wilus_mapping"); // ✅ Call stored function
+    let { data, error } = await supabaseClient.rpc("get_wilus_mapping");
 
     if (error) {
         console.error("Error fetching data:", error);
