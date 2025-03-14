@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     // Initialize the Leaflet Map
     const map = L.map('map', {
         zoomControl: true,
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-        // Custom Marker Icon
+    // Custom Marker Icon
     const customIcon = L.icon({
         iconUrl: 'images/marker.png', // Replace with your marker image
         iconSize: [40, 40],
@@ -46,36 +46,38 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         map.invalidateSize();
     }, 500);
-});
 
-document.addEventListener("DOMContentLoaded", function () {
     // Handle click on parent items to toggle sublist
     document.querySelectorAll(".parent-item").forEach(item => {
         item.addEventListener("click", function () {
             this.classList.toggle("open"); // Toggle open class
         });
     });
+
+    // ✅ Fetch and Add Markers from Supabase
+    try {
+        const locations = await fetchLocations();
+
+        locations.forEach(location => {
+            if (!location.geom) return; // Skip if there's no coordinate data
+
+            // Convert geom format (assuming it is stored as "latitude,longitude")
+            let [lat, lng] = location.geom.split(",").map(coord => parseFloat(coord.trim()));
+
+            // Add marker to the map
+            let marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+
+            // Show details in popup
+            marker.bindPopup(`
+                <b>${location["Nama Lokasi"]}</b><br>
+                🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
+                ⚡ <b>PLN UID:</b> ${location.UID}<br>
+                📍 <b>Coordinates:</b> ${lat}, ${lng}
+            `);
+        });
+
+        console.log("Markers added:", locations);
+    } catch (error) {
+        console.error("Error fetching locations:", error);
+    }
 });
-
-    // Fetch and Add Markers from Supabase
-    const locations = await fetchLocations();
-
-    locations.forEach(location => {
-        if (!location.geom) return; // Skip if there's no coordinate data
-
-        // Convert geom format (assuming it is stored as "latitude,longitude")
-        let [lat, lng] = location.geom.split(",").map(coord => parseFloat(coord.trim()));
-
-        // Add marker to the map
-        let marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-
-        // Show details in popup
-        marker.bindPopup(`
-            <b>${location["Nama Lokasi"]}</b><br>
-            🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
-            ⚡ <b>PLN UID:</b> ${location.UID}<br>
-            📍 <b>Coordinates:</b> ${lat}, ${lng}
-        `);
-    });
-
-    console.log("Markers added:", locations);
