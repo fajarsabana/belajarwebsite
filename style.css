@@ -172,11 +172,11 @@ header, nav {
     max-width: 100%;
 }
 
-/* Ensure Map Section is Positioned Correctly */
-#map-section {
+#map {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 90vh; /* Keep full height */
+    margin-left: 300px; /* Ensure the map is not covered by sidebar */
 }
 
 /* Make the map only 75% height on mobile */
@@ -199,25 +199,24 @@ header, nav {
 }
 
 /* Ensure Sidebar is Visible */
-#sidebar {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 150x;
-    background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
+.sidebar {
+    position: absolute;  /* Keep it inside the map section */
+    left: 10px;          /* Keep it slightly inside the map */
+    top: 10px;           /* Align from the top */
+    width: 280px;        /* Adjust sidebar width */
+    max-height: 90vh;    /* Keep it within screen height */
+    background: rgba(50, 50, 50, 0.9); /* Slight transparency */
     padding: 15px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+    border-radius: 8px;
     color: white;
-    font-family: Arial, sans-serif;
+    overflow-y: auto;    /* Enable scrolling if needed */
+    z-index: 1000;       /* Ensure it stays above the map */
 }
 
 @media (max-width: 768px) {
-    #sidebar {
-        width: 100px; /* Make sidebar smaller */
-        padding: 10px; /* Reduce padding */
-        font-size: 10px; /* Reduce text size */
+    .sidebar {
+        width: 250px;  /* Slightly smaller on mobile */
+        max-height: 80vh;
     }
 }
 
@@ -226,6 +225,13 @@ header, nav {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+.sidebar h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 
@@ -281,3 +287,33 @@ header, nav {
 .parent-item.open .sublist {
     display: block;
 }
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    background: #0077b6;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.sidebar ul li:hover {
+    background: #005f8a;
+}
+
+/* Hide Subcategories by Default */
+.sidebar ul .sublist {
+    display: none;
+}
+
+/* Show Subcategories When Parent is Clicked */
+.sidebar ul .parent-item.open .sublist {
+    display: block;
+}
+
