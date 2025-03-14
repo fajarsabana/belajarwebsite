@@ -1,3 +1,40 @@
+// ✅ Import Supabase function
+import { fetchLocations } from "./supabase.js";
+
+/* ───────────────────────────────────── */
+/* 🗺️  MAP INITIALIZATION & TILE LAYERS  */
+/* ───────────────────────────────────── */
+
+export function initializeMap() {
+    const map = L.map("map", {
+        zoomControl: true,
+        scrollWheelZoom: true,
+        dragging: true,
+        zoomSnap: 0.5,
+        zoomDelta: 0.5,
+        wheelPxPerZoomLevel: 60,
+    }).setView([-6.2088, 106.8456], 6); // Default center: Jakarta, zoomed out to fit polygons
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    return map;
+}
+
+/* ───────────────────────────────────── */
+/* 📌 MARKER & POLYGON HANDLING          */
+/* ───────────────────────────────────── */
+
+// ✅ Custom Marker Icon
+const customIcon = L.icon({
+    iconUrl: "images/marker.png", // Replace with your marker image
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -35],
+});
+
+// ✅ Function to Load Markers & Polygons
 export async function loadMapData(map) {
     try {
         console.log("Fetching locations from Supabase...");
