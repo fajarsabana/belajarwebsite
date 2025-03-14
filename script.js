@@ -1,58 +1,24 @@
-import { initializeMap, loadMapData } from "./mapHandler.js"; // ✅ Correct import
-
-document.addEventListener("DOMContentLoaded", async function () {
-    // ✅ Prevent initializing the map twice
-    if (document.getElementById("map")._leaflet_id) {
-        console.warn("Map is already initialized, skipping...");
-        return;
-    }
-
-    // ✅ Initialize the Map
-    const map = initializeMap();
-
-    // ✅ Load Map Data (Markers & Polygons)
-    await loadMapData(map);
-
-    /* ───────────────────────────────────── */
-    /* 📍 CLICK TO ADD MARKER & ZOOM         */
-    /* ───────────────────────────────────── */
-
-    let activeMarker = null;
-
-    map.on("click", function (e) {
-        let lat = e.latlng.lat;
-        let lng = e.latlng.lng;
-
-        // ✅ Remove previous marker if exists
-        if (activeMarker) {
-            map.removeLayer(activeMarker);
-        }
-
-        // ✅ Add new marker at clicked position
-        activeMarker = L.marker([lat, lng]).addTo(map);
-        activeMarker.bindPopup(
-            `📍 You clicked here:<br>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`
-        ).openPopup();
-
-        // ✅ Zoom into the marker
-        map.setView([lat, lng], 14);
-    });
-
-    /* ───────────────────────────────────── */
-    /* 📜 SIDEBAR CATEGORY CLICK HANDLING    */
-    /* ───────────────────────────────────── */
-
+document.addEventListener("DOMContentLoaded", function () {
+    // ✅ Sidebar Toggle for Subcategories
     document.querySelectorAll(".parent-item").forEach((item) => {
         item.addEventListener("click", function () {
-            this.classList.toggle("open"); // ✅ Toggle sublist visibility
+            this.classList.toggle("open");
         });
     });
 
-    /* ───────────────────────────────────── */
-    /* 🔄 ENSURE MAP RESIZES PROPERLY        */
-    /* ───────────────────────────────────── */
+    // ✅ Ensure sections fade in when scrolled
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        },
+        { threshold: 0.2 }
+    );
 
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 500);
+    document.querySelectorAll(".fade-in").forEach((section) => {
+        observer.observe(section);
+    });
 });
