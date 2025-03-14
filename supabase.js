@@ -7,17 +7,9 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // ✅ Initialize Supabase client
 export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ✅ Function to fetch location data
+// ✅ Function to fetch location data using `rpc()`
 export async function fetchLocations() {
-    let { data, error } = await supabaseClient
-        .from("wilus_mapping")
-        .select(`
-            id,
-            ST_AsGeoJSON(geom)::json AS geom,  -- ✅ Correct WKB to GeoJSON conversion
-            UID,
-            "Pemegang Wilus",
-            "Nama Lokasi"
-        `);
+    let { data, error } = await supabaseClient.rpc("get_wilus_mapping"); // ✅ Call stored function
 
     if (error) {
         console.error("Error fetching data:", error);
