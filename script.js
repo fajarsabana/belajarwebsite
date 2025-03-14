@@ -1,3 +1,5 @@
+import { fetchLocations } from "./supabase.js"; // Import database module
+
 document.addEventListener("DOMContentLoaded", function () {
     // Initialize the Leaflet Map
     const map = L.map('map', {
@@ -55,4 +57,28 @@ document.addEventListener("DOMContentLoaded", function () {
             this.classList.toggle("open"); // Toggle open class
         });
     });
+});
+
+    // Fetch and Add Markers from Supabase
+    const locations = await fetchLocations();
+
+    locations.forEach(location => {
+        if (!location.geom) return; // Skip if there's no coordinate data
+
+        // Convert geom format (assuming it is stored as "latitude,longitude")
+        let [lat, lng] = location.geom.split(",").map(coord => parseFloat(coord.trim()));
+
+        // Add marker to the map
+        let marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+
+        // Show details in popup
+        marker.bindPopup(`
+            <b>${location["Nama Lokasi"]}</b><br>
+            🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
+            ⚡ <b>PLN UID:</b> ${location.UID}<br>
+            📍 <b>Coordinates:</b> ${lat}, ${lng}
+        `);
+    });
+
+    console.log("Markers added:", locations);
 });
