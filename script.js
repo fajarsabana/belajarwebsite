@@ -3,11 +3,53 @@ import { fetchLocations } from "./supabase.js";
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("Fetching locations from Supabase...");
     const locations = await fetchLocations();
-
     console.log("Locations received:", locations);
 
-    const sidebar = document.querySelector(".sidebar ul"); // Select the sidebar list
-    const mapMarkers = {}; // Store markers for easy reference
+    // ✅ Initialize Leaflet Map
+    const map = L.map("map").setView([-6.2088, 106.8456], 10); // Jakarta
+
+    // ✅ Load Map Tiles
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    // ✅ Custom Marker Icon
+    const customIcon = L.icon({
+        iconUrl: "images/marker.png",
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -35],
+    });
+
+    let activeMarker = null; // Store active marker
+
+    // ✅ Double-click to Add Marker
+    map.on("dblclick", function (e) {
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+
+        // Remove previous marker if exists
+        if (activeMarker) {
+            map.removeLayer(activeMarker);
+        }
+
+        // Add new marker at double-clicked position
+        activeMarker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+        activeMarker.bindPopup(
+            `📍 Marker placed here:<br>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`
+        ).openPopup();
+
+        // Zoom into the marker
+        map.setView([lat, lng], 14);
+    });
+
+    // ✅ Generate Sidebar with "Pemegang Wilus" as Categories
+    const sidebar = document.querySelector(".sidebar ul");
+
+    if (!sidebar) {
+        console.error("Sidebar list not found! Ensure index.html contains `<ul>` inside `.sidebar`.");
+        return;
+    }
 
     // ✅ Organize locations by "Pemegang Wilus" (Company Name)
     const groupedData = {};
@@ -36,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             let subItem = document.createElement("li");
             subItem.textContent = location["Nama Lokasi"];
 
-            // ✅ Add event listener to zoom to the location when clicked
+            // ✅ Click to Zoom into Marker/Polygon
             subItem.addEventListener("click", function () {
                 if (location.geom.type === "Point") {
                     let [lng, lat] = location.geom.coordinates;
@@ -59,4 +101,20 @@ document.addEventListener("DOMContentLoaded", async function () {
             this.classList.toggle("open");
         });
     }
+
+    // ✅ Scroll Animation for Sections
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        },
+        { threshold: 0.2 }
+    );
+
+    document.querySelectorAll(".fade-in").forEach((section) => {
+        observer.observe(section);
+    });
 });
