@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             marker.bindPopup(`
                 <b>${location["Nama Lokasi"]}</b><br>
                 🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
-                ⚡ <b>PLN UID:</b> ${location.UID}<br>
+                ⚡ <b>PLN UID:</b> ${location["UID"]}<br>
                 📍 <b>Coordinates:</b> ${lat}, ${lng}
             `);
         });
