@@ -1,6 +1,15 @@
-import { fetchLocations } from "./supabase.js"; // Import Supabase function
+import { fetchLocations } from "./supabase.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
+
+    try {
+        console.log("Fetching locations...");
+        const locations = await fetchLocations();
+        console.log("Locations received:", locations);
+    } catch (error) {
+        console.error("Error fetching locations:", error);
+    }
+    
     // Check if the map is already initialized
     if (document.getElementById("map")._leaflet_id) {
         console.warn("Map is already initialized, skipping...");
