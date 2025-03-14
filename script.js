@@ -1,6 +1,5 @@
-import { fetchLocations } from "./supabase.js"; // Import database module
-
 document.addEventListener("DOMContentLoaded", function () {
+    const { fetchLocations } = await import("./supabase.js");
     // Initialize the Leaflet Map
     const map = L.map('map', {
         zoomControl: true,
