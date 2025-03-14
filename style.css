@@ -198,86 +198,83 @@ header, nav {
     z-index: 0;
 }
 
-/* Ensure Sidebar is Visible */
-#sidebar {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 150px;
-    background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+/* ───────────────────────────────────── */
+/* 📜 SIDEBAR MENU - Improved Styling */
+/* ───────────────────────────────────── */
+
+.sidebar {
+    width: 280px; /* Keep it balanced */
+    height: 100vh;
+    background: rgba(50, 50, 50, 0.9); /* Dark but slightly transparent */
     color: white;
-    font-family: Arial, sans-serif;
+    padding: 15px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    border-radius: 10px;
 }
 
-@media (max-width: 768px) {
-    #sidebar {
-        width: 100px; /* Make sidebar smaller */
-        padding: 10px; /* Reduce padding */
-        font-size: 10px; /* Reduce text size */
-    }
+/* Sidebar Title */
+.sidebar h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 15px;
 }
 
-/* Ensure List is Visible */
-.clickable-list {
+/* Sidebar List Items */
+.sidebar ul {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
-
-#sidebar h3 {
-    margin-top: 0;
-    font-size: 18px;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-}
-
-/* Parent Item (Main Category) */
-.parent-item {
-    cursor: pointer;
+.sidebar li {
     padding: 10px;
-    font-size: 16px;
+    cursor: pointer;
+    font-size: 14px;
     font-weight: bold;
-    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.1); /* Light gray background */
+    transition: 0.3s ease-in-out;
+}
+
+/* Make categories look clickable */
+.sidebar .parent-item {
+    background: #0077b6;
+    color: white;
+    font-size: 16px;
     margin-bottom: 5px;
     border-radius: 5px;
+    text-align: left;
+    padding: 10px;
     transition: background 0.3s;
 }
 
-/* Hover Effect */
-.parent-item:hover {
-    background: rgba(255, 255, 255, 0.4);
+.sidebar .parent-item:hover {
+    background: #0096c7;
 }
 
-/* Sublist Styling - Hide by Default */
-.sublist {
+/* Hide subcategories initially */
+.sidebar .sublist {
     display: none;
-    list-style: none;
     padding-left: 15px;
-    margin-top: 5px;
 }
 
-/* Sublist Items */
-.sublist li {
+/* Show sublist when category is clicked */
+.sidebar .parent-item.open .sublist {
+    display: block;
+}
+
+/* Style Subcategory List */
+.sidebar .sublist li {
+    background: rgba(255, 255, 255, 0.2); /* Light gray */
     padding: 8px;
-    font-size: 14px;
-    background: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     margin-bottom: 3px;
-    transition: background 0.3s;
+    transition: 0.2s;
 }
 
-/* Sublist Hover */
-.sublist li:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
-
-/* When Parent is Open - Show Sublist */
-.parent-item.open .sublist {
-    display: block;
+.sidebar .sublist li:hover {
+    background: rgba(255, 255, 255, 0.4);
 }
