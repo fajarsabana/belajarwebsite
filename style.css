@@ -1,12 +1,11 @@
 /* Reset Default Styles */
-body, html {
+body {
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: white;
-    color: black;
+    background-color: #f4f4f4;
+    color: #333;
 }
-
 /* Navigation */
 .nav-links {
     list-style: none;
@@ -191,11 +190,9 @@ header, nav {
 /* Ensure Map is Behind the Sidebar */
 #map {
     width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
+    height: 75vh; /* Make it take 75% of the screen height */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Ensure Sidebar is Visible */
@@ -280,4 +277,97 @@ header, nav {
 /* When Parent is Open - Show Sublist */
 .parent-item.open .sublist {
     display: block;
+}
+
+.leaflet-popup-content {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.leaflet-control-zoom {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1d3557, #457b9d);
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #f1faee;
+}
+
+/* Sidebar List Items */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Sidebar Hover Effect */
+.sidebar li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Sidebar Active List Item */
+.sidebar .parent-item.open {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Sublist */
+.sidebar .sublist {
+    padding-left: 20px;
+    display: none;
+}
+
+/* When parent item is clicked, show the sublist */
+.sidebar .parent-item.open .sublist {
+    display: block;
+}
+
+.leaflet-marker-icon {
+    filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Map Popup */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    padding: 5px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+button {
+    background: #e63946;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #d62839;
 }
