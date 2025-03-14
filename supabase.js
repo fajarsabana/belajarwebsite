@@ -13,7 +13,7 @@ export async function fetchLocations() {
         .from("wilus_mapping")
         .select(`
             id,
-            ST_AsGeoJSON(geom) as geom,  -- ✅ Convert WKB to GeoJSON
+            ST_AsGeoJSON(geom)::json AS geom,  -- ✅ Correct WKB to GeoJSON conversion
             UID,
             "Pemegang Wilus",
             "Nama Lokasi"
@@ -24,8 +24,5 @@ export async function fetchLocations() {
         return [];
     }
 
-    return data.map(location => ({
-        ...location,
-        geom: JSON.parse(location.geom) // Convert string GeoJSON to JSON object
-    }));
+    return data;
 }
