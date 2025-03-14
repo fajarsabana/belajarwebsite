@@ -174,9 +174,10 @@ header, nav {
 
 /* Ensure Map Section is Positioned Correctly */
 #map-section {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+    display: flex; /* ✅ Sidebar and Map Stay Side by Side */
+    flex-direction: row; 
+    height: 85vh; /* Ensure full height */
+    gap: 10px; /* Space between sidebar and map */
 }
 
 /* Make the map only 75% height on mobile */
@@ -190,12 +191,11 @@ header, nav {
 
 /* Ensure Map is Behind the Sidebar */
 #map {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
+    flex-grow: 1; /* ✅ Allow Map to Fill Remaining Space */
+    height: 100%; /* Ensures map fills space */
+    min-width: 500px; /* Prevents it from shrinking too much */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* ───────────────────────────────────── */
@@ -203,14 +203,15 @@ header, nav {
 /* ───────────────────────────────────── */
 
 .sidebar {
-    width: 280px; /* Keep it balanced */
-    height: 100vh;
-    background: rgba(50, 50, 50, 0.9); /* Dark but slightly transparent */
+    width: 300px;
+    height: 100%;
+    background: rgba(50, 50, 50, 0.9);
     color: white;
     padding: 15px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     border-radius: 10px;
+    flex-shrink: 0; /* Prevents shrinking */
 }
 
 /* Sidebar Title */
