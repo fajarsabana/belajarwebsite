@@ -1,16 +1,7 @@
-import { fetchLocations } from "./supabase.js";
+import { fetchLocations } from "./supabase.js"; // ✅ Import Supabase function
 
 document.addEventListener("DOMContentLoaded", async function () {
-
-    try {
-        console.log("Fetching locations...");
-        const locations = await fetchLocations();
-        console.log("Locations received:", locations);
-    } catch (error) {
-        console.error("Error fetching locations:", error);
-    }
-    
-    // Check if the map is already initialized
+    // ✅ Prevent initializing the map twice
     if (document.getElementById("map")._leaflet_id) {
         console.warn("Map is already initialized, skipping...");
         return;
@@ -26,14 +17,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         wheelPxPerZoomLevel: 60,
     }).setView([-6.2088, 106.8456], 10);
 
-    // ✅ Load Map Tiles
+    // ✅ Load Map Tiles (Light Mode)
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
     // ✅ Custom Marker Icon
     const customIcon = L.icon({
-        iconUrl: "images/marker.png",
+        iconUrl: "images/marker.png", // Replace with your marker image
         iconSize: [40, 40],
         iconAnchor: [20, 40],
         popupAnchor: [0, -35],
@@ -58,11 +49,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         map.setView([lat, lng], 14);
     });
 
+    // ✅ Ensure the map resizes properly
     setTimeout(() => {
         map.invalidateSize();
     }, 500);
 
-    // ✅ Handle Click on Parent Items to Toggle Sublist
+    // ✅ Handle Sidebar Click to Toggle Sublist
     document.querySelectorAll(".parent-item").forEach((item) => {
         item.addEventListener("click", function () {
             this.classList.toggle("open");
@@ -71,15 +63,28 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // ✅ Fetch and Add Markers from Supabase
     try {
+        console.log("Fetching locations from Supabase...");
         const locations = await fetchLocations();
+        console.log("Locations received:", locations);
 
         locations.forEach((location) => {
-            if (!location.geom) return;
+            if (!location.geom) {
+                console.warn("Skipping location with missing geometry:", location);
+                return;
+            }
 
-            let [lat, lng] = location.geom.split(",").map((coord) => parseFloat(coord.trim()));
+            let lat, lng;
 
+            // ✅ Extract lat/lng from GeoJSON
+            if (typeof location.geom === "object" && location.geom.type === "Point") {
+                [lng, lat] = location.geom.coordinates;
+            } else {
+                console.error("Unknown geom format:", location.geom);
+                return;
+            }
+
+            // ✅ Add marker to the map
             let marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-
             marker.bindPopup(`
                 <b>${location["Nama Lokasi"]}</b><br>
                 🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
