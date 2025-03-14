@@ -1,4 +1,4 @@
-import { initializeMap, loadMapData } from "./mapHandler.js"; // ✅ Correct import
+import { initializeMap, loadMapAndSidebar } from "./mapHandler.js"; // ✅ Correct import
 
 document.addEventListener("DOMContentLoaded", async function () {
     // ✅ Prevent initializing the map twice
