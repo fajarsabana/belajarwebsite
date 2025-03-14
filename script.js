@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         zoomSnap: 0.5,
         zoomDelta: 0.5,
         wheelPxPerZoomLevel: 60,
-    }).setView([-6.2088, 106.8456], 10); // Default center: Jakarta
+    }).setView([-6.2088, 106.8456], 6); // Default center: Jakarta, zoomed out to fit polygons
 
     // ✅ Load Map Tiles
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     /* ───────────────────────────────────── */
-    /* 📡 FETCH & LOAD MARKERS FROM SUPABASE */
+    /* 📡 FETCH & LOAD MARKERS & POLYGONS    */
     /* ───────────────────────────────────── */
 
     try {
@@ -70,22 +70,37 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Locations received:", locations);
 
         locations.forEach((location) => {
-            if (!location.geom || location.geom.type !== "Point") return;
+            if (!location.geom) return;
 
-            // ✅ Extract lat/lng from GeoJSON
-            let [lng, lat] = location.geom.coordinates;
+            let shape; // Store marker or polygon
 
-            // ✅ Add marker to the map
-            let marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-            marker.bindPopup(`
-                <b>${location["Nama Lokasi"]}</b><br>
-                🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
-                ⚡ <b>PLN UID:</b> ${location["UID"]}<br>
-                📍 <b>Coordinates:</b> ${lat}, ${lng}
-            `);
+            // ✅ If "Point", add a marker
+            if (location.geom.type === "Point") {
+                let [lng, lat] = location.geom.coordinates;
+                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+            }
+
+            // ✅ If "Polygon", draw a polygon
+            else if (location.geom.type === "Polygon") {
+                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+                shape = L.polygon(polygonCoordinates, {
+                    color: "blue",
+                    fillColor: "blue",
+                    fillOpacity: 0.3
+                }).addTo(map);
+            }
+
+            // ✅ Add popup to both markers & polygons
+            if (shape) {
+                shape.bindPopup(`
+                    <b>${location["Nama Lokasi"]}</b><br>
+                    🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
+                    ⚡ <b>PLN UID:</b> ${location["UID"]}<br>
+                `);
+            }
         });
 
-        console.log("Markers added:", locations);
+        console.log("Shapes added:", locations);
     } catch (error) {
         console.error("Error fetching locations:", error);
     }
