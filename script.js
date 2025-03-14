@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const map = initializeMap();
 
     // ✅ Load Map Data (Markers & Polygons)
-    await loadMapData(map);
+    await loadMapAndSidebar(map);
 
     /* ───────────────────────────────────── */
     /* 📍 CLICK TO ADD MARKER & ZOOM         */
