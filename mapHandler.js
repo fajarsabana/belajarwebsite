@@ -1,10 +1,6 @@
-// ✅ Import Supabase function
 import { fetchLocations } from "./supabase.js";
 
-/* ───────────────────────────────────── */
-/* 🗺️  MAP INITIALIZATION & TILE LAYERS  */
-/* ───────────────────────────────────── */
-
+// ✅ Initialize Leaflet Map
 export function initializeMap() {
     const map = L.map("map", {
         zoomControl: true,
@@ -12,83 +8,136 @@ export function initializeMap() {
         dragging: true,
         zoomSnap: 0.5,
         zoomDelta: 0.5,
-        wheelPxPerZoomLevel: 60,
-    }).setView([-6.2088, 106.8456], 6); // Default center: Jakarta, zoomed out to fit polygons
+        wheelPxPerZoomLevel: 60
+    }).setView([-6.2088, 106.8456], 10); // Default center: Jakarta
 
+    // ✅ Load Map Tiles
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
+    console.log("✅ Leaflet Map Initialized");
     return map;
 }
 
-/* ───────────────────────────────────── */
-/* 📌 MARKER & POLYGON HANDLING          */
-/* ───────────────────────────────────── */
-
 // ✅ Custom Marker Icon
 const customIcon = L.icon({
-    iconUrl: "images/marker.png", // Replace with your marker image
+    iconUrl: "images/marker.png",
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -35],
 });
 
-// ✅ Function to Load Markers & Polygons
-export async function loadMapData(map) {
-    try {
-        console.log("Fetching locations from Supabase...");
-        const locations = await fetchLocations();
-        console.log("Locations received:", locations);
+// ✅ Function to Load Data & Populate Map + Sidebar
+export async function loadMapAndSidebar(map) {
+    console.log("Fetching locations from Supabase...");
+    const locations = await fetchLocations();
+    console.log("Locations received:", locations);
 
-        locations.forEach((location) => {
-            if (!location.geom) {
-                console.warn("Skipping location with missing geometry:", location);
-                return;
-            }
+    const sidebar = document.querySelector(".sidebar ul");
+    if (!sidebar) {
+        console.error("Sidebar list not found! Ensure index.html contains `<ul>` inside `.sidebar`.");
+        return;
+    }
 
-            console.log("Raw Geometry Data:", location.geom); // ✅ Debugging
+    // ✅ Organize locations by "Pemegang Wilus" (Company Name)
+    const groupedData = {};
+    locations.forEach((location) => {
+        if (!location["Pemegang Wilus"] || !location["Nama Lokasi"] || !location.geom) return;
 
-            let shape; // Store marker or polygon
+        let company = location["Pemegang Wilus"];
+        let place = location["Nama Lokasi"];
 
-            // ✅ If "Point", add a marker
+        if (!groupedData[company]) {
+            groupedData[company] = [];
+        }
+        groupedData[company].push(location);
+    });
+
+    // ✅ Populate Sidebar & Map
+    for (const company in groupedData) {
+        let companyItem = document.createElement("li");
+        companyItem.classList.add("parent-item");
+        companyItem.textContent = company;
+
+        let sublist = document.createElement("ul");
+        sublist.classList.add("sublist");
+
+        groupedData[company].forEach((location) => {
+            let subItem = document.createElement("li");
+            subItem.textContent = location["Nama Lokasi"];
+
+            let shape; // Store either marker or polygon
+
             if (location.geom.type === "Point") {
-                if (!location.geom.coordinates) {
-                    console.error("Point is missing coordinates:", location);
-                    return;
-                }
+                // ✅ Add Marker for Point Data
                 let [lng, lat] = location.geom.coordinates;
-                console.log(`Adding Marker at: ${lat}, ${lng}`); // ✅ Debugging
                 shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-            }
-
-            // ✅ If "Polygon", draw a polygon
+                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+            } 
             else if (location.geom.type === "Polygon") {
-                if (!Array.isArray(location.geom.coordinates) || location.geom.coordinates.length === 0) {
-                    console.error("Polygon is missing valid coordinates:", location);
-                    return;
-                }
+                // ✅ Fix Polygon Coordinate Order
                 let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-                console.log("Adding Polygon with coordinates:", polygonCoordinates); // ✅ Debugging
+
+                console.log("Adding Polygon:", polygonCoordinates); // Debugging
+
+                // ✅ Create Polygon
                 shape = L.polygon(polygonCoordinates, {
-                    color: "blue",
-                    fillColor: "blue",
-                    fillOpacity: 0.3
+                    color: "#0077b6",  /* Border Color */
+                    fillColor: "#0096c7",  /* Inside Color */
+                    fillOpacity: 0.4,  /* Adjust visibility */
+                    weight: 2
                 }).addTo(map);
+                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
             }
 
-            // ✅ Add popup to both markers & polygons
-            if (shape) {
-                shape.bindPopup(`
-                    <b>${location["Nama Lokasi"]}</b><br>
-                    🏢 <b>Company:</b> ${location["Pemegang Wilus"]}<br>
-                    ⚡ <b>PLN UID:</b> ${location["UID"]}<br>
-                `);
-            }
+            // ✅ Click to Zoom into Shape
+            subItem.addEventListener("click", function () {
+                if (location.geom.type === "Point") {
+                    map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14);
+                } else if (location.geom.type === "Polygon") {
+                    let bounds = L.latLngBounds(location.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
+                    map.fitBounds(bounds);
+                }
+            });
+
+            sublist.appendChild(subItem);
         });
 
-        console.log("Shapes added:", locations);
-    } catch (error) {
-        console.error("Error fetching locations:", error);
+        companyItem.appendChild(sublist);
+        sidebar.appendChild(companyItem);
+
+        // ✅ Sidebar Toggle
+        companyItem.addEventListener("click", function () {
+            this.classList.toggle("open");
+        });
     }
+
+    console.log("✅ Map and Sidebar Loaded Successfully!");
+}
+
+// ✅ Double-Click to Add Marker
+export function enableDoubleClickMarker(map) {
+    let activeMarker = null;
+    map.on("dblclick", function (e) {
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+
+        if (activeMarker) {
+            map.removeLayer(activeMarker);
+        }
+
+        activeMarker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+        activeMarker.bindPopup(`📍 Marker placed here:<br>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`).openPopup();
+        map.setView([lat, lng], 14);
+    });
+
+    console.log("✅ Double-Click Marker Enabled");
+}
+
+// ✅ Setup Map with Sidebar & Data
+export async function setupMap() {
+    const map = initializeMap();
+    await loadMapAndSidebar(map);
+    enableDoubleClickMarker(map);
 }
