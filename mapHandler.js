@@ -28,7 +28,7 @@ const customIcon = L.icon({
     popupAnchor: [0, -35],
 });
 
-// ✅ Function to Load Data & Populate Map + Sidebar
+// ✅ Function to Load Data & Populate Map + Sidebar (NO NAME CHANGES!)
 export async function loadMapAndSidebar(map) {
     console.log("Fetching locations from Supabase...");
     const locations = await fetchLocations();
@@ -40,7 +40,7 @@ export async function loadMapAndSidebar(map) {
         return;
     }
 
-    // ✅ Organize locations by "Pemegang Wilus" (Company Name)
+    // ✅ Organize locations by "Pemegang Wilus"
     const groupedData = {};
     locations.forEach((location) => {
         if (!location["Pemegang Wilus"] || !location["Nama Lokasi"] || !location.geom) return;
@@ -56,43 +56,16 @@ export async function loadMapAndSidebar(map) {
 
     // ✅ Populate Sidebar & Map
     for (const company in groupedData) {
-        let companyItem = document.createElement("li");
-        companyItem.classList.add("parent-item");
-        companyItem.textContent = company;
+        const locationsUnderCompany = groupedData[company];
 
-        let sublist = document.createElement("ul");
-        sublist.classList.add("sublist");
+        // 🔹 If only **ONE** `Nama Lokasi`, show it as a **direct item**
+        if (locationsUnderCompany.length === 1) {
+            let location = locationsUnderCompany[0];
+            let singleItem = document.createElement("li");
+            singleItem.textContent = `${company} - ${location["Nama Lokasi"]}`;
 
-        groupedData[company].forEach((location) => {
-            let subItem = document.createElement("li");
-            subItem.textContent = location["Nama Lokasi"];
-
-            let shape; // Store either marker or polygon
-
-            if (location.geom.type === "Point") {
-                // ✅ Add Marker for Point Data
-                let [lng, lat] = location.geom.coordinates;
-                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-            } 
-            else if (location.geom.type === "Polygon") {
-                // ✅ Fix Polygon Coordinate Order
-                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-
-                console.log("Adding Polygon:", polygonCoordinates); // Debugging
-
-                // ✅ Create Polygon
-                shape = L.polygon(polygonCoordinates, {
-                    color: "#0077b6",  /* Border Color */
-                    fillColor: "#0096c7",  /* Inside Color */
-                    fillOpacity: 0.4,  /* Adjust visibility */
-                    weight: 2
-                }).addTo(map);
-                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-            }
-
-            // ✅ Click to Zoom into Shape
-            subItem.addEventListener("click", function () {
+            // ✅ Click to Zoom into Marker/Polygon
+            singleItem.addEventListener("click", function () {
                 if (location.geom.type === "Point") {
                     map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14);
                 } else if (location.geom.type === "Polygon") {
@@ -101,16 +74,42 @@ export async function loadMapAndSidebar(map) {
                 }
             });
 
-            sublist.appendChild(subItem);
-        });
+            sidebar.appendChild(singleItem);
+        } 
+        else {
+            // 🔹 If multiple `Nama Lokasi`, keep them as **subcategories**
+            let companyItem = document.createElement("li");
+            companyItem.classList.add("parent-item");
+            companyItem.textContent = company;
 
-        companyItem.appendChild(sublist);
-        sidebar.appendChild(companyItem);
+            let sublist = document.createElement("ul");
+            sublist.classList.add("sublist");
 
-        // ✅ Sidebar Toggle
-        companyItem.addEventListener("click", function () {
-            this.classList.toggle("open");
-        });
+            locationsUnderCompany.forEach((location) => {
+                let subItem = document.createElement("li");
+                subItem.textContent = location["Nama Lokasi"];
+
+                // ✅ Click to Zoom into Marker/Polygon
+                subItem.addEventListener("click", function () {
+                    if (location.geom.type === "Point") {
+                        map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14);
+                    } else if (location.geom.type === "Polygon") {
+                        let bounds = L.latLngBounds(location.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
+                        map.fitBounds(bounds);
+                    }
+                });
+
+                sublist.appendChild(subItem);
+            });
+
+            companyItem.appendChild(sublist);
+            sidebar.appendChild(companyItem);
+
+            // ✅ Sidebar Toggle
+            companyItem.addEventListener("click", function () {
+                this.classList.toggle("open");
+            });
+        }
     }
 
     console.log("✅ Map and Sidebar Loaded Successfully!");
@@ -135,7 +134,7 @@ export function enableDoubleClickMarker(map) {
     console.log("✅ Double-Click Marker Enabled");
 }
 
-// ✅ Setup Map with Sidebar & Data
+// ✅ Setup Map with Sidebar & Data (NO NAME CHANGES!)
 export async function setupMap() {
     const map = initializeMap();
     await loadMapAndSidebar(map);
