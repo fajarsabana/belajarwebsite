@@ -1,4 +1,9 @@
-import { fetchLocations } from "./supabase.js"; // ✅ Import Supabase function
+// ✅ Import Supabase function
+import { fetchLocations } from "./supabase.js";
+
+/* ───────────────────────────────────── */
+/* 🗺️  MAP INITIALIZATION                 */
+/* ───────────────────────────────────── */
 
 document.addEventListener("DOMContentLoaded", async function () {
     // ✅ Prevent initializing the map twice
@@ -15,9 +20,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         zoomSnap: 0.5,
         zoomDelta: 0.5,
         wheelPxPerZoomLevel: 60,
-    }).setView([-6.2088, 106.8456], 10);
+    }).setView([-6.2088, 106.8456], 10); // Default center: Jakarta
 
-    // ✅ Load Map Tiles (Light Mode)
+    // ✅ Load Map Tiles
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
@@ -30,58 +35,45 @@ document.addEventListener("DOMContentLoaded", async function () {
         popupAnchor: [0, -35],
     });
 
+    /* ───────────────────────────────────── */
+    /* 📍 CLICK TO ADD MARKER & ZOOM         */
+    /* ───────────────────────────────────── */
+
     let activeMarker = null;
 
-    // ✅ Add Marker on Click & Zoom
     map.on("click", function (e) {
         let lat = e.latlng.lat;
         let lng = e.latlng.lng;
 
+        // ✅ Remove previous marker if exists
         if (activeMarker) {
             map.removeLayer(activeMarker);
         }
 
+        // ✅ Add new marker at clicked position
         activeMarker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
         activeMarker.bindPopup(
             `📍 You clicked here:<br>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`
         ).openPopup();
 
+        // ✅ Zoom into the marker
         map.setView([lat, lng], 14);
     });
 
-    // ✅ Ensure the map resizes properly
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 500);
+    /* ───────────────────────────────────── */
+    /* 📡 FETCH & LOAD MARKERS FROM SUPABASE */
+    /* ───────────────────────────────────── */
 
-    // ✅ Handle Sidebar Click to Toggle Sublist
-    document.querySelectorAll(".parent-item").forEach((item) => {
-        item.addEventListener("click", function () {
-            this.classList.toggle("open");
-        });
-    });
-
-    // ✅ Fetch and Add Markers from Supabase
     try {
         console.log("Fetching locations from Supabase...");
         const locations = await fetchLocations();
         console.log("Locations received:", locations);
 
         locations.forEach((location) => {
-            if (!location.geom) {
-                console.warn("Skipping location with missing geometry:", location);
-                return;
-            }
-
-            let lat, lng;
+            if (!location.geom || location.geom.type !== "Point") return;
 
             // ✅ Extract lat/lng from GeoJSON
-            if (typeof location.geom === "object" && location.geom.type === "Point") {
-                [lng, lat] = location.geom.coordinates;
-            } else {
-                console.error("Unknown geom format:", location.geom);
-                return;
-            }
+            let [lng, lat] = location.geom.coordinates;
 
             // ✅ Add marker to the map
             let marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
@@ -97,4 +89,22 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (error) {
         console.error("Error fetching locations:", error);
     }
+
+    /* ───────────────────────────────────── */
+    /* 📜 SIDEBAR CATEGORY CLICK HANDLING    */
+    /* ───────────────────────────────────── */
+
+    document.querySelectorAll(".parent-item").forEach((item) => {
+        item.addEventListener("click", function () {
+            this.classList.toggle("open"); // ✅ Toggle sublist visibility
+        });
+    });
+
+    /* ───────────────────────────────────── */
+    /* 🔄 ENSURE MAP RESIZES PROPERLY        */
+    /* ───────────────────────────────────── */
+
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 500);
 });
