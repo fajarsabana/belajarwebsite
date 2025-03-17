@@ -327,6 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // ✅ Remove previous marker before adding a new one
             if (window.activeMarker) {
                 window.map.removeLayer(window.activeMarker);
+                window.activeMarker = null; // ✅ Clear reference
             }
 
             // ✅ Create Marker Popup with "Lokasi Kawasan" and "Pemegang Wilus"
