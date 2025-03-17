@@ -330,3 +330,28 @@ header, nav {
         padding: 3px 8px;
     }
 }
+
+/* ✅ Search Box Styling */
+#searchInput {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* ✅ Placeholder Color */
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ✅ Input Focus */
+#searchInput:focus {
+    outline: none;
+    border: 1px solid white;
+    background: rgba(255, 255, 255, 0.2);
+}
+
