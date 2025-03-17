@@ -209,6 +209,8 @@ header, nav {
     left: 0;
     width: 150px; /* Adjust width as needed */
     height: 100vh; /* Full height to match the map */
+    min-width: 150px; /* Minimum width */
+    max-width: 500px; /* Prevent it from getting too large */
     background: rgba(0, 0, 0, 0.6); /* Keeps transparent dark background */
     padding: 10px;
     border-radius: 0; /* Removes rounded corners for full height */
