@@ -219,3 +219,33 @@ export async function setupMap() {
     await loadMapAndSidebar(map);
     enableDoubleClickMarker(map);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.getElementById("sidebar");
+    const resizeHandle = document.getElementById("resize-handle");
+
+    let isResizing = false;
+
+    // ✅ Mouse Down Event - Start Resizing
+    resizeHandle.addEventListener("mousedown", (event) => {
+        isResizing = true;
+        document.body.style.cursor = "ew-resize";
+        event.preventDefault();
+    });
+
+    // ✅ Mouse Move Event - Adjust Sidebar Width
+    document.addEventListener("mousemove", (event) => {
+        if (!isResizing) return;
+        let newWidth = event.clientX; // Get cursor X position
+        if (newWidth > 200 && newWidth < 500) { // ✅ Keep within min/max limits
+            sidebar.style.width = newWidth + "px";
+        }
+    });
+
+    // ✅ Mouse Up Event - Stop Resizing
+    document.addEventListener("mouseup", () => {
+        isResizing = false;
+        document.body.style.cursor = "default";
+    });
+});
+
