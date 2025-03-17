@@ -86,9 +86,6 @@ export async function loadMapAndSidebar(map) {
                 shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
             }
 
-
-
-            // ✅ Click to Zoom into Shape
             // ✅ Click to Zoom into Shape
         subItem.addEventListener("click", function () {
             console.log("📍 Sidebar item clicked:", location["Nama Lokasi"], location.geom);
