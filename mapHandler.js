@@ -322,9 +322,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 resultBox.style.color = "red";
             }
 
+    // ✅ Create Marker Popup with "Lokasi Kawasan" and "Pemegang Wilus"
+            const popupContent = `
+                <b>📍 Lokasi Kawasan</b>: ${lat.toFixed(5)}, ${lng.toFixed(5)}<br>
+                🏢 <b>Pemegang Wilus</b>: ${foundLocation ? "Inside Kawasan" : "Outside Kawasan"}
+            `;
+
             // ✅ Optional: Add a temporary marker at the inputted coordinate
             L.marker([lat, lng], { icon: customIcon }).addTo(window.map)
-                .bindPopup(`📍 Checked Location:<br>Lat: ${lat}, Lng: ${lng}`)
+                .bindPopup(popupContent)
                 .openPopup();
         });
     }
