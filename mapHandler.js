@@ -133,7 +133,6 @@ export async function loadMapAndSidebar(map) {
 
 
     console.log("✅ Map and Sidebar Loaded Successfully!");
-}
 
 // ✅ Double-Click to Add Marker
 export function enableDoubleClickMarker(map) {
