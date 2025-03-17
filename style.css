@@ -201,6 +201,9 @@ header, nav {
 /* Ensure Sidebar is Visible */
 /* ✅ Make Sidebar Match Map Height */
 #sidebar {
+    font-size: 12px; /* Smaller but readable */
+    font-weight: normal; /* Remove bold look */
+    line-height: 1.3; /* Reduce spacing between lines */
     position: absolute;
     top: 0;
     left: 0;
@@ -232,6 +235,7 @@ header, nav {
 
 /* ✅ Ensure List is Styled Properly */
 .clickable-list {
+    
     list-style: none;
     padding: 0;
     margin: 0;
@@ -241,6 +245,9 @@ header, nav {
 
 /* ✅ Parent Item (Company Name) */
 .parent-item {
+    font-size: 13px; /* Slightly larger than locations */
+    font-weight: 500; /* Medium weight (not too bold) */
+    padding: 8px; /* Reduce padding for compactness */
     list-style: none;
     cursor: pointer;
     padding: 10px;
@@ -266,6 +273,10 @@ header, nav {
 
 /* ✅ Sublist Items */
 .sublist li {
+    font-size: 11px; /* Small but readable */
+    font-weight: normal; /* Remove boldness */
+    padding: 5px; /* Reduce padding to save space */
+    margin-bottom: 2px; /* Reduce margin for compact spacing */
     list-style: none;
     padding: 8px;
     font-size: 14px;
