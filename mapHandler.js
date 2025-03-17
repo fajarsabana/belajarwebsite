@@ -2,13 +2,14 @@ import { fetchLocations } from "./supabase.js";
 
 // ✅ Setup Map with Sidebar & Data
 export async function setupMap() {
-    if (!window.map || typeof window.map.eachLayer !== "function") {
-        window.map = initializeMap();  // ✅ Store map globally
+    if (!window.map || !(window.map instanceof L.Map)) {
+        window.map = initializeMap();  // ✅ Assign the map globally
         console.log("✅ Map initialized successfully.");
     }
     await loadMapAndSidebar(window.map);
     enableDoubleClickMarker(window.map);
 }
+
 
 
 // ✅ Initialize Leaflet Map
@@ -291,8 +292,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log(`Checking coordinates: Latitude ${lat}, Longitude ${lng}`);
 
-            // ✅ Ensure `window.map` is initialized
-            if (!window.map || typeof window.map.eachLayer !== "function") {
+            // ✅ Ensure `window.map` is initialized before using it
+            if (!window.map || !(window.map instanceof L.Map)) {
                 console.error("❌ Map is not initialized or invalid.");
                 resultBox.textContent = "❌ Map is not ready!";
                 resultBox.style.color = "red";
@@ -323,7 +324,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 .openPopup();
         });
     }
-
     // ✅ Sidebar Resize Function
     const sidebar = document.getElementById("sidebar");
     const resizeHandle = document.getElementById("resize-handle");
