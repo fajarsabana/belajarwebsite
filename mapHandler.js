@@ -154,8 +154,8 @@ export function enableDoubleClickMarker(map) {
 
 function filterSidebar() {
     let input = document.getElementById("searchInput").value.toLowerCase();
-    let companies = document.querySelectorAll(".parent-item"); // Companies
-    let locations = document.querySelectorAll(".sublist li"); // Locations
+    let companies = document.querySelectorAll("#sidebar .parent-item"); // ✅ Correctly selects companies
+    let locations = document.querySelectorAll("#sidebar .sublist li"); // ✅ Correctly selects locations
 
     let anyMatch = false; // Check if any result is found
 
@@ -195,7 +195,7 @@ function filterSidebar() {
     });
 
     // ✅ If no results, display "No matches found" message
-    let sidebar = document.querySelector(".sidebar ul");
+    let sidebar = document.querySelector("#sidebar ul"); // ✅ Corrected selector
     let noResults = document.getElementById("noResults");
 
     if (!anyMatch) {
@@ -221,19 +221,26 @@ export async function setupMap() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    // ✅ Ensure search works after DOM is loaded
+    let searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+        searchInput.addEventListener("input", filterSidebar);
+    } else {
+        console.error("Search input not found!");
+    }
+
+    // ✅ Sidebar Resize Function
     const sidebar = document.getElementById("sidebar");
     const resizeHandle = document.getElementById("resize-handle");
 
     let isResizing = false;
 
-    // ✅ Mouse Down Event - Start Resizing
     resizeHandle.addEventListener("mousedown", (event) => {
         isResizing = true;
         document.body.style.cursor = "ew-resize";
         event.preventDefault();
     });
 
-    // ✅ Mouse Move Event - Adjust Sidebar Width
     document.addEventListener("mousemove", (event) => {
         if (!isResizing) return;
         let newWidth = event.clientX; // Get cursor X position
@@ -242,10 +249,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // ✅ Mouse Up Event - Stop Resizing
     document.addEventListener("mouseup", () => {
         isResizing = false;
         document.body.style.cursor = "default";
     });
 });
+
 
