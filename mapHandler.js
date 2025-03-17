@@ -68,28 +68,29 @@ export async function loadMapAndSidebar(map) {
             subItem.textContent = location["Nama Lokasi"];
 
             let shape; // Store either marker or polygon
+            console.log("Location Object:", location); 
+            console.log("Geometry Data:", location.geom);  // Check if geom exists
+            console.log("Coordinates Data:", location.geom?.coordinates);  // Check if coordinates exist
+            
+            if (location.geom && location.geom.type === "Point") {  
+                let [lng, lat] = location.geom.coordinates;
+                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+            } 
+            else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
+                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+                
+                console.log("Adding Polygon:", polygonCoordinates); // Debugging
+            
+                shape = L.polygon(polygonCoordinates, {
+                    color: "#0077b6",  
+                    fillColor: "#0096c7",
+                    fillOpacity: 0.4,  
+                    weight: 2
+                }).addTo(map);
+                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+            }
 
-          if (location.geom && location.geom.type === "Point") {  
-    // ✅ Add Marker for Point Data
-    let [lng, lat] = location.geom.coordinates;
-    shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-    shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-} 
-else if (location.geom && location.geom.type === "Polygon") {  
-    // ✅ Fix Polygon Coordinate Order
-    let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-    
-    console.log("Adding Polygon:", polygonCoordinates); // Debugging
-
-    // ✅ Create Polygon
-    shape = L.polygon(polygonCoordinates, {
-        color: "#0077b6",  /* Border Color */
-        fillColor: "#0096c7",  /* Inside Color */
-        fillOpacity: 0.4,  /* Adjust visibility */
-        weight: 2
-    }).addTo(map);
-    shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-}
 
 
             // ✅ Click to Zoom into Shape
