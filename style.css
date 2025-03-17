@@ -17,7 +17,7 @@ body, html {
 
 
 .nav-links li {
-    display: inline;
+    margin: 0 15px;
 }
 
 .nav-links a {
