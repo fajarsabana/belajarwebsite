@@ -1,4 +1,3 @@
-/* Reset Default Styles */
 body, html {
     margin: 0;
     padding: 0;
@@ -7,45 +6,28 @@ body, html {
     color: black;
 }
 
-.top-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: black; /* Black background */
-    padding: 15px 30px;
-    height: 60px;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-}
-
-/* ✅ Navigation Links */
+/* Navigation */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 30px;
-    margin: 0 auto;
-    padding: 0;
+    justify-content: center;
+    background: black;
+    padding: 15px;
 }
 
 .nav-links li {
-    display: inline;
+    margin: 0 15px;
 }
 
 .nav-links a {
-    text-decoration: none;
     color: white;
-    font-weight: bold;
-    font-size: 16px;
+    text-decoration: none;
     transition: color 0.3s ease-in-out;
-    padding: 10px 15px;
 }
 
+/* Hover Effect */
 .nav-links a:hover {
     color: orange;
-    border-bottom: 3px solid orange;
 }
 
 
@@ -55,12 +37,6 @@ body, html {
     transform: translateY(20px);
     animation: fadeIn 1s ease-in-out forwards;
 }
-
-/* ⚡ PLN Logo */
-.pln-logo {
-    height: 40px;
-}
-
 
 @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(20px); }
