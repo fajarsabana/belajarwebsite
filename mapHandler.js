@@ -118,11 +118,19 @@ export async function loadMapAndSidebar(map) {
         companyItem.appendChild(sublist);
         sidebar.appendChild(companyItem);
 
-        // ✅ Sidebar Toggle
-        companyItem.addEventListener("click", function () {
-            this.classList.toggle("open");
+               companyItem.addEventListener("click", function (event) {
+            if (event.target === this) {
+                console.log("📂 Toggling company list for:", company);
+                this.classList.toggle("open");
+        
+                // ✅ Find the corresponding sublist and toggle visibility
+                let sublist = this.querySelector(".sublist");
+                if (sublist) {
+                    sublist.style.display = sublist.style.display === "none" ? "block" : "none";
+                }
+            }
         });
-    }
+
 
     console.log("✅ Map and Sidebar Loaded Successfully!");
 }
