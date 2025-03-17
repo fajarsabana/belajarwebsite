@@ -152,6 +152,27 @@ export function enableDoubleClickMarker(map) {
     console.log("✅ Double-Click Marker Enabled");
 }
 
+// ✅ Function to Filter Sidebar Items
+function filterSidebar() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let items = document.querySelectorAll("#sidebar ul li");
+
+    items.forEach((item) => {
+        let text = item.textContent.toLowerCase();
+        if (text.includes(input)) {
+            item.style.display = "block"; // ✅ Show matching items
+        } else {
+            item.style.display = "none"; // ❌ Hide non-matching items
+        }
+    });
+}
+
+// ✅ Attach the Filter Function to Input Field
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("searchInput").addEventListener("input", filterSidebar);
+});
+
+
 // ✅ Setup Map with Sidebar & Data
 export async function setupMap() {
     const map = initializeMap();
