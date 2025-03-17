@@ -370,3 +370,76 @@ header, nav {
     z-index: 10;
 }
 
+/* ✅ Match Coordinate Checker with Search Box */
+#coordinate-checker {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1); /* Slight transparency */
+    border-radius: 5px;
+}
+
+/* ✅ Input Fields (Latitude & Longitude) */
+#coordinate-checker input {
+    width: 100%;
+    padding: 6px;
+    font-size: 11px;
+    font-weight: normal;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* ✅ Placeholder Text */
+#coordinate-checker input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ✅ Search Box Styling */
+#searchInput {
+    width: 100%;
+    padding: 6px;
+    font-size: 11px;
+    font-weight: normal;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* ✅ Button Styling (Matches Sidebar Theme) */
+#checkCoordinateBtn {
+    padding: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2); /* Light transparency */
+    color: white;
+    transition: background 0.3s;
+}
+
+/* ✅ Button Hover Effect */
+#checkCoordinateBtn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* ✅ Coordinate Result Styling */
+#coordinateResult {
+    font-size: 11px;
+    font-weight: normal;
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+}
+
+
