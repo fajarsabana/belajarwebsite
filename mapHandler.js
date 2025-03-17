@@ -118,21 +118,13 @@ export async function loadMapAndSidebar(map) {
         companyItem.appendChild(sublist);
         sidebar.appendChild(companyItem);
 
-               companyItem.addEventListener("click", function (event) {
-            if (event.target === this) {
-                console.log("📂 Toggling company list for:", company);
-                this.classList.toggle("open");
-        
-                // ✅ Find the corresponding sublist and toggle visibility
-                let sublist = this.querySelector(".sublist");
-                if (sublist) {
-                    sublist.style.display = sublist.style.display === "none" ? "block" : "none";
-                }
-            }
+               companyItem.addEventListener("click", function () {
+            this.classList.toggle("open");
         });
-
+    }
 
     console.log("✅ Map and Sidebar Loaded Successfully!");
+}
 
 // ✅ Double-Click to Add Marker
 export function enableDoubleClickMarker(map) {
