@@ -207,7 +207,7 @@ header, nav {
     position: absolute;
     top: 0;
     left: 0;
-    width: 150px; /* Adjust width as needed */
+    width: 250px; /* Adjust width as needed */
     height: 100vh; /* Full height to match the map */
     min-width: 150px; /* Minimum width */
     max-width: 500px; /* Prevent it from getting too large */
