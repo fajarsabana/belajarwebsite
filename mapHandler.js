@@ -100,13 +100,17 @@ export async function loadMapAndSidebar(map) {
                 console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
                 map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14); // Ensure correct order
             } 
-            else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {
-                console.log("Zooming to Polygon:", location["Nama Lokasi"], location.geom.coordinates);
-                
-                // Ensure coordinates are formatted correctly
-                let bounds = L.latLngBounds(location.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
-                map.fitBounds(bounds);
-            } else {
+            else if (location.geom && location.geom.type === "Polygon" 
+            && Array.isArray(location.geom.coordinates) 
+            && location.geom.coordinates.length > 0 
+            && Array.isArray(location.geom.coordinates[0])) {  // ✅ Ensures valid polygon coordinates
+            
+            console.log("Zooming to Polygon:", location["Nama Lokasi"], location.geom.coordinates);
+            
+            let bounds = L.latLngBounds(location.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
+            map.fitBounds(bounds);
+        }
+            else {
                 console.warn("No valid geometry for:", location["Nama Lokasi"]);
             }
         });
