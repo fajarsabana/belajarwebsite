@@ -3,7 +3,7 @@ import { fetchLocations } from "./supabase.js";
 // ✅ Initialize Leaflet Map
 export function initializeMap() {
     const map = L.map("map", {
-        zoomControl: true,
+        zoomControl: true,    
         scrollWheelZoom: true,
         dragging: true,
         zoomSnap: 0.5,
@@ -91,6 +91,7 @@ export async function loadMapAndSidebar(map) {
             // ✅ Click to Zoom into Shape
             // ✅ Click to Zoom into Shape
         subItem.addEventListener("click", function () {
+            console.log("📍 Sidebar item clicked:", location["Nama Lokasi"], location.geom);
             if (location.geom && location.geom.type === "Point") {
                 console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
                 map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14); // Ensure correct order
