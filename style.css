@@ -241,6 +241,7 @@ header, nav {
 
 /* ✅ Parent Item (Company Name) */
 .parent-item {
+    list-style: none;
     cursor: pointer;
     padding: 10px;
     font-size: 16px;
@@ -265,6 +266,7 @@ header, nav {
 
 /* ✅ Sublist Items */
 .sublist li {
+    list-style: none;
     padding: 8px;
     font-size: 14px;
     background: rgba(255, 255, 255, 0.3);
