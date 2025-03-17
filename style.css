@@ -286,6 +286,11 @@ header, nav {
     transition: background 0.3s;
 }
 
+#sidebar ul {
+    padding: 0;
+    margin: 0;
+}
+
 /* ✅ Sublist Hover */
 .sublist li:hover {
     background: rgba(255, 255, 255, 0.5);
@@ -301,6 +306,15 @@ header, nav {
     #sidebar {
         width: 200px; /* Adjusts sidebar width on smaller screens */
         padding: 10px;
-        font-size: 14px;
+        font-size: 11px;
+    }
+        .parent-item {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .sublist li {
+        font-size: 10px;
+        padding: 4px;
     }
 }
