@@ -94,14 +94,23 @@ export async function loadMapAndSidebar(map) {
 
 
             // ✅ Click to Zoom into Shape
-            subItem.addEventListener("click", function () {
-                if (location.geom.type === "Point") {
-                    map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14);
-                } else if (location.geom.type === "Polygon") {
-                    let bounds = L.latLngBounds(location.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
-                    map.fitBounds(bounds);
-                }
-            });
+            // ✅ Click to Zoom into Shape
+        subItem.addEventListener("click", function () {
+            if (location.geom && location.geom.type === "Point") {
+                console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
+                map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14); // Ensure correct order
+            } 
+            else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {
+                console.log("Zooming to Polygon:", location["Nama Lokasi"], location.geom.coordinates);
+                
+                // Ensure coordinates are formatted correctly
+                let bounds = L.latLngBounds(location.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
+                map.fitBounds(bounds);
+            } else {
+                console.warn("No valid geometry for:", location["Nama Lokasi"]);
+            }
+        });
+
 
             sublist.appendChild(subItem);
         });
