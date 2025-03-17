@@ -135,26 +135,29 @@ export async function loadMapAndSidebar(map) {
                 shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
                 shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
             } 
-            else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
-                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-                
-                shape = L.polygon(polygonCoordinates, {
-                    color: "#0077b6",  
-                    fillColor: "#0096c7",
-                    fillOpacity: 0.4,  
-                    weight: 2
-                }).addTo(map);
+                else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
+            let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+            
+            shape = L.polygon(polygonCoordinates, {
+                color: "#0077b6",  
+                fillColor: "#0096c7",
+                fillOpacity: 0.4,  
+                weight: 2
+            }).addTo(map);
+        
+            // ✅ Attach actual data to the polygon layer using "feature" object
+            shape.feature = shape.feature || {};
+            shape.feature.properties = {
+                "Pemegang Wilus": location["Pemegang Wilus"] || "No Data",
+                "Nama Lokasi": location["Nama Lokasi"] || "No Data"
+            };
+        
+            shape.bindPopup(`
+                <b>📍 Lokasi Kawasan:</b> ${location["Nama Lokasi"] || "No Data"}<br>
+                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"] || "No Data"}
+            `);
+        }
 
-                                // ✅ Attach actual data to the polygon layer
-                    shape.feature = {
-                        properties: {
-                            "Pemegang Wilus": location["Pemegang Wilus"],
-                            "Nama Lokasi": location["Nama Lokasi"]
-                        }
-                    };
-                
-                    shape.bindPopup(`<b>📍 Lokasi Kawasan:</b> ${location["Nama Lokasi"]}<br>🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"]}`);
-                }
 
             // ✅ Click to Zoom into Shape
         subItem.addEventListener("click", function () {
