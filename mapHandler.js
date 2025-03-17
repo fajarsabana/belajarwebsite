@@ -152,25 +152,65 @@ export function enableDoubleClickMarker(map) {
     console.log("✅ Double-Click Marker Enabled");
 }
 
-// ✅ Function to Filter Sidebar Items
 function filterSidebar() {
     let input = document.getElementById("searchInput").value.toLowerCase();
-    let items = document.querySelectorAll("#sidebar ul li");
+    let companies = document.querySelectorAll(".parent-item"); // Companies
+    let locations = document.querySelectorAll(".sublist li"); // Locations
 
-    items.forEach((item) => {
-        let text = item.textContent.toLowerCase();
-        if (text.includes(input)) {
-            item.style.display = "block"; // ✅ Show matching items
+    let anyMatch = false; // Check if any result is found
+
+    // ✅ Loop through companies (Pemegang Wilus)
+    companies.forEach((companyItem) => {
+        let companyName = companyItem.textContent.toLowerCase();
+        let sublist = companyItem.nextElementSibling; // The <ul> sublist
+        let hasVisibleLocation = false; // Track if any child matches
+
+        // ✅ Loop through locations inside each company
+        if (sublist) {
+            let subItems = sublist.querySelectorAll("li");
+            subItems.forEach((location) => {
+                let locationName = location.textContent.toLowerCase();
+                
+                // ✅ If location matches, show it
+                if (locationName.includes(input) || companyName.includes(input)) {
+                    location.style.display = "block";
+                    hasVisibleLocation = true;
+                } else {
+                    location.style.display = "none";
+                }
+            });
+        }
+
+        // ✅ Show the company if:
+        // - The company name matches the search OR
+        // - Any of its locations are visible
+        if (companyName.includes(input) || hasVisibleLocation) {
+            companyItem.style.display = "block";
+            if (sublist) sublist.style.display = "block"; // Keep expanded
+            anyMatch = true;
         } else {
-            item.style.display = "none"; // ❌ Hide non-matching items
+            companyItem.style.display = "none";
+            if (sublist) sublist.style.display = "none"; // Hide empty groups
         }
     });
+
+    // ✅ If no results, display "No matches found" message
+    let sidebar = document.querySelector(".sidebar ul");
+    let noResults = document.getElementById("noResults");
+
+    if (!anyMatch) {
+        if (!noResults) {
+            noResults = document.createElement("li");
+            noResults.id = "noResults";
+            noResults.textContent = "No matches found";
+            noResults.style.color = "white";
+            sidebar.appendChild(noResults);
+        }
+    } else if (noResults) {
+        noResults.remove();
+    }
 }
 
-// ✅ Attach the Filter Function to Input Field
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("searchInput").addEventListener("input", filterSidebar);
-});
 
 
 // ✅ Setup Map with Sidebar & Data
