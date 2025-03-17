@@ -8,27 +8,44 @@ body, html {
 }
 
 .top-nav {
-    list-style: none;
     display: flex;
-    justify-content: center;
-    background: black;
-    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    background: black; /* Black background */
+    padding: 15px 30px;
+    height: 60px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
 }
 
+/* ✅ Navigation Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0 auto;
+    padding: 0;
+}
 
 .nav-links li {
-    margin: 0 15px;
+    display: inline;
 }
 
 .nav-links a {
-    color: white;
     text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
     transition: color 0.3s ease-in-out;
+    padding: 10px 15px;
 }
 
-/* Hover Effect */
 .nav-links a:hover {
     color: orange;
+    border-bottom: 3px solid orange;
 }
 
 
