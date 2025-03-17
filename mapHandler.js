@@ -1,6 +1,5 @@
 import { fetchLocations } from "./supabase.js";
 
-// ✅ Setup Map with Sidebar & Data
 export async function setupMap() {
     if (!window.map || !(window.map instanceof L.Map)) {
         window.map = initializeMap();  // ✅ Assign the map globally
@@ -9,6 +8,11 @@ export async function setupMap() {
     await loadMapAndSidebar(window.map);
     enableDoubleClickMarker(window.map);
 }
+
+// ✅ Ensure `setupMap()` runs on page load
+document.addEventListener("DOMContentLoaded", async function () {
+    await setupMap();  // ✅ Run setupMap when the page loads
+});
 
 
 
