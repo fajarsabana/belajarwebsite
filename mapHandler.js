@@ -304,17 +304,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            let isInside = false;
+            let foundLocation = null;
+
+            // ✅ Check if the point is inside any existing polygon
             window.map.eachLayer((layer) => {
                 if (layer instanceof L.Polygon) {
                     if (layer.getBounds().contains([lat, lng])) {
-                        isInside = true;
+                        foundLocation = layer;
                     }
                 }
             });
 
             // ✅ Display the result
-            if (isInside) {
+            if (foundLocation) {
                 resultBox.textContent = "✅ The coordinate is inside the mapped area!";
                 resultBox.style.color = "limegreen";
             } else {
@@ -322,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 resultBox.style.color = "red";
             }
 
-    // ✅ Create Marker Popup with "Lokasi Kawasan" and "Pemegang Wilus"
+            // ✅ Create Marker Popup with "Lokasi Kawasan" and "Pemegang Wilus"
             const popupContent = `
                 <b>📍 Lokasi Kawasan</b>: ${lat.toFixed(5)}, ${lng.toFixed(5)}<br>
                 🏢 <b>Pemegang Wilus</b>: ${foundLocation ? "Inside Kawasan" : "Outside Kawasan"}
