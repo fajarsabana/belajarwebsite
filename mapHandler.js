@@ -324,14 +324,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 resultBox.style.color = "red";
             }
 
+            // ✅ Remove previous marker before adding a new one
+            if (window.activeMarker) {
+                window.map.removeLayer(window.activeMarker);
+            }
+
             // ✅ Create Marker Popup with "Lokasi Kawasan" and "Pemegang Wilus"
             const popupContent = `
                 <b>📍 Lokasi Kawasan</b>: ${lat.toFixed(5)}, ${lng.toFixed(5)}<br>
                 🏢 <b>Pemegang Wilus</b>: ${foundLocation ? "Inside Kawasan" : "Outside Kawasan"}
             `;
 
-            // ✅ Optional: Add a temporary marker at the inputted coordinate
-            L.marker([lat, lng], { icon: customIcon }).addTo(window.map)
+            // ✅ Add new marker and store it in `window.activeMarker`
+            window.activeMarker = L.marker([lat, lng], { icon: customIcon }).addTo(window.map)
                 .bindPopup(popupContent)
                 .openPopup();
         });
