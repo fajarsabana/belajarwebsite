@@ -69,27 +69,28 @@ export async function loadMapAndSidebar(map) {
 
             let shape; // Store either marker or polygon
 
-            if (location.geom.type === "Point") {
-                // ✅ Add Marker for Point Data
-                let [lng, lat] = location.geom.coordinates;
-                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-            } 
-            else if (location.geom.type === "Polygon") {
-                // ✅ Fix Polygon Coordinate Order
-                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+          if (location.geom && location.geom.type === "Point") {  
+    // ✅ Add Marker for Point Data
+    let [lng, lat] = location.geom.coordinates;
+    shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+    shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+} 
+else if (location.geom && location.geom.type === "Polygon") {  
+    // ✅ Fix Polygon Coordinate Order
+    let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+    
+    console.log("Adding Polygon:", polygonCoordinates); // Debugging
 
-                console.log("Adding Polygon:", polygonCoordinates); // Debugging
+    // ✅ Create Polygon
+    shape = L.polygon(polygonCoordinates, {
+        color: "#0077b6",  /* Border Color */
+        fillColor: "#0096c7",  /* Inside Color */
+        fillOpacity: 0.4,  /* Adjust visibility */
+        weight: 2
+    }).addTo(map);
+    shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+}
 
-                // ✅ Create Polygon
-                shape = L.polygon(polygonCoordinates, {
-                    color: "#0077b6",  /* Border Color */
-                    fillColor: "#0096c7",  /* Inside Color */
-                    fillOpacity: 0.4,  /* Adjust visibility */
-                    weight: 2
-                }).addTo(map);
-                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-            }
 
             // ✅ Click to Zoom into Shape
             subItem.addEventListener("click", function () {
