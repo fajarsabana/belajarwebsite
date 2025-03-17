@@ -144,8 +144,17 @@ export async function loadMapAndSidebar(map) {
                     fillOpacity: 0.4,  
                     weight: 2
                 }).addTo(map);
-                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-            }
+
+                                // ✅ Attach actual data to the polygon layer
+                    shape.feature = {
+                        properties: {
+                            "Pemegang Wilus": location["Pemegang Wilus"],
+                            "Nama Lokasi": location["Nama Lokasi"]
+                        }
+                    };
+                
+                    shape.bindPopup(`<b>📍 Lokasi Kawasan:</b> ${location["Nama Lokasi"]}<br>🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"]}`);
+                }
 
             // ✅ Click to Zoom into Shape
         subItem.addEventListener("click", function () {
