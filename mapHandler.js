@@ -260,10 +260,11 @@ function filterSidebar() {
 
 // ✅ Setup Map with Sidebar & Data
 export async function setupMap() {
-    const map = initializeMap();
-    await loadMapAndSidebar(map);
-    enableDoubleClickMarker(map);
+    window.map = initializeMap();  // ✅ Store map globally
+    await loadMapAndSidebar(window.map);
+    enableDoubleClickMarker(window.map);
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const checkButton = document.getElementById("checkCoordinateBtn");
