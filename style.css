@@ -12,8 +12,9 @@ body, html {
     list-style: none;
     display: flex;
     justify-content: center;
-    background: black;
     padding: 15px;
+    gap: 20px;
+    background: linear-gradient(to right, #0089a8, #009fbe); /* Blue gradient */
 }
 
 .nav-links li {
