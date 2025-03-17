@@ -46,6 +46,8 @@ export async function loadMapAndSidebar(map) {
         if (!location["Pemegang Wilus"] || !location["Nama Lokasi"] || !location.geom) return;
 
         let company = location["Pemegang Wilus"];
+        let place = location["Nama Lokasi"];
+
         if (!groupedData[company]) {
             groupedData[company] = [];
         }
@@ -54,88 +56,81 @@ export async function loadMapAndSidebar(map) {
 
     // ✅ Populate Sidebar & Map
     for (const company in groupedData) {
-        let locations = groupedData[company];
+        let companyItem = document.createElement("li");
+        companyItem.classList.add("parent-item");
+        companyItem.textContent = company;
 
-        // If the company has only one location, display the location directly
-        if (locations.length === 1) {
-            let location = locations[0];
+        let sublist = document.createElement("ul");
+        sublist.classList.add("sublist");
+
+        groupedData[company].forEach((location) => {
             let subItem = document.createElement("li");
             subItem.textContent = location["Nama Lokasi"];
 
-            // ✅ Click to Zoom
-            subItem.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevent sidebar toggle
+            let shape; // Store either marker or polygon
+            
+            if (location.geom && location.geom.type === "Point") {  
+                let [lng, lat] = location.geom.coordinates;
+                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+            } 
+            else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
+                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+                
+                shape = L.polygon(polygonCoordinates, {
+                    color: "#0077b6",  
+                    fillColor: "#0096c7",
+                    fillOpacity: 0.4,  
+                    weight: 2
+                }).addTo(map);
+                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+            }
 
-                console.log("📍 Sidebar location clicked:", location["Nama Lokasi"], location.geom);
+            // ✅ Click to Zoom into Shape
+        subItem.addEventListener("click", function () {
+            console.log("📍 Sidebar item clicked:", location["Nama Lokasi"], location.geom);
+            if (location.geom && location.geom.type === "Point") {
+                console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
+                map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14); // Ensure correct order
+            } 
+            else if (location.geom && location.geom.type === "Polygon" 
+            && Array.isArray(location.geom.coordinates) 
+            && location.geom.coordinates.length > 0 
+            && Array.isArray(location.geom.coordinates[0])) {  // ✅ Ensures valid polygon coordinates
+            
+            console.log("Zooming to Polygon:", location["Nama Lokasi"], location.geom.coordinates);
+            
+            let bounds = L.latLngBounds(location.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
+            map.fitBounds(bounds);
+        }
+            else {
+                console.warn("No valid geometry for:", location["Nama Lokasi"]);
+            }
+        });
 
-                if (location.geom && location.geom.type === "Point") {
-                    map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14, { animate: true, duration: 1 });
-                } 
-                else if (location.geom && location.geom.type === "Polygon" 
-                    && Array.isArray(location.geom.coordinates) 
-                    && location.geom.coordinates.length > 0 
-                    && Array.isArray(location.geom.coordinates[0])) {  
 
-                    let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-                    let bounds = L.latLngBounds(polygonCoordinates);
-                    map.fitBounds(bounds, { animate: true, padding: [50, 50] });
-                } 
-                else {
-                    console.warn("❌ No valid geometry for:", location["Nama Lokasi"]);
-                }
-            });
+            sublist.appendChild(subItem);
+        });
 
-            sidebar.appendChild(subItem); // ✅ Add directly without the company name
-        } 
-        else {
-            // If the company has multiple locations, create a collapsible company item
-            let companyItem = document.createElement("li");
-            companyItem.classList.add("parent-item");
-            companyItem.textContent = company;
+        companyItem.appendChild(sublist);
+        sidebar.appendChild(companyItem);
 
-            let sublist = document.createElement("ul");
-            sublist.classList.add("sublist");
-            sublist.style.display = "none"; // Hide by default
+              companyItem.addEventListener("click", function (event) {
+    if (event.target === this) {
+        console.log("📂 Toggling company list for:", company);
+        this.classList.toggle("open");
 
-            locations.forEach((location) => {
-                let subItem = document.createElement("li");
-                subItem.textContent = location["Nama Lokasi"];
-
-                // ✅ Click to Zoom
-                subItem.addEventListener("click", function (event) {
-                    event.stopPropagation(); // Prevent sidebar toggle
-
-                    console.log("📍 Sidebar location clicked:", location["Nama Lokasi"], location.geom);
-
-                    if (location.geom && location.geom.type === "Point") {
-                        map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14, { animate: true, duration: 1 });
-                    } 
-                    else if (location.geom && location.geom.type === "Polygon" 
-                        && Array.isArray(location.geom.coordinates) 
-                        && location.geom.coordinates.length > 0 
-                        && Array.isArray(location.geom.coordinates[0])) {  
-
-                        let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-                        let bounds = L.latLngBounds(polygonCoordinates);
-                        map.fitBounds(bounds, { animate: true, padding: [50, 50] });
-                    } 
-                    else {
-                        console.warn("❌ No valid geometry for:", location["Nama Lokasi"]);
-                    }
-                });
-
-                sublist.appendChild(subItem);
-            });
-
-            companyItem.appendChild(sublist);
-            sidebar.appendChild(companyItem);
-
-            // ✅ Toggle Company Item
-            companyItem.addEventListener("click", function () {
-                sublist.style.display = sublist.style.display === "none" ? "block" : "none";
-            });
+        // ✅ Find the corresponding sublist and toggle visibility
+        let sublist = this.querySelector(".sublist");
+        if (sublist) {
+            sublist.style.display = sublist.style.display === "none" ? "block" : "none";
         }
     }
+});
+
+    }
+
+    console.log("✅ Map and Sidebar Loaded Successfully!");
 }
 
 // ✅ Double-Click to Add Marker
