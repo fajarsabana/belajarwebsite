@@ -20,6 +20,51 @@ export function initializeMap() {
     return map;
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const checkButton = document.getElementById("checkCoordinateBtn");
+
+    if (checkButton) {
+        checkButton.addEventListener("click", function () {
+            const lat = parseFloat(document.getElementById("latInput").value);
+            const lng = parseFloat(document.getElementById("lngInput").value);
+            const resultBox = document.getElementById("coordinateResult");
+
+            if (isNaN(lat) || isNaN(lng)) {
+                resultBox.textContent = "❌ Please enter valid coordinates.";
+                resultBox.style.color = "red";
+                return;
+            }
+
+            console.log(`Checking coordinates: Latitude ${lat}, Longitude ${lng}`);
+
+            // ✅ Loop through existing polygons to check if point is inside
+            let isInside = false;
+            map.eachLayer((layer) => {
+                if (layer instanceof L.Polygon) {
+                    if (layer.getBounds().contains([lat, lng])) {
+                        isInside = true;
+                    }
+                }
+            });
+
+            // ✅ Display the result
+            if (isInside) {
+                resultBox.textContent = "✅ The coordinate is inside the mapped area!";
+                resultBox.style.color = "limegreen";
+            } else {
+                resultBox.textContent = "❌ The coordinate is outside the mapped area.";
+                resultBox.style.color = "red";
+            }
+
+            // ✅ Optional: Add a temporary marker at the inputted coordinate
+            L.marker([lat, lng], { icon: customIcon }).addTo(map)
+                .bindPopup(`📍 Checked Location:<br>Lat: ${lat}, Lng: ${lng}`)
+                .openPopup();
+        });
+    }
+});
+
+
 // ✅ Custom Marker Icon
 const customIcon = L.icon({
     iconUrl: "images/marker.png",
