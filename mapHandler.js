@@ -260,10 +260,13 @@ function filterSidebar() {
 
 // ✅ Setup Map with Sidebar & Data
 export async function setupMap() {
-    window.map = initializeMap();  // ✅ Store map globally
+    if (!window.map) {
+        window.map = initializeMap();  // ✅ Store map globally
+    }
     await loadMapAndSidebar(window.map);
     enableDoubleClickMarker(window.map);
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -283,9 +286,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log(`Checking coordinates: Latitude ${lat}, Longitude ${lng}`);
 
-            // ✅ Ensure map is globally accessible
-            if (typeof window.map === "undefined") {
-                console.error("❌ Map is not initialized.");
+            // ✅ Ensure `window.map` is initialized
+            if (!window.map || typeof window.map.eachLayer !== "function") {
+                console.error("❌ Map is not initialized or invalid.");
                 resultBox.textContent = "❌ Map is not ready!";
                 resultBox.style.color = "red";
                 return;
