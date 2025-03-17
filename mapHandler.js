@@ -227,18 +227,16 @@ export function enableDoubleClickMarker(map) {
 
 function filterSidebar() {
     let input = document.getElementById("searchInput").value.toLowerCase();
-    let companies = document.querySelectorAll("#sidebar .parent-item"); // ✅ Correctly selects companies
-    let locations = document.querySelectorAll("#sidebar .sublist li"); // ✅ Correctly selects locations
+    let companies = document.querySelectorAll("#sidebar .parent-item"); // ✅ Selects Pemegang Wilus
+    let locations = document.querySelectorAll("#sidebar .sublist li"); // ✅ Selects Nama Lokasi
 
-    let anyMatch = false; // Check if any result is found
+    let anyMatch = false; // Track if any result is found
 
-    // ✅ Loop through companies (Pemegang Wilus)
     companies.forEach((companyItem) => {
         let companyName = companyItem.textContent.toLowerCase();
-        let sublist = companyItem.nextElementSibling; // The <ul> sublist
+        let sublist = companyItem.querySelector(".sublist"); // ✅ Find sublist under company
         let hasVisibleLocation = false; // Track if any child matches
 
-        // ✅ Loop through locations inside each company
         if (sublist) {
             let subItems = sublist.querySelectorAll("li");
             subItems.forEach((location) => {
@@ -254,12 +252,12 @@ function filterSidebar() {
             });
         }
 
-        // ✅ Show the company if:
+        // ✅ Show company if:
         // - The company name matches the search OR
         // - Any of its locations are visible
         if (companyName.includes(input) || hasVisibleLocation) {
             companyItem.style.display = "block";
-            if (sublist) sublist.style.display = "block"; // Keep expanded
+            if (sublist) sublist.style.display = "block"; // Keep it expanded
             anyMatch = true;
         } else {
             companyItem.style.display = "none";
@@ -267,8 +265,8 @@ function filterSidebar() {
         }
     });
 
-    // ✅ If no results, display "No matches found" message
-    let sidebar = document.querySelector("#sidebar ul"); // ✅ Corrected selector
+    // ✅ If no results, show "No matches found"
+    let sidebar = document.querySelector("#sidebar ul"); 
     let noResults = document.getElementById("noResults");
 
     if (!anyMatch) {
@@ -284,6 +282,9 @@ function filterSidebar() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("searchInput").addEventListener("input", filterSidebar);
+});
 
 
 
