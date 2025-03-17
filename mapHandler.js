@@ -54,38 +54,6 @@ export async function loadMapAndSidebar(map) {
         groupedData[company].push(location);
     });
 
-    // ✅ Populate Sidebar & Map
-    for (const company in groupedData) {
-        let companyItem = document.createElement("li");
-        companyItem.classList.add("parent-item");
-        companyItem.textContent = company;
-
-        let sublist = document.createElement("ul");
-        sublist.classList.add("sublist");
-
-        groupedData[company].forEach((location) => {
-            let subItem = document.createElement("li");
-            subItem.textContent = location["Nama Lokasi"];
-
-            let shape; // Store either marker or polygon
-            
-            if (location.geom && location.geom.type === "Point") {  
-                let [lng, lat] = location.geom.coordinates;
-                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-            } 
-            else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
-                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-                
-                shape = L.polygon(polygonCoordinates, {
-                    color: "#0077b6",  
-                    fillColor: "#0096c7",
-                    fillOpacity: 0.4,  
-                    weight: 2
-                }).addTo(map);
-                shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-            }
-
        // ✅ Populate Sidebar & Map
 for (const company in groupedData) {
     let locations = groupedData[company];
