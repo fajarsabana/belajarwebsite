@@ -217,6 +217,7 @@ header, nav {
     color: white;
     font-family: Arial, sans-serif;
     overflow-y: auto; /* Enables scroll when content overflows */
+    resize: horizontal; /* Optional: allows resizing */
 }
 
 #sidebar::-webkit-scrollbar {
