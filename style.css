@@ -355,3 +355,15 @@ header, nav {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* ✅ Draggable Resize Handle */
+#resize-handle {
+    width: 5px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: ew-resize; /* Show resize cursor */
+    z-index: 10;
+}
+
