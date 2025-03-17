@@ -1,5 +1,16 @@
 import { fetchLocations } from "./supabase.js";
 
+// ✅ Setup Map with Sidebar & Data
+export async function setupMap() {
+    if (!window.map || typeof window.map.eachLayer !== "function") {
+        window.map = initializeMap();  // ✅ Store map globally
+        console.log("✅ Map initialized successfully.");
+    }
+    await loadMapAndSidebar(window.map);
+    enableDoubleClickMarker(window.map);
+}
+
+
 // ✅ Initialize Leaflet Map
 export function initializeMap() {
     const map = L.map("map", {
@@ -258,14 +269,8 @@ function filterSidebar() {
 
 
 
-// ✅ Setup Map with Sidebar & Data
-export async function setupMap() {
-    if (!window.map) {
-        window.map = initializeMap();  // ✅ Store map globally
-    }
-    await loadMapAndSidebar(window.map);
-    enableDoubleClickMarker(window.map);
-}
+
+
 
 
 
