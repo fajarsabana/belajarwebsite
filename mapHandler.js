@@ -282,6 +282,9 @@ function filterSidebar() {
 document.addEventListener("DOMContentLoaded", function () {
     const checkButton = document.getElementById("checkCoordinateBtn");
 
+    // ✅ Store all markers in an array
+    window.tempMarkers = [];
+
     if (checkButton) {
         checkButton.addEventListener("click", function () {
             const lat = parseFloat(document.getElementById("latInput").value);
@@ -294,9 +297,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            console.log(`Checking coordinates: Latitude ${lat}, Longitude ${lng}`);
+            console.log(`🔍 Checking coordinates: Latitude ${lat}, Longitude ${lng}`);
 
-            // ✅ Ensure `window.map` is initialized before using it
+            // ✅ Ensure map is initialized before using it
             if (!window.map || !(window.map instanceof L.Map)) {
                 console.error("❌ Map is not initialized or invalid.");
                 resultBox.textContent = "❌ Map is not ready!";
@@ -305,41 +308,46 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             let foundLocation = null;
+            let foundCompany = "Unknown"; // Default value if no match
+            let foundName = "Unknown"; // Default value if no match
 
             // ✅ Check if the point is inside any existing polygon
             window.map.eachLayer((layer) => {
-                if (layer instanceof L.Polygon) {
+                if (layer instanceof L.Polygon && layer.feature) {
                     if (layer.getBounds().contains([lat, lng])) {
                         foundLocation = layer;
+                        foundCompany = layer.feature.properties["Pemegang Wilus"] || "Unknown";
+                        foundName = layer.feature.properties["Nama Lokasi"] || "Unknown";
                     }
                 }
             });
 
             // ✅ Display the result
             if (foundLocation) {
-                resultBox.textContent = "✅ The coordinate is inside the mapped area!";
+                resultBox.textContent = `✅ The coordinate is inside ${foundName} (Pemegang Wilus: ${foundCompany})!`;
                 resultBox.style.color = "limegreen";
             } else {
                 resultBox.textContent = "❌ The coordinate is outside the mapped area.";
                 resultBox.style.color = "red";
             }
 
-            // ✅ Remove previous marker before adding a new one
-            if (window.activeMarker) {
-                window.map.removeLayer(window.activeMarker);
-                window.activeMarker = null; // ✅ Clear reference
-            }
+            // ✅ Remove all previous markers before adding a new one
+            window.tempMarkers.forEach(marker => window.map.removeLayer(marker));
+            window.tempMarkers = []; // ✅ Clear the array
 
-            // ✅ Create Marker Popup with "Lokasi Kawasan" and "Pemegang Wilus"
+            // ✅ Create Marker Popup with actual database values
             const popupContent = `
-                <b>📍 Lokasi Kawasan</b>: ${lat.toFixed(5)}, ${lng.toFixed(5)}<br>
-                🏢 <b>Pemegang Wilus</b>: ${foundLocation ? "Inside Kawasan" : "Outside Kawasan"}
+                <b>📍 Lokasi Kawasan</b>: ${foundName} <br>
+                🏢 <b>Pemegang Wilus</b>: ${foundCompany}
             `;
 
-            // ✅ Add new marker and store it in `window.activeMarker`
-            window.activeMarker = L.marker([lat, lng], { icon: customIcon }).addTo(window.map)
+            // ✅ Add new marker and store it in `window.tempMarkers`
+            const newMarker = L.marker([lat, lng], { icon: customIcon })
+                .addTo(window.map)
                 .bindPopup(popupContent)
                 .openPopup();
+
+            window.tempMarkers.push(newMarker); // ✅ Store marker to remove later
         });
     }
     // ✅ Sidebar Resize Function
