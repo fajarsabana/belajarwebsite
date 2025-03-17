@@ -46,60 +46,19 @@ export async function loadMapAndSidebar(map) {
         if (!location["Pemegang Wilus"] || !location["Nama Lokasi"] || !location.geom) return;
 
         let company = location["Pemegang Wilus"];
-        let place = location["Nama Lokasi"];
-
         if (!groupedData[company]) {
             groupedData[company] = [];
         }
         groupedData[company].push(location);
     });
 
-       // ✅ Populate Sidebar & Map
-for (const company in groupedData) {
-    let locations = groupedData[company];
+    // ✅ Populate Sidebar & Map
+    for (const company in groupedData) {
+        let locations = groupedData[company];
 
-    // If the company has only one location, display the location directly
-    if (locations.length === 1) {
-        let location = locations[0];
-        let subItem = document.createElement("li");
-        subItem.textContent = location["Nama Lokasi"];
-
-        // ✅ Click to Zoom
-        subItem.addEventListener("click", function (event) {
-            event.stopPropagation(); // Prevent sidebar toggle
-
-            console.log("📍 Sidebar location clicked:", location["Nama Lokasi"], location.geom);
-
-            if (location.geom && location.geom.type === "Point") {
-                map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14, { animate: true, duration: 1 });
-            } 
-            else if (location.geom && location.geom.type === "Polygon" 
-                && Array.isArray(location.geom.coordinates) 
-                && location.geom.coordinates.length > 0 
-                && Array.isArray(location.geom.coordinates[0])) {  
-
-                let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-                let bounds = L.latLngBounds(polygonCoordinates);
-                map.fitBounds(bounds, { animate: true, padding: [50, 50] });
-            } 
-            else {
-                console.warn("❌ No valid geometry for:", location["Nama Lokasi"]);
-            }
-        });
-
-        sidebar.appendChild(subItem); // ✅ Add directly without the company name
-    } 
-    else {
-        // If the company has multiple locations, create a collapsible company item
-        let companyItem = document.createElement("li");
-        companyItem.classList.add("parent-item");
-        companyItem.textContent = company;
-
-        let sublist = document.createElement("ul");
-        sublist.classList.add("sublist");
-        sublist.style.display = "none"; // Hide by default
-
-        locations.forEach((location) => {
+        // If the company has only one location, display the location directly
+        if (locations.length === 1) {
+            let location = locations[0];
             let subItem = document.createElement("li");
             subItem.textContent = location["Nama Lokasi"];
 
@@ -126,19 +85,58 @@ for (const company in groupedData) {
                 }
             });
 
-            sublist.appendChild(subItem);
-        });
+            sidebar.appendChild(subItem); // ✅ Add directly without the company name
+        } 
+        else {
+            // If the company has multiple locations, create a collapsible company item
+            let companyItem = document.createElement("li");
+            companyItem.classList.add("parent-item");
+            companyItem.textContent = company;
 
-        companyItem.appendChild(sublist);
-        sidebar.appendChild(companyItem);
+            let sublist = document.createElement("ul");
+            sublist.classList.add("sublist");
+            sublist.style.display = "none"; // Hide by default
 
-        // ✅ Toggle Company Item
-        companyItem.addEventListener("click", function () {
-            sublist.style.display = sublist.style.display === "none" ? "block" : "none";
-        });
+            locations.forEach((location) => {
+                let subItem = document.createElement("li");
+                subItem.textContent = location["Nama Lokasi"];
+
+                // ✅ Click to Zoom
+                subItem.addEventListener("click", function (event) {
+                    event.stopPropagation(); // Prevent sidebar toggle
+
+                    console.log("📍 Sidebar location clicked:", location["Nama Lokasi"], location.geom);
+
+                    if (location.geom && location.geom.type === "Point") {
+                        map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14, { animate: true, duration: 1 });
+                    } 
+                    else if (location.geom && location.geom.type === "Polygon" 
+                        && Array.isArray(location.geom.coordinates) 
+                        && location.geom.coordinates.length > 0 
+                        && Array.isArray(location.geom.coordinates[0])) {  
+
+                        let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+                        let bounds = L.latLngBounds(polygonCoordinates);
+                        map.fitBounds(bounds, { animate: true, padding: [50, 50] });
+                    } 
+                    else {
+                        console.warn("❌ No valid geometry for:", location["Nama Lokasi"]);
+                    }
+                });
+
+                sublist.appendChild(subItem);
+            });
+
+            companyItem.appendChild(sublist);
+            sidebar.appendChild(companyItem);
+
+            // ✅ Toggle Company Item
+            companyItem.addEventListener("click", function () {
+                sublist.style.display = sublist.style.display === "none" ? "block" : "none";
+            });
+        }
     }
 }
-
 
 // ✅ Double-Click to Add Marker
 export function enableDoubleClickMarker(map) {
