@@ -1,4 +1,6 @@
 import { fetchLocations } from "./supabase.js";
+const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+
 
 export async function setupMap() {
     if (!window.map || !(window.map instanceof L.Map)) {
