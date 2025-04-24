@@ -1,5 +1,4 @@
 import { fetchLocations } from "./supabase.js";
-const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
 
 
 export async function setupMap() {
@@ -140,7 +139,7 @@ export async function loadMapAndSidebar(map) {
                 else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
             let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
             
-           
+           const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
             shape = L.polygon(polygonCoordinates, {
                 color: randomColor,
                 fillColor: randomColor,
