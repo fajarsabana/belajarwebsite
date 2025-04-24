@@ -138,10 +138,11 @@ export async function loadMapAndSidebar(map) {
                 else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
             let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
             
+           
             shape = L.polygon(polygonCoordinates, {
-                color: "#0077b6",  
-                fillColor: "#0096c7",
-                fillOpacity: 0.4,  
+                color: randomColor,
+                fillColor: randomColor,
+                fillOpacity: 0.4,
                 weight: 2
             }).addTo(map);
         
