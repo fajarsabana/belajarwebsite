@@ -1,4 +1,5 @@
 import { fetchLocations } from "./supabase.js";
+const polygonColorMap = {};
 
 
 export async function setupMap() {
@@ -138,14 +139,19 @@ export async function loadMapAndSidebar(map) {
             } 
                 else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
             let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
-            
-           const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-            shape = L.polygon(polygonCoordinates, {
-                color: randomColor,
-                fillColor: randomColor,
-                fillOpacity: 0.4,
-                weight: 2
-            }).addTo(map);
+
+            const key = location["Nama Lokasi"];
+            if (!polygonColorMap[key]) {
+    polygonColorMap[key] = '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+           const randomColor = polygonColorMap[key];
+
+        shape = L.polygon(polygonCoordinates, {
+            color: randomColor,
+            fillColor: randomColor,
+            fillOpacity: 0.4,
+            weight: 2
+        }).addTo(map);
         
             // ✅ Attach actual data to the polygon layer using "feature" object
             shape.feature = shape.feature || {};
