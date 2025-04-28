@@ -134,11 +134,21 @@ export async function loadMapAndSidebar(map) {
             
             if (location.geom && location.geom.type === "Point") {  
                 let [lng, lat] = location.geom.coordinates;
-                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+                shape = L.marker([lat, lng], { icon: customIcon, draggable: true }).addTo(map);
                 shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
             } 
                 else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
             let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
+
+                shape.on('dragend', async function (e) {
+                const newLat = e.target.getLatLng().lat;
+                const newLng = e.target.getLatLng().lng;
+                console.log("🛠️ Marker dragged to:", newLat, newLng);
+            
+                // Call function to update database
+                await updateLocationInDatabase(location.id, newLat, newLng);
+            });
+
 
             const key = location["Nama Lokasi"];
             if (!polygonColorMap[key]) {
@@ -396,5 +406,38 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.style.cursor = "default";
     });
 });
+
+// ✅ Update a location's coordinates
+export async function updateLocation(id, latitude, longitude) {
+    const { data, error } = await supabaseClient
+        .from('your_table_name') // 👉 Change this to your table name
+        .update({ 
+            geom: {
+                type: "Point",
+                coordinates: [longitude, latitude]
+            }
+        })
+        .eq('id', id);
+
+    if (error) {
+        console.error("❌ Error updating location:", error);
+        return false;
+    }
+
+    console.log("✅ Location updated successfully:", data);
+    return true;
+}
+
+import { updateLocation } from './supabase.js';
+
+async function updateLocationInDatabase(id, latitude, longitude) {
+    await updateLocation(id, latitude, longitude);
+}
+
+if (activeMarker) {
+    activeMarker.setLatLng([lat, lng]);
+    await updateLocationInDatabase(activeMarker.customId, lat, lng); 
+}
+
 
 
