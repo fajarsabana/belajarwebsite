@@ -61,6 +61,30 @@ body, html {
   font-weight: bold;
 }
 
+.logout-btn {
+  background-color: #e53935;         /* Soft red */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn:hover {
+  background-color: #c62828;         /* Darker red on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logout-btn:focus,
+.logout-btn:active {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(229, 5, 53, 0.3);
+}
+
+
 
 /* Navigation 
 .nav-links {
