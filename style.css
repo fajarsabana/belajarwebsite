@@ -40,12 +40,25 @@ body, html {
 
 
 .nav-links {
-  color: white;
-  text-decoration: none;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    background: black;
+    padding: 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
 }
 
 .nav-links a:hover {
   color: orange;
+}
+
+.nav-links li {
+    margin: 0 15px;
 }
 
 .logout-btn {
