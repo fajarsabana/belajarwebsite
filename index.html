@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const supabase = createClient(
+    "https://jqueqchgsazhompvfifr.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdWVxY2hnc2F6aG9tcHZmaWZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NzM5MDIsImV4cCI6MjA1NjU0OTkwMn0.8q1m-jIL4kRgck4pwDfOYFHgFMSg2BIfBSTgIWBc_PE"
+  );
+
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    // User not logged in → redirect to login
+    window.location.href = "login.html";
+  }
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLN - DIV APR</title>
@@ -21,6 +37,15 @@
                 <li><a href="#contact" class="text-hover">Contact</a></li>
             </ul>
         </nav>
+        <button onclick="logout()">Logout</button>
+
+<script type="module">
+  window.logout = async function () {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+  };
+</script>
+
     </header>
 
 <section id="map-section">
