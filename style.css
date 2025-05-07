@@ -441,4 +441,13 @@ header, nav {
     margin-top: 5px;
 }
 
+.logout-btn {
+  margin-left: auto; /* Push it to far right */
+}
+
+.logout-btn a {
+  color: red; /* optional: make it stand out */
+  font-weight: bold;
+}
+
 
