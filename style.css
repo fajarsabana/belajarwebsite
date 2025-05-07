@@ -6,7 +6,8 @@ body, html {
     color: black;
 }
 
-nav {
+/* Navigation Container */
+.nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -14,20 +15,24 @@ nav {
   padding: 10px 20px;
 }
 
-.nav-logo img {
+/* Logo aligned left */
+.nav-logo {
   height: 40px;
+  margin-right: 20px;
 }
 
+/* Navigation Menu */
 .nav-links {
-  list-style: none;
   display: flex;
-  align-items: center;
+  list-style: none;
   margin: 0;
   padding: 0;
+ gap: 20px;
 }
 
 .nav-links li {
-  margin-left: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .nav-links a {
@@ -40,6 +45,11 @@ nav {
   color: orange;
 }
 
+/* Optional: logout highlight */
+.logout-btn a {
+  color: red;
+  font-weight: bold;
+}
 
 /* Navigation 
 .nav-links {
