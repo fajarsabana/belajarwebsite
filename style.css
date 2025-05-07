@@ -13,26 +13,18 @@ body, html {
   padding: 10px 20px;
 }
 
-.nav-left,
-.nav-center,
-.nav-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
+.nav-left {
+  flex: 0 0 auto;
 }
 
-.nav-left {
-  justify-content: flex-start;
+.nav-right {
+  flex: 0 0 auto;
 }
 
 .nav-center {
+  flex: 1;
   justify-content: center;
 }
-
-.nav-right {
-  justify-content: flex-end;
-}
-
 
 .nav-logo {
   height: 40px;
