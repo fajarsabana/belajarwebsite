@@ -9,7 +9,6 @@ body, html {
 .nav-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   background: black;
   padding: 10px 20px;
 }
@@ -34,17 +33,11 @@ body, html {
   justify-content: flex-end;
 }
 
+
 .nav-logo {
   height: 40px;
 }
 
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
-}
 
 .nav-links {
   color: white;
