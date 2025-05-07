@@ -6,7 +6,42 @@ body, html {
     color: black;
 }
 
-/* Navigation */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: black;
+  padding: 10px 20px;
+}
+
+.nav-logo img {
+  height: 40px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin-left: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+  color: orange;
+}
+
+
+/* Navigation 
 .nav-links {
     list-style: none;
     display: flex;
@@ -24,7 +59,7 @@ body, html {
     text-decoration: none;
     transition: color 0.3s ease-in-out;
 }
-
+*/
 /* Hover Effect */
 .nav-links a:hover {
     color: orange;
