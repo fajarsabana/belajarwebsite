@@ -91,26 +91,6 @@ body, html {
 }
 
 
-
-/* Navigation 
-.nav-links {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    background: black;
-    padding: 15px;
-}
-
-.nav-links li {
-    margin: 0 15px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease-in-out;
-}
-*/
 /* Hover Effect */
 .nav-links a:hover {
     color: orange;
