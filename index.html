@@ -17,6 +17,15 @@
   }
 </script>
 
+    <script>
+  // Pastikan supabase sudah tersimpan di window sebelumnya
+  async function logout() {
+    await window.supabase.auth.signOut();
+    window.location.href = "login.html";
+  }
+</script>
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLN - DIV APR</title>
@@ -38,14 +47,6 @@
             </ul>
         </nav>
         <button onclick="logout()">Logout</button>
-
-<script type="module">
-  window.logout = async function () {
-    await supabase.auth.signOut();
-    window.location.href = "login.html";
-  };
-</script>
-
     </header>
 
 <section id="map-section">
