@@ -38,7 +38,6 @@ body, html {
   height: 40px;
 }
 
-
 .nav-links {
     list-style: none;
     display: flex;
@@ -47,18 +46,19 @@ body, html {
     padding: 15px;
 }
 
+.nav-links li {
+    margin: 0 15px;
+}
+
 .nav-links a {
     color: white;
     text-decoration: none;
     transition: color 0.3s ease-in-out;
 }
 
+/* Hover Effect */
 .nav-links a:hover {
-  color: orange;
-}
-
-.nav-links li {
-    margin: 0 15px;
+    color: orange;
 }
 
 .logout-btn {
