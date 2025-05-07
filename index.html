@@ -9,21 +9,24 @@
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdWVxY2hnc2F6aG9tcHZmaWZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NzM5MDIsImV4cCI6MjA1NjU0OTkwMn0.8q1m-jIL4kRgck4pwDfOYFHgFMSg2BIfBSTgIWBc_PE"
   );
 
+  // ✅ This is the key
+  window.supabase = supabase;
+
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
-    // User not logged in → redirect to login
     window.location.href = "login.html";
   }
 </script>
 
-    <script>
-  // Pastikan supabase sudah tersimpan di window sebelumnya
+
+<script>
   async function logout() {
     await window.supabase.auth.signOut();
     window.location.href = "login.html";
   }
 </script>
+
 
 
     <meta charset="UTF-8">
