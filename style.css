@@ -601,14 +601,37 @@ header, nav {
 }
 
 .left-arrow {
-  left: 300px; /* Adjust to match sidebar width */
-  top: 15px;
-  z-index: 2001; /* above map/sidebar */
+  position: absolute;
+  left: 300px; /* match sidebar width */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2001;
   transition: left 0.3s ease;
 }
 
 #sidebar.collapsed + .left-arrow {
+  left: 0;
+}
+
+
+#sidebar.collapsed + .left-arrow {
   left: 0px; /* collapse state: button hugs left edge */
+}
+
+.right-arrow {
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2001;
+}
+
+@media (max-width: 768px) {
+  .collapse-arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
 }
 
 
