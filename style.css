@@ -579,10 +579,6 @@ header, nav {
   z-index: 1001;
 }
 
-/* LEFT button styles */
-.left-arrow {
-  right: -15px;
-}
 
 /* RIGHT button styles */
 .right-arrow {
@@ -599,6 +595,17 @@ header, nav {
 #info-panel.collapsed {
   transform: translateX(100%);
   transition: transform 0.3s ease;
+}
+
+.left-arrow {
+  left: 300px; /* Adjust to match sidebar width */
+  top: 15px;
+  z-index: 2001; /* above map/sidebar */
+  transition: left 0.3s ease;
+}
+
+#sidebar.collapsed + .left-arrow {
+  left: 0px; /* collapse state: button hugs left edge */
 }
 
 
