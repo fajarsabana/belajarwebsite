@@ -162,7 +162,8 @@ export async function loadMapAndSidebar(map) {
         
             shape.bindPopup(`
                 <b>📍 Lokasi Kawasan:</b> ${location["Nama Lokasi"] || "No Data"}<br>
-                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"] || "No Data"}
+                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"] || "No Data"}<br>
+                <a href="#" onclick="openInfoPanel('${location["Nama Lokasi"]}', 'Detail informasi akan diisi di sini'); return false;">More Info</a>
             `);
         }
 
