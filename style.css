@@ -564,19 +564,31 @@ header, nav {
     z-index: 9999;
 }
 
-/* Generic arrow button */
 .collapse-arrow {
   position: absolute;
-  top: 15px;
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
-  border: none;
-  background: white;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  font-size: 18px;
+  color: white;
   cursor: pointer;
-  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  z-index: 2001;
+}
+
+.collapse-arrow:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transform: translateY(-50%) scale(1.05);
 }
 
 .left-arrow {
