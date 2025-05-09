@@ -396,3 +396,18 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.style.cursor = "default";
     });
 });
+
+// ✅ Open Info Panel
+window.openInfoPanel = function(title, description) {
+    document.getElementById("info-content").innerHTML = `
+        <h4>${title}</h4>
+        <p>${description}</p>
+    `;
+    document.getElementById("info-panel").classList.add("show");
+}
+
+// ✅ Close Info Panel
+window.closeInfoPanel = function() {
+    document.getElementById("info-panel").classList.remove("show");
+}
+
