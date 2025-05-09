@@ -171,6 +171,9 @@ export async function loadMapAndSidebar(map) {
             // ✅ Click to Zoom into Shape
         subItem.addEventListener("click", function () {
             console.log("📍 Sidebar item clicked:", location["Nama Lokasi"], location.geom);
+
+            openInfoPanel(location["Nama Lokasi"], "Detail informasi akan diisi di sini");
+
             if (location.geom && location.geom.type === "Point") {
                 console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
                 map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14); // Ensure correct order
