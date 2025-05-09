@@ -564,8 +564,41 @@ header, nav {
     z-index: 9999;
 }
 
-.info-panel.collapsed {
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
+/* Generic arrow button */
+.collapse-arrow {
+  position: absolute;
+  top: 15px;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  border: none;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+  z-index: 1001;
 }
+
+/* LEFT button styles */
+.left-arrow {
+  right: -15px;
+}
+
+/* RIGHT button styles */
+.right-arrow {
+  left: -15px;
+}
+
+/* Collapsed sidebar */
+#sidebar.collapsed {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+/* Collapsed info panel */
+#info-panel.collapsed {
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
 
