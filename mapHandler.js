@@ -454,4 +454,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const infoPanel = document.getElementById("info-panel");
+    const toggleSidebarBtn = document.getElementById("toggleSidebar");
+    const toggleInfoPanelBtn = document.getElementById("toggleInfoPanel");
+
+    if (toggleSidebarBtn) {
+        toggleSidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+            toggleSidebarBtn.textContent = sidebar.classList.contains("collapsed") ? "▶" : "◀";
+        });
+    }
+
+    if (toggleInfoPanelBtn) {
+        toggleInfoPanelBtn.addEventListener("click", () => {
+            infoPanel.classList.toggle("collapsed");
+            toggleInfoPanelBtn.textContent = infoPanel.classList.contains("collapsed") ? "◀" : "▶";
+        });
+    }
+});
+
+
 
