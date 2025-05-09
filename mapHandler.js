@@ -437,17 +437,16 @@ window.closeInfoPanel = function() {
     window.infoPanelOpen = false;
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("sidebar");
     const infoPanel = document.getElementById("info-panel");
-    onst handle = document.getElementById("sidebar-toggle-handle");
+    const toggleSidebarHandle = document.getElementById("sidebar-toggle-handle");
     const toggleInfoPanelBtn = document.getElementById("toggleInfoPanel");
 
-    if (toggleSidebarBtn) {
-        toggleSidebarBtn.addEventListener("click", () => {
+    if (toggleSidebarHandle) {
+        toggleSidebarHandle.addEventListener("click", () => {
             sidebar.classList.toggle("collapsed");
-            toggleSidebarBtn.textContent = sidebar.classList.contains("collapsed") ? "▶" : "◀";
+            toggleSidebarHandle.textContent = sidebar.classList.contains("collapsed") ? "▶" : "◀";
         });
     }
 
@@ -458,5 +457,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
 
 
