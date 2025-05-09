@@ -646,4 +646,32 @@ header, nav {
   }
 }
 
+/* Vertical toggle handle */
+.sidebar-handle {
+  position: absolute;
+  top: 0;
+  left: 300px;
+  height: 100%;
+  width: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border-radius: 0 10px 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 2001;
+  transition: left 0.3s ease, background 0.3s ease;
+}
+
+.sidebar-handle:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* When sidebar is collapsed */
+#sidebar.collapsed + .sidebar-handle {
+  left: 0;
+}
 
