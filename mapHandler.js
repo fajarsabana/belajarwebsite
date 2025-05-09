@@ -437,3 +437,21 @@ window.closeInfoPanel = function() {
     window.infoPanelOpen = false;
 }
 
+// ✅ Sidebar collapse button
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleSidebarBtn = document.getElementById("toggleSidebar");
+    if (toggleSidebarBtn) {
+        toggleSidebarBtn.addEventListener("click", () => {
+            document.getElementById("sidebar").classList.toggle("collapsed");
+        });
+    }
+
+    const toggleInfoPanelBtn = document.getElementById("toggleInfoPanel");
+    if (toggleInfoPanelBtn) {
+        toggleInfoPanelBtn.addEventListener("click", () => {
+            document.getElementById("info-panel").classList.toggle("collapsed");
+        });
+    }
+});
+
+
