@@ -172,7 +172,12 @@ export async function loadMapAndSidebar(map) {
         subItem.addEventListener("click", function () {
             console.log("📍 Sidebar item clicked:", location["Nama Lokasi"], location.geom);
 
-            openInfoPanel(location["Nama Lokasi"], "Detail informasi akan diisi di sini");
+                            if (window.infoPanelOpen) {
+                    openInfoPanel(
+                        location["Nama Lokasi"],
+                        `UID: ${location["UID"]}<br>Pemegang Wilus: ${location["Pemegang Wilus"]}`
+                    );
+                }
 
             if (location.geom && location.geom.type === "Point") {
                 console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
@@ -401,6 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+window.infoPanelOpen = false;
 // ✅ Open Info Panel
 window.openInfoPanel = function(title, description) {
     document.getElementById("info-content").innerHTML = `
@@ -408,10 +414,12 @@ window.openInfoPanel = function(title, description) {
         <p>${description}</p>
     `;
     document.getElementById("info-panel").classList.add("show");
+    window.infoPanelOpen = true;
 }
 
 // ✅ Close Info Panel
 window.closeInfoPanel = function() {
     document.getElementById("info-panel").classList.remove("show");
+    window.infoPanelOpen = false;
 }
 
