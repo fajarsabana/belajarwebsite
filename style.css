@@ -514,4 +514,35 @@ header, nav {
   font-weight: bold;
 }
 
+/* Right Info Panel */
+.info-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+    z-index: 2000;
+    padding: 20px;
+    transition: transform 0.3s ease;
+    transform: translateX(100%);
+}
+
+.info-panel.show {
+    transform: translateX(0);
+}
+
+.info-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-panel-header button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
 
