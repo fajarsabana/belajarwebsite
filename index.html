@@ -79,9 +79,21 @@
             <ul> <!-- Dynamic categories will be inserted here --> </ul>
         </div>
     </aside>
-
+    
     <!-- Map -->
     <div id="map"></div>
+
+    <!-- Tambahkan di index.html setelah #map-section -->
+<div id="info-panel" class="info-panel hidden">
+    <div class="info-panel-header">
+        <h3>Detail Lokasi</h3>
+        <button onclick="closeInfoPanel()">×</button>
+    </div>
+    <div id="info-content">
+        <!-- Dynamic content will go here -->
+    </div>
+</div>
+
 </section>
 
 
