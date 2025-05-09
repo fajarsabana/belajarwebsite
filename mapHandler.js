@@ -441,7 +441,7 @@ window.closeInfoPanel = function() {
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("sidebar");
     const infoPanel = document.getElementById("info-panel");
-    const toggleSidebarBtn = document.getElementById("toggleSidebar");
+    onst handle = document.getElementById("sidebar-toggle-handle");
     const toggleInfoPanelBtn = document.getElementById("toggleInfoPanel");
 
     if (toggleSidebarBtn) {
@@ -458,6 +458,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
 
 
