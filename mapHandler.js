@@ -29,32 +29,27 @@ export function initializeMap() {
         wheelPxPerZoomLevel: 60
     }).setView([-6.2088, 106.8456], 10); // Default center: Jakarta
 
-
+    const baseMaps = {
+        "OpenStreetMap": L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "&copy; OpenStreetMap contributors"
+        }),
+        "Esri Satellite": L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+            attribution: "Tiles © Esri"
+        }),
+        "Carto Light": L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+            attribution: "&copy; Carto"
+        })
+    };
     
-    // ✅ Load Map Tiles
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors",
-    }).addTo(map);
-
+    baseMaps["OpenStreetMap"].addTo(map); // default layer
+    
+    L.control.layers(baseMaps).addTo(map); // ✅ add layer switcher
+    
     console.log("✅ Leaflet Map Initialized");
     return map;
 }
 
-const baseMaps = {
-    "OpenStreetMap": L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors"
-    }),
-    "Esri Satellite": L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-        attribution: "Tiles © Esri"
-    }),
-    "Carto Light": L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: "&copy; Carto"
-    })
-};
 
-baseMaps["OpenStreetMap"].addTo(map); // default layer
-
-L.control.layers(baseMaps).addTo(map); // ✅ add layer switcher
 
 
 document.addEventListener("DOMContentLoaded", function () {
