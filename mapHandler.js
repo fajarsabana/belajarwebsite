@@ -129,6 +129,8 @@ export async function loadMapAndSidebar(map) {
     console.log("Fetching locations from Supabase...");
     const locations = await fetchLocations();
     console.log("Locations received:", locations);
+    document.getElementById("wilusCount").textContent = locations.length;
+
 
     const sidebar = document.querySelector(".sidebar ul");
     if (!sidebar) {
