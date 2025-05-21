@@ -9,6 +9,25 @@ export async function setupMap() {
     }
     await loadMapAndSidebar(window.map);
     enableDoubleClickMarker(window.map);
+
+    document.getElementById("resetMapBtn").addEventListener("click", () => {
+  if (window.map) {
+    window.map.setView([-2.5489, 118.0149], 5);
+    document.getElementById("wilusInfoBox").style.opacity = 1;
+  }
+});
+
+window.map.on("zoomstart", () => {
+  document.getElementById("wilusInfoBox").style.opacity = 0;
+});
+
+window.map.on("zoomend", () => {
+  const zoom = window.map.getZoom();
+  if (zoom <= 6) {
+    document.getElementById("wilusInfoBox").style.opacity = 1;
+  }
+});
+
 }
 
 // ✅ Ensure `setupMap()` runs on page load
