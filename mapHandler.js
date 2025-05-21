@@ -27,7 +27,7 @@ export function initializeMap() {
         zoomSnap: 0.5,
         zoomDelta: 0.5,
         wheelPxPerZoomLevel: 60
-    }).setView([-6.2088, 106.8456], 10); // Default center: Jakarta
+    }).setView([-2.5489, 118.0149], 5); // Default center: Indonesia
 
     const baseMaps = {
         "OpenStreetMap": L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
