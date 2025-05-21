@@ -126,6 +126,7 @@ const customIcon = L.icon({
 
 // ✅ Function to Load Data & Populate Map + Sidebar
 export async function loadMapAndSidebar(map) {
+    const markerCluster = L.markerClusterGroup();
     console.log("Fetching locations from Supabase...");
     const locations = await fetchLocations();
     console.log("Locations received:", locations);
@@ -169,8 +170,11 @@ export async function loadMapAndSidebar(map) {
             
             if (location.geom && location.geom.type === "Point") {  
                 let [lng, lat] = location.geom.coordinates;
-                shape = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+                shape = L.marker([lat, lng], { icon: customIcon });
+                markerCluster.addLayer(shape);
+
                 shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
+                map.addLayer(markerCluster);
             } 
                 else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
             let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
