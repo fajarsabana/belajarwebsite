@@ -444,19 +444,25 @@ document.addEventListener("DOMContentLoaded", function () {
 window.infoPanelOpen = false;
 // ✅ Open Info Panel
 window.openInfoPanel = function(title, description) {
+    const panel = document.getElementById("info-panel");
+    panel.classList.remove("collapsed");  // 🔧 ensure it's visible
+    panel.classList.add("show");
+
     document.getElementById("info-content").innerHTML = `
         <h4>${title}</h4>
         <p>${description}</p>
     `;
-    document.getElementById("info-panel").classList.add("show");
     window.infoPanelOpen = true;
 }
 
 // ✅ Close Info Panel
 window.closeInfoPanel = function() {
-    document.getElementById("info-panel").classList.remove("show");
+    const panel = document.getElementById("info-panel");
+    panel.classList.remove("show");
+    panel.classList.add("collapsed");
     window.infoPanelOpen = false;
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("sidebar");
