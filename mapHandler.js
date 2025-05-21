@@ -127,6 +127,7 @@ const customIcon = L.icon({
 // ✅ Function to Load Data & Populate Map + Sidebar
 export async function loadMapAndSidebar(map) {
     const markerCluster = L.markerClusterGroup();
+    const polygonLayerGroup = L.layerGroup();
     console.log("Fetching locations from Supabase...");
     const locations = await fetchLocations();
     console.log("Locations received:", locations);
@@ -174,7 +175,6 @@ export async function loadMapAndSidebar(map) {
                 markerCluster.addLayer(shape);
 
                 shape.bindPopup(`<b>${location["Nama Lokasi"]}</b><br>🏢 ${company}`);
-                map.addLayer(markerCluster);
             } 
                 else if (location.geom && location.geom.type === "Polygon" && Array.isArray(location.geom.coordinates) && location.geom.coordinates.length > 0) {  
             let polygonCoordinates = location.geom.coordinates[0].map(coord => [coord[1], coord[0]]);
@@ -190,20 +190,25 @@ export async function loadMapAndSidebar(map) {
             fillColor: randomColor,
             fillOpacity: 0.4,
             weight: 2
-        }).addTo(map);
+        })
+            polygonLayerGroup.addLayer(shape); // Don't add to map yet, just to group
+
+            // Make marker at polygon center:
+            let center = shape.getBounds().getCenter();
+            let marker = L.marker(center, { icon: customIcon });
+            marker.bindPopup(`
+                <b>📍 Lokasi Kawasan:</b> ${location["Nama Lokasi"]}<br>
+                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"]}
+            `);
+            markerCluster.addLayer(marker);
         
-            // ✅ Attach actual data to the polygon layer using "feature" object
             shape.feature = shape.feature || {};
             shape.feature.properties = {
                 "Pemegang Wilus": location["Pemegang Wilus"] || "No Data",
                 "Nama Lokasi": location["Nama Lokasi"] || "No Data"
             };
+                    
         
-            shape.bindPopup(`
-                <b>📍 Lokasi Kawasan:</b> ${location["Nama Lokasi"] || "No Data"}<br>
-                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"] || "No Data"}<br>
-                <a href="#" onclick="openInfoPanel('${location["Nama Lokasi"]}', 'Detail informasi akan diisi di sini'); return false;">More Info</a>
-            `);
         }
 
 
@@ -260,6 +265,21 @@ export async function loadMapAndSidebar(map) {
     }
 
     console.log("✅ Map and Sidebar Loaded Successfully!");
+    map.addLayer(markerCluster); // Show markers initially
+    map.removeLayer(polygonLayerGroup); // ✅ hide polygon by default
+    map.on("zoomend", () => {
+    const zoom = map.getZoom();
+
+    if (zoom >= 12) {
+        map.removeLayer(markerCluster);
+        map.addLayer(polygonLayerGroup);
+    } else {
+        map.addLayer(markerCluster);
+        map.removeLayer(polygonLayerGroup);
+    }
+});
+
+
 }
 
 // ✅ Double-Click to Add Marker
