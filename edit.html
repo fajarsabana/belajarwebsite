@@ -136,35 +136,44 @@
     }
 
     document.getElementById("saveBtn").addEventListener("click", async () => {
-      const orderValues = markers.map(m => parseInt(m.input.value));
-      const uniqueOrderCount = new Set(orderValues).size;
-      if (uniqueOrderCount !== orderValues.length) {
-        alert("Duplicate order numbers detected. Please ensure all are unique.");
-        return;
-      }
+      try {
+        const orderValues = markers.map(m => {
+          const val = parseInt(m.input.value);
+          if (isNaN(val)) throw new Error("All order inputs must be filled with numbers.");
+          return val;
+        });
 
-      const ordered = markers
-        .map(m => ({ latlng: m.marker.getLatLng(), order: parseInt(m.input.value) }))
-        .sort((a, b) => a.order - b.order)
-        .map(m => [m.latlng.lng, m.latlng.lat]);
+        const uniqueOrderCount = new Set(orderValues).size;
+        if (uniqueOrderCount !== orderValues.length) {
+          alert("Duplicate order numbers detected. Please ensure all are unique.");
+          return;
+        }
 
-      ordered.push(ordered[0]);
+        const ordered = markers
+          .map(m => ({ latlng: m.marker.getLatLng(), order: parseInt(m.input.value) }))
+          .sort((a, b) => a.order - b.order)
+          .map(m => [m.latlng.lng, m.latlng.lat]);
 
-      const newGeom = {
-        type: "Polygon",
-        coordinates: [ordered]
-      };
+        ordered.push(ordered[0]);
 
-      const { error } = await supabase
-        .from("wilus_mapping_duplicate")
-        .update({ geom: newGeom })
-        .eq("UID", currentUID);
+        const newGeom = {
+          type: "Polygon",
+          coordinates: [ordered]
+        };
 
-      if (error) {
-        alert("Failed to save: " + error.message);
-      } else {
-        alert("Polygon updated successfully!");
-        location.reload();
+        const { error } = await supabase
+          .from("wilus_mapping_duplicate")
+          .update({ geom: newGeom })
+          .eq("UID", currentUID);
+
+        if (error) {
+          alert("Failed to save: " + error.message);
+        } else {
+          alert("Polygon updated successfully!");
+          location.reload();
+        }
+      } catch (e) {
+        alert(e.message);
       }
     });
 
