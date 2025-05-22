@@ -8,6 +8,37 @@
   <script type="module" src="script.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    .insert-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      padding: 40px 60px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .insert-left,
+    .insert-right {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .insert-left {
+      max-width: 450px;
+    }
+
+    .insert-right {
+      min-width: 400px;
+    }
+
+    .point-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -17,9 +48,9 @@
       </div>
       <div class="nav-center">
         <ul class="nav-links">
-        <li><a href="index.html" class="text-hover">Home</a></li>
-        <li><a href="index.html" class="text-hover">Pemetaan Wilayah Usaha</a></li>
-        <li><a href="insert.html" class="text-hover">Wilus Baru</a></li>
+          <li><a href="index.html" class="text-hover">Home</a></li>
+          <li><a href="index.html" class="text-hover">Pemetaan Wilayah Usaha</a></li>
+          <li><a href="insert.html" class="text-hover">Wilus Baru</a></li>
         </ul>
       </div>
       <div class="nav-right">
@@ -30,46 +61,48 @@
 
   <section id="insert-wilus" class="fade-in">
     <h2>Form Input Wilus Baru</h2>
-    <div class="form-section">
+    <div class="insert-wrapper">
+      <div class="insert-left">
+        <label>UID</label>
+        <select id="uid" required>
+          <option value="">-- Pilih UID Wilayah --</option>
+          <option value="UID Aceh">UID Aceh</option>
+          <option value="UID Sumut">UID Sumut</option>
+          <option value="UID RKR">UID RKR</option>
+          <option value="UID S2JB">UID S2JB</option>
+          <option value="UID Lampung">UID Lampung</option>
+          <option value="UID Kaltimra">UID Kaltimra</option>
+          <option value="UID Kalselteng">UID Kalselteng</option>
+          <option value="UID Banten">UID Banten</option>
+          <option value="UID Jaya">UID Jaya</option>
+          <option value="UID Jabar">UID Jabar</option>
+          <option value="UID Jateng & DIY">UID Jateng & DIY</option>
+          <option value="UID Jatim">UID Jatim</option>
+          <option value="UID Bali">UID Bali</option>
+          <option value="UID NTB">UID NTB</option>
+          <option value="UID NTT">UID NTT</option>
+          <option value="UID Sulutenggo">UID Sulutenggo</option>
+          <option value="UID Sulselrabar">UID Sulselrabar</option>
+          <option value="UID MMU">UID MMU</option>
+          <option value="UID P2B">UID P2B</option>
+        </select>
 
-      <label>UID</label>
-      <select id="uid" required>
-        <option value="">-- Pilih UID Wilayah --</option>
-        <option value="UID Aceh">UID Aceh</option>
-        <option value="UID Sumut">UID Sumut</option>
-        <option value="UID RKR">UID RKR</option>
-        <option value="UID S2JB">UID S2JB</option>
-        <option value="UID Lampung">UID Lampung</option>
-        <option value="UID Kaltimra">UID Kaltimra</option>
-        <option value="UID Kalselteng">UID Kalselteng</option>
-        <option value="UID Banten">UID Banten</option>
-        <option value="UID Jaya">UID Jaya</option>
-        <option value="UID Jabar">UID Jabar</option>
-        <option value="UID Jateng & DIY">UID Jateng & DIY</option>
-        <option value="UID Jatim">UID Jatim</option>
-        <option value="UID Bali">UID Bali</option>
-        <option value="UID NTB">UID NTB</option>
-        <option value="UID NTT">UID NTT</option>
-        <option value="UID Sulutenggo">UID Sulutenggo</option>
-        <option value="UID Sulselrabar">UID Sulselrabar</option>
-        <option value="UID MMU">UID MMU</option>
-        <option value="UID P2B">UID P2B</option>
-      </select>
+        <label>Pemegang Wilus</label>
+        <input type="text" id="pemegang" required>
 
-      <label>Pemegang Wilus</label>
-      <input type="text" id="pemegang" required>
+        <label>Nama Lokasi</label>
+        <input type="text" id="nama" required>
 
-      <label>Nama Lokasi</label>
-      <input type="text" id="nama" required>
+        <h4>Koordinat (Latitude / Longitude)</h4>
+        <div id="points-container"></div>
+        <button class="fancy-btn" onclick="addPointRow()">+ Add Point</button>
+      </div>
 
-      <h4>Koordinat (Lattitude / Longitude</h4>
-      <div id="points-container"></div>
-      <button class="fancy-btn" onclick="addPointRow()">+ Add Point</button>
-
-      <div id="mapPreview" style="height: 300px; margin-top: 20px;"></div>
-      <button class="fancy-btn" onclick="previewPolygon()">🔍 Preview Polygon</button>
-      <button class="fancy-btn" onclick="submitWilus()">🚀 Submit to Staging</button>
-
+      <div class="insert-right">
+        <div id="mapPreview" style="height: 300px; margin-bottom: 20px;"></div>
+        <button class="fancy-btn" onclick="previewPolygon()">🔍 Preview Polygon</button>
+        <button class="fancy-btn" onclick="submitWilus()">🚀 Submit to Staging</button>
+      </div>
     </div>
   </section>
 
