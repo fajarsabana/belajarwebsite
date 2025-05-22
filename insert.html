@@ -1,77 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insert New Wilus</title>
+  <title>PLN - Insert New Wilus</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="script.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-
 <body>
-  <div id="wrapper">
-    <nav class="navbar-default navbar-static-side" role="navigation">
-      <div class="sidebar-collapse">
-        <ul class="nav metismenu" id="side-menu">
-          <li class="nav-header">
-            <div class="dropdown profile-element">
-              <img alt="image" class="rounded-circle" src="img/profile_small.jpg" />
-              <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <span class="block m-t-xs font-bold">SI JONI</span>
-              </a>
-            </div>
-          </li>
-          <li><a href="index.html"> <span class="nav-label">Dashboard</span></a></li>
-          <li><a href="insert.html" class="active"> <span class="nav-label">Insert New Wilus</span></a></li>
+  <header>
+    <nav class="nav-container">
+      <div class="nav-left">
+        <img src="Logo_PLN.svg" alt="PLN Logo" class="nav-logo" />
+      </div>
+      <div class="nav-center">
+        <ul class="nav-links">
+          <li><a href="index.html" class="text-hover">Home</a></li>
+          <li><a href="#portfolio" class="text-hover">Pemetaan Wilayah Usaha</a></li>
+          <li><a href="#testimonials" class="text-hover">Kawasan Industri</a></li>
+          <li><a href="#contact" class="text-hover">Kawasan Ekonomi Khusus</a></li>
+          <li><a href="edit.html" class="text-hover">Edit Polygon</a></li>
         </ul>
       </div>
+      <div class="nav-right">
+        <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+      </div>
     </nav>
+  </header>
 
-    <div id="page-wrapper" class="gray-bg">
-      <div class="row border-bottom">
-        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-          <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i></a>
-          </div>
-        </nav>
-      </div>
+  <section id="insert-wilus" class="fade-in">
+    <h2>Insert New Wilus (Staging)</h2>
+    <div class="form-section">
+      <label>UID</label>
+      <input type="text" id="uid" required>
 
-      <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="ibox-content">
-          <h2>Insert New Wilus (Staging)</h2>
-          <div class="form-group">
-            <label>UID</label>
-            <input type="text" id="uid" class="form-control" required>
-          </div>
+      <label>Pemegang Wilus</label>
+      <input type="text" id="pemegang" required>
 
-          <div class="form-group">
-            <label>Pemegang Wilus</label>
-            <input type="text" id="pemegang" class="form-control" required>
-          </div>
+      <label>Nama Lokasi</label>
+      <input type="text" id="nama" required>
 
-          <div class="form-group">
-            <label>Nama Lokasi</label>
-            <input type="text" id="nama" class="form-control" required>
-          </div>
+      <h4>Polygon Points (Lat/Lng)</h4>
+      <div id="points-container"></div>
+      <button type="button" onclick="addPointRow()">+ Add Point</button>
 
-          <h4>Polygon Points (Lat/Lng)</h4>
-          <div id="points-container"></div>
-          <button type="button" onclick="addPointRow()" class="btn btn-secondary">+ Add Point</button>
-
-          <div id="mapPreview" style="height: 300px; margin-top: 20px;"></div>
-
-          <button onclick="previewPolygon()" class="btn btn-info">Preview Polygon</button>
-          <button onclick="submitWilus()" class="btn btn-success">Submit to Staging</button>
-        </div>
-      </div>
+      <div id="mapPreview" style="height: 300px; margin-top: 20px;"></div>
+      <button onclick="previewPolygon()">Preview Polygon</button>
+      <button onclick="submitWilus()">Submit to Staging</button>
     </div>
-  </div>
+  </section>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <footer>
+    <p>© 2025 DIV APR. All rights reserved.</p>
+  </footer>
+
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
     const supabase = createClient(
       "https://jqueqchgsazhompvfifr.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdWVxY2hnc2F6aG9tcHZmaWZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NzM5MDIsImV4cCI6MjA1NjU0OTkwMn0.8q1m-jIL4kRgck4pwDfOYFHgFMSg2BIfBSTgIWBc_PE"
@@ -87,10 +73,10 @@
 
     function addPointRow() {
       const div = document.createElement("div");
-      div.className = "point-row form-group";
+      div.className = "point-row";
       div.innerHTML = `
-        <input type="number" step="any" placeholder="Latitude" class="form-control" required>
-        <input type="number" step="any" placeholder="Longitude" class="form-control" required>
+        <input type="number" step="any" placeholder="Latitude" required>
+        <input type="number" step="any" placeholder="Longitude" required>
       `;
       container.appendChild(div);
     }
@@ -158,6 +144,10 @@
         location.reload();
       }
     }
+
+    window.addPointRow = addPointRow;
+    window.previewPolygon = previewPolygon;
+    window.submitWilus = submitWilus;
   </script>
 </body>
 </html>
