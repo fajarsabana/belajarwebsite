@@ -726,3 +726,49 @@ header, nav {
   box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
+/* Title styling */
+#insert-wilus h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Input field styling */
+.form-section {
+  max-width: 600px;
+  margin: auto;
+  text-align: left;
+}
+
+.form-section label {
+  font-weight: bold;
+  display: block;
+  margin: 20px 0 8px;
+  font-size: 15px;
+}
+
+.form-section input[type="text"],
+.form-section input[type="number"] {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  transition: border-color 0.3s ease;
+}
+
+.form-section input:focus {
+  border-color: orange;
+  outline: none;
+}
+
+/* Point rows */
+.point-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
