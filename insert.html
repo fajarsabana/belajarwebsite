@@ -96,8 +96,8 @@
       const div = document.createElement("div");
       div.className = "point-row";
       div.innerHTML = `
-        <input type="number" step="any" placeholder="Latitude" required>
-        <input type="number" step="any" placeholder="Longitude" required>
+        <input type="number" step="any" placeholder="Latitude">
+        <input type="number" step="any" placeholder="Longitude">
       `;
       container.appendChild(div);
     }
@@ -105,16 +105,24 @@
     for (let i = 0; i < 5; i++) addPointRow();
 
     function getPolygonCoords() {
-      return [...container.querySelectorAll(".point-row")].map(row => {
-        const inputs = row.querySelectorAll("input");
-        return [parseFloat(inputs[1].value), parseFloat(inputs[0].value)];
-      });
+      return [...container.querySelectorAll(".point-row")]
+        .map(row => {
+          const inputs = row.querySelectorAll("input");
+          const lat = parseFloat(inputs[0].value);
+          const lng = parseFloat(inputs[1].value);
+          if (!isNaN(lat) && !isNaN(lng)) {
+            return [lng, lat];
+          } else {
+            return null;
+          }
+        })
+        .filter(p => p !== null);
     }
 
     function previewPolygon() {
       const coords = getPolygonCoords();
-      if (coords.some(p => isNaN(p[0]) || isNaN(p[1]))) {
-        alert("Please fill all coordinates correctly.");
+      if (coords.length < 3) {
+        alert("Polygon must have at least 3 valid points.");
         return;
       }
       coords.push(coords[0]);
@@ -139,7 +147,7 @@
       }
 
       const coords = getPolygonCoords();
-      if (coords.length < 3 || coords.some(p => isNaN(p[0]) || isNaN(p[1]))) {
+      if (coords.length < 3) {
         alert("Polygon must have at least 3 valid points.");
         return;
       }
