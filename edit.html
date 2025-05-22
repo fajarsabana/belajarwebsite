@@ -16,7 +16,7 @@
       font-size: 12px;
       width: 40px;
     }
-    #saveBtn, #uidSelect {
+    #saveBtn, #locationSelect {
       position: absolute;
       top: 10px;
       z-index: 1000;
@@ -26,12 +26,12 @@
       font-size: 14px;
     }
     #saveBtn {
-      left: 160px;
+      left: 200px;
       background: #007bff;
       color: white;
       cursor: pointer;
     }
-    #uidSelect {
+    #locationSelect {
       left: 10px;
     }
     .leaflet-tooltip.label-input-tooltip {
@@ -43,7 +43,7 @@
   </style>
 </head>
 <body>
-  <select id="uidSelect"><option disabled selected>Loading...</option></select>
+  <select id="locationSelect"><option disabled selected>Loading...</option></select>
   <button id="saveBtn" disabled>Save Order</button>
   <div id="map"></div>
 
@@ -60,38 +60,40 @@
       attribution: "&copy; OpenStreetMap contributors"
     }).addTo(map);
 
-    let markers = [], polygonLayer = null, currentUID = null;
+    let markers = [], polygonLayer = null, currentLocationName = null;
 
-    async function loadUIDOptions() {
+    async function loadLocationOptions() {
       const { data, error } = await supabase.rpc("get_wilus_mapping_duplicate");
       if (error || !data) {
-        alert("Failed to load UID options");
+        alert("Failed to load location options");
         return;
       }
 
-      const select = document.getElementById("uidSelect");
-      select.innerHTML = '<option disabled selected>Select a UID</option>';
-      data.forEach(item => {
+      const select = document.getElementById("locationSelect");
+      select.innerHTML = '<option disabled selected>Select a Location</option>';
+      const uniqueLocations = Array.from(new Set(data.map(d => d["Nama Lokasi"])));
+
+      uniqueLocations.forEach(nama => {
         const opt = document.createElement("option");
-        opt.value = item.UID;
-        opt.textContent = `${item.UID} — ${item["Pemegang Wilus"] || "Unknown"}`;
+        opt.value = nama;
+        opt.textContent = nama;
         select.appendChild(opt);
       });
     }
 
-    document.getElementById("uidSelect").addEventListener("change", async function () {
-      if (this.value === currentUID) return; // prevent redundant reload
-      currentUID = this.value;
-      await loadPolygon(currentUID);
+    document.getElementById("locationSelect").addEventListener("change", async function () {
+      if (this.value === currentLocationName) return;
+      currentLocationName = this.value;
+      await loadPolygonByLocation(currentLocationName);
       document.getElementById("saveBtn").disabled = false;
     });
 
-    async function loadPolygon(uid) {
-      console.log("Loading polygon for UID:", uid);
+    async function loadPolygonByLocation(namaLokasi) {
+      console.log("Loading polygon for location:", namaLokasi);
       const { data, error } = await supabase.rpc("get_wilus_mapping_duplicate");
       if (error || !data) return alert("Failed to fetch polygon");
 
-      const polygon = data.find(p => p.UID === uid);
+      const polygon = data.find(p => p["Nama Lokasi"] === namaLokasi);
       if (!polygon || !polygon.geom) return alert("Polygon not found");
 
       if (polygonLayer) map.removeLayer(polygonLayer);
@@ -173,7 +175,7 @@
         const { error } = await supabase
           .from("wilus_mapping_duplicate")
           .update({ geom: newGeom })
-          .eq("UID", currentUID);
+          .eq("Nama Lokasi", currentLocationName);
 
         if (error) {
           alert("Failed to save: " + error.message);
@@ -186,7 +188,7 @@
       }
     });
 
-    loadUIDOptions();
+    loadLocationOptions();
   </script>
 </body>
 </html>
