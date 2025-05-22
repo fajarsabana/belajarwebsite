@@ -772,3 +772,12 @@ header, nav {
   margin-bottom: 10px;
 }
 
+select#uid {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
