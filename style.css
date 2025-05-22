@@ -705,4 +705,24 @@ header, nav {
   transition: opacity 0.3s ease-in-out;
 }
 
+/* Fancy Button Styling */
+.fancy-btn {
+  background-color: #000; /* hitam */
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 20px; /* spacing dari atas */
+  margin-right: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.fancy-btn:hover {
+  background-color: orange;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
 
