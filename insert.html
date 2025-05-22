@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert New Wilus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    input[type="text"], input[type="number"] {
+      padding: 6px;
+      margin: 5px;
+      width: 200px;
+    }
+    .point-row {
+      margin-bottom: 8px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 12px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Insert New Wilus</h2>
+
+  <label>UID:</label>
+  <input type="text" id="uid"><br>
+
+  <label>Pemegang Wilus:</label>
+  <input type="text" id="pemegang"><br>
+
+  <label>Nama Lokasi:</label>
+  <input type="text" id="nama"><br>
+
+  <h4>Polygon Points (Lat/Lng):</h4>
+  <div id="points-container"></div>
+  <button onclick="addPointRow()">+ Add Point</button><br><br>
+
+  <button onclick="submitWilus()">Submit</button>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const supabase = createClient(
+      "https://jqueqchgsazhompvfifr.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdWVxY2hnc2F6aG9tcHZmaWZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NzM5MDIsImV4cCI6MjA1NjU0OTkwMn0.8q1m-jIL4kRgck4pwDfOYFHgFMSg2BIfBSTgIWBc_PE"
+    );
+
+    const container = document.getElementById("points-container");
+
+    function addPointRow() {
+      const div = document.createElement("div");
+      div.className = "point-row";
+      div.innerHTML = `
+        <input type="number" step="any" placeholder="Latitude">
+        <input type="number" step="any" placeholder="Longitude">
+      `;
+      container.appendChild(div);
+    }
+
+    // Add 5 rows by default
+    for (let i = 0; i < 5; i++) addPointRow();
+
+    async function submitWilus() {
+      const uid = document.getElementById("uid").value.trim();
+      const pemegang = document.getElementById("pemegang").value.trim();
+      const nama = document.getElementById("nama").value.trim();
+
+      const points = [...container.querySelectorAll(".point-row")].map(row => {
+        const inputs = row.querySelectorAll("input");
+        return [parseFloat(inputs[1].value), parseFloat(inputs[0].value)]; // [lng, lat]
+      });
+
+      if (points.some(p => isNaN(p[0]) || isNaN(p[1]))) {
+        alert("All coordinates must be valid numbers.");
+        return;
+      }
+
+      points.push(points[0]); // close the polygon
+
+      const geom = {
+        type: "Polygon",
+        coordinates: [points]
+      };
+
+      const { error } = await supabase.from("wilus_mapping_duplicate").insert({
+        UID: uid,
+        "Pemegang Wilus": pemegang,
+        "Nama Lokasi": nama,
+        geom
+      });
+
+      if (error) {
+        alert("Insert failed: " + error.message);
+      } else {
+        alert("Wilus successfully inserted!");
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
