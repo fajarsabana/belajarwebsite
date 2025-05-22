@@ -94,6 +94,7 @@
 
       if (polygonLayer) map.removeLayer(polygonLayer);
       markers.forEach(m => map.removeLayer(m.marker));
+      document.querySelectorAll(".leaflet-tooltip.label-input-tooltip").forEach(el => el.remove());
       markers = [];
 
       const coordinates = polygon.geom.coordinates[0];
@@ -137,13 +138,17 @@
 
     document.getElementById("saveBtn").addEventListener("click", async () => {
       try {
-        const orderValues = markers.map(m => {
-          const val = parseInt(m.input.value);
+        const orderValues = markers.map((m, i) => {
+          const raw = m.input.value;
+          const val = parseInt(raw);
+          console.log(`Input ${i + 1}: value='${raw}' → parsed=${val}`);
           if (isNaN(val)) throw new Error("All order inputs must be filled with numbers.");
           return val;
         });
 
         const uniqueOrderCount = new Set(orderValues).size;
+        console.log("orderValues:", orderValues, "unique count:", uniqueOrderCount);
+
         if (uniqueOrderCount !== orderValues.length) {
           alert("Duplicate order numbers detected. Please ensure all are unique.");
           return;
