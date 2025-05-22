@@ -38,6 +38,7 @@
       background: transparent;
       border: none;
       box-shadow: none;
+      pointer-events: auto !important;
     }
   </style>
 </head>
@@ -91,7 +92,6 @@
       const polygon = data.find(p => p.UID === uid);
       if (!polygon || !polygon.geom) return alert("Polygon not found");
 
-      // Clear map
       if (polygonLayer) map.removeLayer(polygonLayer);
       markers.forEach(m => map.removeLayer(m.marker));
       markers = [];
@@ -111,6 +111,8 @@
 
         const container = document.createElement("div");
         container.appendChild(input);
+        L.DomEvent.disableClickPropagation(container);
+        L.DomEvent.disableScrollPropagation(container);
 
         L.tooltip({
           permanent: true,
