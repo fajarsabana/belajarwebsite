@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Polygon</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+    .label-input {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 2px;
+      border-radius: 4px;
+      font-size: 12px;
+      width: 40px;
+    }
+    #saveBtn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+      padding: 10px 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id="saveBtn">Save Order</button>
+  <div id="map"></div>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const supabase = createClient(
+      "https://jqueqchgsazhompvfifr.supabase.co",
+      "YOUR_PUBLIC_ANON_KEY_HERE"
+    );
+
+    const polygonId = "hardcoded-id-or-uid-here"; // replace with real UID
+
+    const map = L.map("map").setView([-2.5489, 118.0149], 5);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    const markers = [];
+    let polygonLayer;
+
+    async function loadPolygon() {
+      const { data, error } = await supabase
+        .rpc("get_wilus_mapping_duplicate")
+        .select()
+        .maybeSingle();
+
+      if (error || !data) {
+        alert("Polygon not found!");
+        return;
+      }
+
+      const coordinates = data.geom.coordinates[0];
+      coordinates.forEach((coord, index) => {
+        const [lng, lat] = coord;
+        const marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.value = index;
+        input.className = "label-input";
+
+        const container = L.DomUtil.create("div", "marker-label");
+        container.appendChild(input);
+        L.DomEvent.disableClickPropagation(container);
+
+        const label = L.popup({ closeButton: false, autoClose: false })
+          .setLatLng([lat, lng])
+          .setContent(container)
+          .openOn(map);
+
+        marker.bindPopup(label);
+        markers.push({ marker, input });
+      });
+
+      polygonLayer = L.polygon(coordinates.map(c => [c[1], c[0]]), {
+        color: "blue",
+        weight: 2,
+        fillOpacity: 0.2
+      }).addTo(map);
+
+      map.fitBounds(polygonLayer.getBounds());
+    }
+
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+      // collect marker positions and order
+      const ordered = markers
+        .map(m => ({
+          latlng: m.marker.getLatLng(),
+          order: parseInt(m.input.value)
+        }))
+        .sort((a, b) => a.order - b.order)
+        .map(m => [m.latlng.lng, m.latlng.lat]);
+
+      // close polygon by repeating first point
+      ordered.push(ordered[0]);
+
+      const newGeom = {
+        type: "Polygon",
+        coordinates: [ordered]
+      };
+
+      const { error } = await supabase
+        .from("your_table_name")
+        .update({ geom: newGeom })
+        .eq("UID", polygonId);
+
+      if (error) {
+        alert("Failed to save: " + error.message);
+      } else {
+        alert("Polygon updated successfully!");
+        location.reload();
+      }
+    });
+
+    loadPolygon();
+  </script>
+</body>
+</html>
