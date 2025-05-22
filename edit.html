@@ -57,19 +57,19 @@
 
     async function loadPolygon() {
       const { data, error } = await supabase.rpc("get_wilus_mapping_duplicate");
-      const polygon = data.find(p => p.UID === "hardcoded-id-here");
-      if (!polygon) {
-        alert("Polygon not found");
-        return;
-      }
-
-
       if (error || !data) {
-        alert("Polygon not found!");
-        return;
-      }
+  alert("Failed to fetch data!");
+  return;
+}
 
-      const coordinates = data.geom.coordinates[0];
+const polygon = data.find(p => p.UID === "6"); // or whatever your real UID is
+if (!polygon || !polygon.geom) {
+  alert("Polygon with specified UID not found.");
+  return;
+}
+
+const coordinates = polygon.geom.coordinates[0];
+
       coordinates.forEach((coord, index) => {
         const [lng, lat] = coord;
         const marker = L.marker([lat, lng], { draggable: true }).addTo(map);
