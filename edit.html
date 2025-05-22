@@ -80,12 +80,14 @@
     }
 
     document.getElementById("uidSelect").addEventListener("change", async function () {
+      if (this.value === currentUID) return; // prevent redundant reload
       currentUID = this.value;
       await loadPolygon(currentUID);
       document.getElementById("saveBtn").disabled = false;
     });
 
     async function loadPolygon(uid) {
+      console.log("Loading polygon for UID:", uid);
       const { data, error } = await supabase.rpc("get_wilus_mapping_duplicate");
       if (error || !data) return alert("Failed to fetch polygon");
 
