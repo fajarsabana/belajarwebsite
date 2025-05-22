@@ -93,8 +93,10 @@
       if (!polygon || !polygon.geom) return alert("Polygon not found");
 
       if (polygonLayer) map.removeLayer(polygonLayer);
-      markers.forEach(m => map.removeLayer(m.marker));
-      document.querySelectorAll(".leaflet-tooltip.label-input-tooltip").forEach(el => el.remove());
+      markers.forEach(m => {
+        map.removeLayer(m.marker);
+        if (m.tooltip) map.removeLayer(m.tooltip);
+      });
       markers = [];
 
       const coordinates = polygon.geom.coordinates[0];
@@ -115,7 +117,7 @@
         L.DomEvent.disableClickPropagation(container);
         L.DomEvent.disableScrollPropagation(container);
 
-        L.tooltip({
+        const tooltip = L.tooltip({
           permanent: true,
           direction: 'top',
           className: 'label-input-tooltip'
@@ -124,7 +126,7 @@
         .setLatLng([lat, lng])
         .addTo(map);
 
-        markers.push({ marker, input });
+        markers.push({ marker, input, tooltip });
       });
 
       polygonLayer = L.polygon(coordinates.map(c => [c[1], c[0]]), {
