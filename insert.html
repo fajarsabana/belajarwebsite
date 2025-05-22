@@ -38,6 +38,16 @@
       gap: 10px;
       margin-bottom: 10px;
     }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-col {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
@@ -87,11 +97,16 @@
           <option value="UID P2B">UID P2B</option>
         </select>
 
-        <label>Pemegang Wilus</label>
-        <input type="text" id="pemegang" required>
-
-        <label>Nama Lokasi</label>
-        <input type="text" id="nama" required>
+        <div class="form-row">
+          <div class="form-col">
+            <label>Pemegang Wilus</label>
+            <input type="text" id="pemegang" required>
+          </div>
+          <div class="form-col">
+            <label>Nama Lokasi</label>
+            <input type="text" id="nama" required>
+          </div>
+        </div>
 
         <h4>Koordinat (Latitude / Longitude)</h4>
         <div id="points-container"></div>
