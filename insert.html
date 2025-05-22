@@ -98,15 +98,18 @@
         </select>
 
         <div class="form-row">
-          <div class="form-col">
-            <label>Pemegang Wilus</label>
-            <input type="text" id="pemegang" required>
-          </div>
-          <div class="form-col">
-            <label>Nama Lokasi</label>
-            <input type="text" id="nama" required>
-          </div>
-        </div>
+  <div class="form-col">
+    <label>Pemegang Wilus</label>
+    <input type="text" id="pemegang" required>
+  </div>
+  <div class="form-col">
+    <label>Nama Lokasi</label>
+    <input type="text" id="nama" required>
+  </div>
+</div>
+
+<label>Provinsi</label>
+<input type="text" id="provinsi" required>
 
         <h4>Koordinat (Latitude / Longitude)</h4>
         <div id="points-container"></div>
@@ -188,6 +191,7 @@
       const uid = document.getElementById("uid").value.trim();
       const pemegang = document.getElementById("pemegang").value.trim();
       const nama = document.getElementById("nama").value.trim();
+      const provinsi = document.getElementById("provinsi").value.trim();
 
       if (!uid || !pemegang || !nama) {
         alert("All fields are required.");
@@ -211,6 +215,7 @@
         UID: uid,
         "Pemegang Wilus": pemegang,
         "Nama Lokasi": nama,
+        Provinsi: provinsi,
         geom
       });
 
