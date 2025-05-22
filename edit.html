@@ -56,10 +56,13 @@
     let polygonLayer;
 
     async function loadPolygon() {
-      const { data, error } = await supabase
-        .rpc("get_wilus_mapping_duplicate")
-        .select()
-        .maybeSingle();
+      const { data, error } = await supabase.rpc("get_wilus_mapping_duplicate");
+      const polygon = data.find(p => p.UID === "hardcoded-id-here");
+      if (!polygon) {
+        alert("Polygon not found");
+        return;
+      }
+
 
       if (error || !data) {
         alert("Polygon not found!");
