@@ -9,7 +9,6 @@
   <style>
     #map { height: 90vh; width: 100%; }
     .label-input {
-      position: absolute;
       background: white;
       border: 1px solid #ccc;
       padding: 2px;
@@ -34,6 +33,11 @@
     }
     #uidSelect {
       left: 10px;
+    }
+    .leaflet-tooltip.label-input-tooltip {
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
   </style>
 </head>
@@ -105,16 +109,18 @@
         input.max = coordinates.length - 1;
         input.className = "label-input";
 
-        const container = L.DomUtil.create("div", "marker-label");
+        const container = document.createElement("div");
         container.appendChild(input);
-        L.DomEvent.disableClickPropagation(container);
 
-        const label = L.popup({ closeButton: false, autoClose: false })
-          .setLatLng([lat, lng])
-          .setContent(container)
-          .openOn(map);
+        L.tooltip({
+          permanent: true,
+          direction: 'top',
+          className: 'label-input-tooltip'
+        })
+        .setContent(container)
+        .setLatLng([lat, lng])
+        .addTo(map);
 
-        marker.bindPopup(label);
         markers.push({ marker, input });
       });
 
@@ -128,6 +134,13 @@
     }
 
     document.getElementById("saveBtn").addEventListener("click", async () => {
+      const orderValues = markers.map(m => parseInt(m.input.value));
+      const uniqueOrderCount = new Set(orderValues).size;
+      if (uniqueOrderCount !== orderValues.length) {
+        alert("Duplicate order numbers detected. Please ensure all are unique.");
+        return;
+      }
+
       const ordered = markers
         .map(m => ({ latlng: m.marker.getLatLng(), order: parseInt(m.input.value) }))
         .sort((a, b) => a.order - b.order)
