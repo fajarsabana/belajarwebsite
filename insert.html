@@ -251,7 +251,44 @@
     for (let i = 0; i < 5; i++) addPointRow();
     window.addPointRow = addPointRow;
     window.previewPolygon = previewPolygon;
-    window.submitWilus = submitWilus;
+    async function submitWilus() {
+  const uid = document.getElementById("uid").value.trim();
+  const pemegang = document.getElementById("pemegang").value.trim();
+  const nama = document.getElementById("nama").value.trim();
+  const provinsi = document.getElementById("provinsi").value.trim();
+
+  if (!uid || !pemegang || !nama || !provinsi) {
+    alert("Semua field wajib diisi.");
+    return;
+  }
+
+  const coords = getPolygonCoords();
+  if (coords.length < 3) {
+    alert("Minimal 3 titik valid.");
+    return;
+  }
+
+  coords.push(coords[0]);
+  const geom = { type: "Polygon", coordinates: [coords] };
+
+  const { error } = await supabase.from("wilus_mapping_staging").insert({
+    UID: uid,
+    "Pemegang Wilus": pemegang,
+    "Nama Lokasi": nama,
+    Provinsi: provinsi,
+    geom
+  });
+
+  if (error) {
+    alert("Insert failed: " + error.message);
+  } else {
+    alert("Berhasil ditambahkan ke staging.");
+    location.reload();
+  }
+}
+
+window.submitWilus = submitWilus;
+
 
   const coords = getPolygonCoords();
   if (coords.length < 3) {
