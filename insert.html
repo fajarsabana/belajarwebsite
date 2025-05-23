@@ -1,45 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLN - Wilus Baru</title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="script.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <!-- Internal Styling (optional) -->
   <style>
-    #map {
-      height: 500px;
-      margin: 20px auto;
-      width: 90%;
-      border: 1px solid #ccc;
+    .insert-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      padding: 40px 60px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .insert-left,
+    .insert-right {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .insert-left {
+      max-width: 450px;
+    }
+
+    .insert-right {
+      min-width: 400px;
+    }
+
+    .point-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-col {
+      flex: 1;
     }
   </style>
 </head>
 <body>
+  <header>
+    <nav class="nav-container">
+      <div class="nav-left">
+        <img src="Logo_PLN.svg" alt="PLN Logo" class="nav-logo" />
+      </div>
+      <div class="nav-center">
+        <ul class="nav-links">
+          <li><a href="index.html" class="text-hover">Home</a></li>
+          <li><a href="index.html" class="text-hover">Pemetaan Wilayah Usaha</a></li>
+          <li><a href="insert.html" class="text-hover">Wilus Baru</a></li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+      </div>
+    </nav>
+  </header>
 
-  <!-- Map Container -->
-  <div id="map"></div>
+  <section id="insert-wilus" class="fade-in">
+    <h2>Form Input Wilus Baru</h2>
+    <div class="insert-wrapper">
+      <div class="insert-left">
+        <label>UID</label>
+        <select id="uid" required>
+          <option value="">-- Pilih UID Wilayah --</option>
+          <option value="UID Aceh">UID Aceh</option>
+          <option value="UID Sumut">UID Sumut</option>
+          <option value="UID RKR">UID RKR</option>
+          <option value="UID S2JB">UID S2JB</option>
+          <option value="UID Lampung">UID Lampung</option>
+          <option value="UID Kaltimra">UID Kaltimra</option>
+          <option value="UID Kalselteng">UID Kalselteng</option>
+          <option value="UID Banten">UID Banten</option>
+          <option value="UID Jaya">UID Jaya</option>
+          <option value="UID Jabar">UID Jabar</option>
+          <option value="UID Jateng & DIY">UID Jateng & DIY</option>
+          <option value="UID Jatim">UID Jatim</option>
+          <option value="UID Bali">UID Bali</option>
+          <option value="UID NTB">UID NTB</option>
+          <option value="UID NTT">UID NTT</option>
+          <option value="UID Sulutenggo">UID Sulutenggo</option>
+          <option value="UID Sulselrabar">UID Sulselrabar</option>
+          <option value="UID MMU">UID MMU</option>
+          <option value="UID P2B">UID P2B</option>
+        </select>
 
-  <!-- Scripts -->
+        <div class="form-row">
+  <div class="form-col">
+    <label>Pemegang Wilus</label>
+    <input type="text" id="pemegang" required>
+  </div>
+  <div class="form-col">
+    <label>Nama Lokasi</label>
+    <input type="text" id="nama" required>
+  </div>
+</div>
+
+<label>Provinsi</label>
+<select id="provinsi" required>
+  <option value="">-- Pilih Provinsi --</option>
+  <option value="Aceh">Aceh</option>
+  <option value="Sumatera Utara">Sumatera Utara</option>
+  <option value="Sumatera Barat">Sumatera Barat</option>
+  <option value="Riau">Riau</option>
+  <option value="Kepulauan Riau">Kepulauan Riau</option>
+  <option value="Jambi">Jambi</option>
+  <option value="Bengkulu">Bengkulu</option>
+  <option value="Sumatera Selatan">Sumatera Selatan</option>
+  <option value="Kepulauan Bangka Belitung">Kepulauan Bangka Belitung</option>
+  <option value="Lampung">Lampung</option>
+  <option value="Banten">Banten</option>
+  <option value="DKI Jakarta">DKI Jakarta</option>
+  <option value="Jawa Barat">Jawa Barat</option>
+  <option value="Jawa Tengah">Jawa Tengah</option>
+  <option value="DI Yogyakarta">DI Yogyakarta</option>
+  <option value="Jawa Timur">Jawa Timur</option>
+  <option value="Bali">Bali</option>
+  <option value="Nusa Tenggara Barat">Nusa Tenggara Barat</option>
+  <option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
+  <option value="Kalimantan Barat">Kalimantan Barat</option>
+  <option value="Kalimantan Tengah">Kalimantan Tengah</option>
+  <option value="Kalimantan Selatan">Kalimantan Selatan</option>
+  <option value="Kalimantan Timur">Kalimantan Timur</option>
+  <option value="Kalimantan Utara">Kalimantan Utara</option>
+  <option value="Sulawesi Utara">Sulawesi Utara</option>
+  <option value="Sulawesi Tengah">Sulawesi Tengah</option>
+  <option value="Sulawesi Selatan">Sulawesi Selatan</option>
+  <option value="Sulawesi Tenggara">Sulawesi Tenggara</option>
+  <option value="Gorontalo">Gorontalo</option>
+  <option value="Sulawesi Barat">Sulawesi Barat</option>
+  <option value="Maluku">Maluku</option>
+  <option value="Maluku Utara">Maluku Utara</option>
+  <option value="Papua">Papua</option>
+  <option value="Papua Barat">Papua Barat</option>
+  <option value="Papua Tengah">Papua Tengah</option>
+  <option value="Papua Pegunungan">Papua Pegunungan</option>
+  <option value="Papua Selatan">Papua Selatan</option>
+  <option value="Papua Barat Daya">Papua Barat Daya</option>
+</select>
+
+        <h4>Koordinat (Latitude / Longitude)</h4>
+        <div id="points-container"></div>
+        <button class="fancy-btn" onclick="addPointRow()">+ Add Point</button>
+      </div>
+
+      <div class="insert-right">
+        <div id="mapPreview" style="height: 300px; margin-bottom: 20px;"></div>
+        <button class="fancy-btn" onclick="previewPolygon()">🔍 Preview Polygon</button>
+        <button class="fancy-btn" onclick="submitWilus()">🚀 Submit to Staging</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 DIV APR. All rights reserved.</p>
+  </footer>
+
   <script type="module">
-    import { initializeMap } from './mapHandler.js';
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    const supabase = createClient(
+      "https://jqueqchgsazhompvfifr.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdWVxY2hnc2F6aG9tcHZmaWZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NzM5MDIsImV4cCI6MjA1NjU0OTkwMn0.8q1m-jIL4kRgck4pwDfOYFHgFMSg2BIfBSTgIWBc_PE"
+    );
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const mapContainer = document.getElementById("map");
-      if (mapContainer) {
-        initializeMap();
-      } else {
-        console.warn("Map container not found!");
+    const map = L.map("mapPreview").setView([-2.5, 118], 5);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    const container = document.getElementById("points-container");
+    let previewLayer = null;
+
+    function addPointRow() {
+      const div = document.createElement("div");
+      div.className = "point-row";
+      div.innerHTML = `
+        <input type="number" step="any" placeholder="Latitude">
+        <input type="number" step="any" placeholder="Longitude">
+      `;
+      container.appendChild(div);
+    }
+
+    for (let i = 0; i < 5; i++) addPointRow();
+
+    function getPolygonCoords() {
+      return [...container.querySelectorAll(".point-row")]
+        .map(row => {
+          const inputs = row.querySelectorAll("input");
+          const lat = parseFloat(inputs[0].value);
+          const lng = parseFloat(inputs[1].value);
+          if (!isNaN(lat) && !isNaN(lng)) {
+            return [lng, lat];
+          } else {
+            return null;
+          }
+        })
+        .filter(p => p !== null);
+    }
+
+    function previewPolygon() {
+      const coords = getPolygonCoords();
+      if (coords.length < 3) {
+        alert("Polygon must have at least 3 valid points.");
+        return;
       }
-    });
-  </script>
+      coords.push(coords[0]);
 
+      if (previewLayer) map.removeLayer(previewLayer);
+      previewLayer = L.polygon(coords.map(p => [p[1], p[0]]), {
+        color: "blue",
+        fillOpacity: 0.3
+      }).addTo(map);
+
+      map.fitBounds(previewLayer.getBounds());
+    }
+
+    async function submitWilus() {
+      const uid = document.getElementById("uid").value.trim();
+      const pemegang = document.getElementById("pemegang").value.trim();
+      const nama = document.getElementById("nama").value.trim();
+      const provinsi = document.getElementById("provinsi").value.trim();
+
+      if (!uid || !pemegang || !nama) {
+        alert("All fields are required.");
+        return;
+      }
+
+      const coords = getPolygonCoords();
+      if (coords.length < 3) {
+        alert("Polygon must have at least 3 valid points.");
+        return;
+      }
+
+      coords.push(coords[0]);
+
+      const geom = {
+        type: "Polygon",
+        coordinates: [coords]
+      };
+
+      const { error } = await supabase.from("wilus_mapping_staging").insert({
+        UID: uid,
+        "Pemegang Wilus": pemegang,
+        "Nama Lokasi": nama,
+        Provinsi: provinsi,
+        geom
+      });
+
+      if (error) {
+        alert("Insert failed: " + error.message);
+      } else {
+        alert("Successfully submitted to staging.");
+        location.reload();
+      }
+    }
+
+    window.addPointRow = addPointRow;
+    window.previewPolygon = previewPolygon;
+    window.submitWilus = submitWilus;
+  </script>
 </body>
 </html>
