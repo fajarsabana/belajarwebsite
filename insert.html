@@ -144,18 +144,18 @@ $1<header>
         `;
 
         div.querySelector(".move-up").onclick = () => {
-          const prev = div.previousElementSibling;
-          if (prev) container.insertBefore(div, prev);
-          updatePointIndexes();
-          previewPolygon();
-        };
+  const prev = div.previousElementSibling;
+  if (prev) container.insertBefore(div, prev);
+  updatePointIndexes();
+  previewPolygon();
+};;
 
         div.querySelector(".move-down").onclick = () => {
-          const next = div.nextElementSibling?.nextElementSibling;
-          if (div.nextElementSibling) container.insertBefore(div.nextElementSibling, div);
-          updatePointIndexes();
-          previewPolygon();
-        };
+  const next = div.nextElementSibling?.nextElementSibling;
+  if (div.nextElementSibling) container.insertBefore(div.nextElementSibling, div);
+  updatePointIndexes();
+  previewPolygon();
+};;
 
         container.appendChild(div);
         updatePointIndexes();
@@ -178,11 +178,23 @@ $1<header>
       }
 
       function previewPolygon() {
-        const coords = getPolygonCoords();
-        if (coords.length < 3) {
-          alert("Polygon must have at least 3 valid points.");
-          return;
-        }
+  updatePointIndexes(); // Pastikan nomor urut sesuai DOM
+
+  const coords = getPolygonCoords();
+  if (coords.length < 3) {
+    alert("Polygon must have at least 3 valid points.");
+    return;
+  }
+  coords.push(coords[0]);
+
+  if (previewLayer) map.removeLayer(previewLayer);
+  previewLayer = L.polygon(coords.map(p => [p[1], p[0]]), {
+    color: "blue",
+    fillOpacity: 0.3
+  }).addTo(map);
+
+  map.fitBounds(previewLayer.getBounds());
+}
         coords.push(coords[0]);
 
         if (previewLayer) map.removeLayer(previewLayer);
