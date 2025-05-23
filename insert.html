@@ -18,39 +18,32 @@
       max-width: 1200px;
       margin: auto;
     }
-
     .insert-left,
     .insert-right {
       flex: 1;
       min-width: 0;
     }
-
     .insert-left {
       max-width: 450px;
     }
-
     .insert-right {
       min-width: 400px;
     }
-
     .point-row {
       display: flex;
       gap: 10px;
       align-items: center;
       margin-bottom: 10px;
     }
-
     .point-index {
       width: 20px;
       text-align: right;
     }
-
     .form-row {
       display: flex;
       gap: 20px;
       margin-bottom: 20px;
     }
-
     .form-col {
       flex: 1;
     }
@@ -79,8 +72,44 @@
     <h2>Form Input Wilus Baru</h2>
     <div class="insert-wrapper">
       <div class="insert-left">
-        <!-- UID, Pemegang, Nama Lokasi, Provinsi Select -->
-        <!-- ... (unchanged input form) ... -->
+        <label>UID</label>
+        <select id="uid" required>
+          <option value="">-- Pilih UID Wilayah --</option>
+          <option value="UID Aceh">UID Aceh</option>
+          <option value="UID Sumut">UID Sumut</option>
+          <option value="UID RKR">UID RKR</option>
+          <option value="UID S2JB">UID S2JB</option>
+          <option value="UID Lampung">UID Lampung</option>
+          <option value="UID Kaltimra">UID Kaltimra</option>
+          <option value="UID Kalselteng">UID Kalselteng</option>
+          <option value="UID Banten">UID Banten</option>
+          <option value="UID Jaya">UID Jaya</option>
+          <option value="UID Jabar">UID Jabar</option>
+          <option value="UID Jateng & DIY">UID Jateng & DIY</option>
+          <option value="UID Jatim">UID Jatim</option>
+          <option value="UID Bali">UID Bali</option>
+          <option value="UID NTB">UID NTB</option>
+          <option value="UID NTT">UID NTT</option>
+          <option value="UID Sulutenggo">UID Sulutenggo</option>
+          <option value="UID Sulselrabar">UID Sulselrabar</option>
+          <option value="UID MMU">UID MMU</option>
+          <option value="UID P2B">UID P2B</option>
+        </select>
+
+        <div class="form-row">
+          <div class="form-col">
+            <label>Pemegang Wilus</label>
+            <input type="text" id="pemegang" required>
+          </div>
+          <div class="form-col">
+            <label>Nama Lokasi</label>
+            <input type="text" id="nama" required>
+          </div>
+        </div>
+
+        <label>Provinsi</label>
+        <input type="text" id="provinsi" required>
+
         <h4>Koordinat (Latitude / Longitude)</h4>
         <div id="points-container"></div>
         <button class="fancy-btn" onclick="addPointRow()">+ Add Point</button>
@@ -176,7 +205,7 @@
     for (let i = 0; i < 5; i++) addPointRow();
     window.addPointRow = addPointRow;
     window.previewPolygon = previewPolygon;
-    window.submitWilus = async function() {/* unchanged */};
+    window.submitWilus = async function() {/* original submit logic */};
   </script>
 </body>
 </html>
