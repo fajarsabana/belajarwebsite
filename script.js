@@ -1,11 +1,8 @@
 import { initializeMap, loadMapAndSidebar } from "./mapHandler.js"; // ✅ Correct import
 
 document.addEventListener("DOMContentLoaded", async function () {
-    // ✅ Prevent initializing the map twice
-    if (document.getElementById("map")._leaflet_id) {
-        console.warn("Map is already initialized, skipping...");
-        return;
-    }
+    if (!document.getElementById("map")) return;
+
 
     // ✅ Initialize the Map
     const map = initializeMap();
