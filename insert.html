@@ -181,9 +181,13 @@
     let markerLayers = [];
 
     function updatePointIndexes() {
-      [...container.children].forEach((row, index) => {
-        row.querySelector(".point-index").textContent = index + 1;
-      });
+  [...container.children].forEach((row, index) => {
+    const indexSpan = row.querySelector(".point-index");
+    if (indexSpan) {
+      indexSpan.textContent = `${index + 1}.`;
+    }
+  });
+});
     }
 
     function addPointRow(lat = '', lng = '') {
