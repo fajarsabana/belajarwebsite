@@ -200,13 +200,15 @@
       div.querySelector(".arrow-up").onclick = () => {
         const prev = div.previousElementSibling;
         if (prev) container.insertBefore(div, prev);
-        updatePointIndexes(); previewPolygon();
+        updatePointIndexes();
+        previewPolygon();
       };
 
       div.querySelector(".arrow-down").onclick = () => {
         const next = div.nextElementSibling;
         if (next) container.insertBefore(next, div);
-        updatePointIndexes(); previewPolygon();
+        updatePointIndexes();
+        previewPolygon();
       };
 
       container.appendChild(div);
