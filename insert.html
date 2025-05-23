@@ -64,8 +64,7 @@
   </style>
 </head>
 <body>
-<!-- ... (header dan nav tetap sama) ... -->
-
+<!-- (header and nav remain unchanged) -->
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
   const supabase = createClient(
@@ -135,7 +134,10 @@
 
   function previewPolygon() {
     const coords = getPolygonCoords();
-    if (coords.length < 3) return;
+    if (coords.length < 3) {
+      alert("Polygon must have at least 3 valid points.");
+      return;
+    }
     coords.push(coords[0]);
 
     if (previewLayer) map.removeLayer(previewLayer);
@@ -154,18 +156,22 @@
     const provinsi = document.getElementById("provinsi").value.trim();
 
     if (!uid || !pemegang || !nama || !provinsi) {
-      alert("Semua field wajib diisi.");
+      alert("All fields are required.");
       return;
     }
 
     const coords = getPolygonCoords();
     if (coords.length < 3) {
-      alert("Minimal 3 titik koordinat valid.");
+      alert("Polygon must have at least 3 valid points.");
       return;
     }
 
     coords.push(coords[0]);
-    const geom = { type: "Polygon", coordinates: [coords] };
+
+    const geom = {
+      type: "Polygon",
+      coordinates: [coords]
+    };
 
     const { error } = await supabase.from("wilus_mapping_staging").insert({
       UID: uid,
@@ -178,7 +184,7 @@
     if (error) {
       alert("Insert failed: " + error.message);
     } else {
-      alert("Berhasil ditambahkan ke staging.");
+      alert("Successfully submitted to staging.");
       location.reload();
     }
   }
