@@ -116,7 +116,8 @@ $1<header>
 
     globalThis.supabase = supabase;
 
-    document.addEventListener("DOMContentLoaded", () => {
+    $1
+  for (let i = 0; i < 5; i++) addPointRow();
       const map = L.map("mapPreview").setView([-2.5, 118], 5);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors"
