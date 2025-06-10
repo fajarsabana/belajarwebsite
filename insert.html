@@ -27,10 +27,14 @@
       min-width: 0;
     }
     .insert-left {
-      max-width: 450px;
+      flex: 0.8; /* tighter */
+      max-width: 420px;
     }
     .insert-right {
-      min-width: 400px;
+      flex: 1.2; /* more space to the map */
+      min-width: 500px;
+    }
+
     }
     .point-row {
       display: flex;
@@ -52,6 +56,15 @@
       width: 100%;
       box-sizing: border-box;
     }
+
+        .form-row input,
+    .form-row select,
+    #uid,
+    #provinsi {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
     .form-col {
       flex: 1;
       max-width: 100%;
@@ -105,7 +118,7 @@
     top: 80px;
   }
   #mapPreview {
-    height: 400px;
+    height: 450px;
     margin-bottom: 20px;
   }
     footer {
