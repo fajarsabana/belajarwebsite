@@ -102,7 +102,10 @@
           </div>
           <div class="form-col">
             <label>Nama Lokasi</label>
-            <input type="text" id="nama" required>
+            <select id="nama" required>
+            <option value="">-- Pilih Nama Lokasi --</option>
+            </select>
+
           </div>
         </div>
 
@@ -314,7 +317,34 @@ window.submitWilus = submitWilus;
   });
 }
 
+    async function populateNamaLokasiDropdown() {
+  const namaSelect = document.getElementById("nama");
+
+  const { data, error } = await supabase
+    .from("wilus_mapping_staging")
+    .select("Nama Lokasi")
+    .order("Nama Lokasi", { ascending: true });
+
+  if (error) {
+    console.error("Gagal mengambil Nama Lokasi:", error.message);
+    return;
+  }
+
+  const uniqueLokasi = [...new Set(data.map(item => item["Nama Lokasi"]))];
+
+  namaSelect.innerHTML = '<option value="">-- Pilih Nama Lokasi --</option>';
+  uniqueLokasi.forEach(nama => {
+    const option = document.createElement("option");
+    option.value = nama;
+    option.textContent = nama;
+    namaSelect.appendChild(option);
+  });
+}
+
+
 populateUIDDropdown();
+populateNamaLokasiDropdown();
+
 
 
   </script>
