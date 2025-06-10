@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="script.js"></script>
   <style>
     .insert-wrapper {
       display: flex;
@@ -288,31 +287,6 @@
 
 window.submitWilus = submitWilus;
 
-
-  const coords = getPolygonCoords();
-  if (coords.length < 3) {
-    alert("Minimal 3 titik valid.");
-    return;
-  }
-
-  coords.push(coords[0]);
-  const geom = { type: "Polygon", coordinates: [coords] };
-
-  const { error } = await supabase.from("wilus_mapping_staging").insert({
-    UID: uid,
-    "Pemegang Wilus": pemegang,
-    "Nama Lokasi": nama,
-    Provinsi: provinsi,
-    geom
-  });
-
-  if (error) {
-    alert("Insert failed: " + error.message);
-  } else {
-    alert("Berhasil ditambahkan ke staging.");
-    location.reload();
-  }
-};
   </script>
 </body>
 </html>
