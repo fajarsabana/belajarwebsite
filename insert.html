@@ -21,20 +21,15 @@
       height: calc(100vh - 100px); /* tingginya dikontrol langsung di sini */
     }
 
-    .insert-left,
-    .insert-right {
-      flex: 1;
-      min-width: 0;
-    }
-    .insert-left {
-      flex: 0.8; /* tighter */
-      max-width: 420px;
-    }
-    .insert-right {
-      flex: 1.2; /* more space to the map */
-      min-width: 500px;
-    }
 
+    .insert-left {
+      flex: 1; /* 1/3 */
+      max-width: none;
+    }
+    
+    .insert-right {
+      flex: 2; /* 2/3 */
+      min-width: 0;
     }
     .point-row {
       display: flex;
@@ -64,6 +59,15 @@
       width: 100%;
       box-sizing: border-box;
     }
+
+        select,
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
 
     .form-col {
       flex: 1;
@@ -118,7 +122,7 @@
     top: 80px;
   }
   #mapPreview {
-    height: 450px;
+    height: 500px;
     margin-bottom: 20px;
   }
     footer {
@@ -152,6 +156,7 @@
   <section id="insert-wilus" class="fade-in">
     <h2>Form Input Wilus Baru</h2>
     <div class="insert-wrapper">
+      <div class="insert-left">
       <div class="insert-left-scrollable">
         <label>UID</label>
         <select id="uid" required>
