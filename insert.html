@@ -272,7 +272,7 @@
   coords.push(coords[0]);
   const geom = { type: "Polygon", coordinates: [coords] };
 
-  const { error } = await supabase.from("wilus_mapping_staging").insert({
+  const { error } = await supabase.from("wilus_mapping_duplicate").insert({
     UID: uid,
     "Pemegang Wilus": pemegang,
     "Nama Lokasi": nama,
