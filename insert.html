@@ -204,17 +204,26 @@
         <input type="number" step="any" placeholder="Longitude" value="${lng}">
         <button class="arrow-up">↑</button>
         <button class="arrow-down">↓</button>
+        <button class="undo-point" title="Undo">↩️</button>
       `;
 
             const inputs = div.querySelectorAll("input");
-      inputs[0].addEventListener("focus", () => {
-        activeLatInput = inputs[0];
-        activeLngInput = inputs[1];
-      });
-      inputs[1].addEventListener("focus", () => {
-        activeLatInput = inputs[0];
-        activeLngInput = inputs[1];
-      });
+          inputs[0].addEventListener("focus", () => {
+            const row = inputs[0].closest(".point-row");
+            row.dataset.prevLat = inputs[0].value;
+            row.dataset.prevLng = inputs[1].value;
+            activeLatInput = inputs[0];
+            activeLngInput = inputs[1];
+          });
+          
+          inputs[1].addEventListener("focus", () => {
+            const row = inputs[1].closest(".point-row");
+            row.dataset.prevLat = inputs[0].value;
+            row.dataset.prevLng = inputs[1].value;
+            activeLatInput = inputs[0];
+            activeLngInput = inputs[1];
+          });
+
 
       function highlightActive(latEl, lngEl) {
       document.querySelectorAll(".point-row input").forEach(input => {
@@ -238,6 +247,19 @@
         updatePointIndexes();
         previewPolygon();
       };
+
+      div.querySelector(".undo-point").onclick = () => {
+        const row = div;
+        const prevLat = row.dataset.prevLat;
+        const prevLng = row.dataset.prevLng;
+        if (prevLat !== undefined && prevLng !== undefined) {
+          const inputs = row.querySelectorAll("input");
+          inputs[0].value = prevLat;
+          inputs[1].value = prevLng;
+          previewPolygon();
+        }
+      };
+
 
       div.querySelector(".delete-point").onclick = () => {
       container.removeChild(div);
