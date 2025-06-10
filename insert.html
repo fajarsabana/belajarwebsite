@@ -386,7 +386,7 @@
 
     function previewPolygon() {
       const coords = getPolygonCoords();
-      if (coords.length < 3) return alert("Minimal 3 titik valid.");
+      if (coords.length < 3) ;
       coords.push(coords[0]);
 
       if (previewLayer) map.removeLayer(previewLayer);
@@ -430,7 +430,6 @@
   const coords = getPolygonCoords();
   if (coords.length < 3) 
     return;
-  }
 
   coords.push(coords[0]);
   const geom = { type: "Polygon", coordinates: [coords] };
