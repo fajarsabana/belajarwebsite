@@ -56,6 +56,27 @@
       cursor: grabbing;
     }
 
+      .insert-wrapper {
+    display: flex;
+    align-items: flex-start;
+    height: calc(100vh - 100px); /* tinggi penuh dikurangi header/footer */
+  }
+  
+  .insert-left-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 20px;
+  }
+  
+  .insert-right-fixed {
+    width: 450px;
+    position: sticky;
+    top: 80px;
+  }
+  #mapPreview {
+    height: 400px;
+    margin-bottom: 20px;
+  }
   </style>
 </head>
 <body>
@@ -80,7 +101,7 @@
   <section id="insert-wilus" class="fade-in">
     <h2>Form Input Wilus Baru</h2>
     <div class="insert-wrapper">
-      <div class="insert-left">
+      <div class="insert-left-scrollable">
         <label>UID</label>
         <select id="uid" required>
           <option value="">-- Pilih UID Wilayah --</option>
@@ -166,8 +187,7 @@
         <div id="points-container"></div>
         <button class="fancy-btn" onclick="addPointRow()">+ Add Point</button>
       </div>
-
-      <div class="insert-right">
+      <div class="insert-right-fixed">
         <div id="mapPreview" style="height: 300px; margin-bottom: 20px;"></div>
         <button class="fancy-btn" onclick="previewPolygon()">🔍 Preview Polygon</button>
         <button class="fancy-btn" onclick="submitWilus()">🚀 Submit to Staging</button>
