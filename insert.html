@@ -287,6 +287,36 @@
 
 window.submitWilus = submitWilus;
 
+    async function populateUIDDropdown() {
+  const select = document.getElementById("uid");
+
+  const { data, error } = await supabase
+    .from("wilus_mapping_staging")
+    .select("UID")
+    .order("UID", { ascending: true });
+
+  if (error) {
+    console.error("Failed to fetch UID list:", error.message);
+    return;
+  }
+
+  // Clear existing (except the first placeholder)
+  select.innerHTML = '<option value="">-- Pilih UID Wilayah --</option>';
+
+  // Unique UIDs
+  const uniqueUIDs = [...new Set(data.map(item => item.UID))];
+
+  uniqueUIDs.forEach(uid => {
+    const option = document.createElement("option");
+    option.value = uid;
+    option.textContent = uid;
+    select.appendChild(option);
+  });
+}
+
+populateUIDDropdown();
+
+
   </script>
 </body>
 </html>
