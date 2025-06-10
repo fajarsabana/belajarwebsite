@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <style>
     .insert-wrapper {
       display: flex;
@@ -46,6 +47,15 @@
     .form-col {
       flex: 1;
     }
+
+    .drag-handle {
+      cursor: grab;
+      user-select: none;
+    }
+    .point-row:active .drag-handle {
+      cursor: grabbing;
+    }
+
   </style>
 </head>
 <body>
@@ -199,11 +209,9 @@
       div.className = "point-row";
       div.innerHTML = `
         <button class="delete-point" title="Hapus">🗑️</button>
-        <span class="point-index"></span>
+        <span class="point-index drag-handle"></span>
         <input type="number" step="any" placeholder="Latitude" value="${lat}">
         <input type="number" step="any" placeholder="Longitude" value="${lng}">
-        <button class="arrow-up">↑</button>
-        <button class="arrow-down">↓</button>
         <button class="undo-point" title="Undo">↩️</button>
       `;
 
@@ -232,21 +240,6 @@
       latEl.style.border = "2px solid dodgerblue";
       lngEl.style.border = "2px solid dodgerblue";
     }
-
-
-      div.querySelector(".arrow-up").onclick = () => {
-        const prev = div.previousElementSibling;
-        if (prev) container.insertBefore(div, prev);
-        updatePointIndexes();
-        previewPolygon();
-      };
-
-      div.querySelector(".arrow-down").onclick = () => {
-        const next = div.nextElementSibling;
-        if (next) container.insertBefore(next, div);
-        updatePointIndexes();
-        previewPolygon();
-      };
 
       div.querySelector(".undo-point").onclick = () => {
         const row = div;
@@ -302,6 +295,16 @@
     }
 
     for (let i = 0; i < 5; i++) addPointRow();
+    new Sortable(container, {
+    handle: '.drag-handle',
+    animation: 150,
+    onEnd: () => {
+      updatePointIndexes();
+      previewPolygon();
+    }
+  });
+
+    
     window.addPointRow = addPointRow;
     window.previewPolygon = previewPolygon;
     async function submitWilus() {
