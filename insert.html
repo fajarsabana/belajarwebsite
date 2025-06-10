@@ -272,7 +272,7 @@
   coords.push(coords[0]);
   const geom = { type: "Polygon", coordinates: [coords] };
 
-  const { error } = await supabase.from("wilus_mapping_duplicate").insert({
+  const { error } = await supabase.from("wilus_mapping_staging").insert({
     UID: uid,
     "Pemegang Wilus": pemegang,
     "Nama Lokasi": nama,
@@ -294,7 +294,7 @@ window.submitWilus = submitWilus;
   const select = document.getElementById("uid");
 
   const { data, error } = await supabase
-    .from("wilus_mapping_staging")
+    .from("wilus_mapping_duplicate")
     .select("UID")
     .order("UID", { ascending: true });
 
@@ -321,7 +321,7 @@ window.submitWilus = submitWilus;
   const namaSelect = document.getElementById("nama");
 
   const { data, error } = await supabase
-    .from("wilus_mapping_staging")
+    .from("wilus_mapping_duplicate")
     .select("Nama Lokasi")
     .order("Nama Lokasi", { ascending: true });
 
