@@ -506,14 +506,11 @@ window.submitWilus = submitWilus;
 async function loadWilusFromDropdown() {
   const nama = document.getElementById("nama").value.trim();
 
-  if (!nama) {
-    console.log("Nama Lokasi kosong");
-    return;
-  }
+  if (!nama) return;
 
   const { data, error } = await supabase
     .from("wilus_mapping_duplicate")
-    .select("geom")
+    .select("geom, UID, \"Pemegang Wilus\"")
     .eq("Nama Lokasi", nama)
     .single();
 
@@ -522,18 +519,14 @@ async function loadWilusFromDropdown() {
     return;
   }
 
-  if (!data || !data.geom) {
-    console.warn("Data atau geometry tidak ditemukan:", data);
-    return;
-  }
+  if (!data || !data.geom) return;
 
-  console.log("Fetched geometry:", data.geom);
+  // Auto-fill UID and Pemegang
+  document.getElementById("uid").value = data.UID || "";
+  document.getElementById("pemegang").value = data["Pemegang Wilus"] || "";
 
   const coords = data.geom.coordinates?.[0];
-  if (!coords || coords.length < 3) {
-    console.warn("Polygon tidak valid:", coords);
-    return;
-  }
+  if (!coords || coords.length < 3) return;
 
   const isClosed = coords[0][0] === coords[coords.length - 1][0] &&
                    coords[0][1] === coords[coords.length - 1][1];
@@ -546,7 +539,6 @@ async function loadWilusFromDropdown() {
 
   previewPolygon();
 }
-
 
     function tryLoadWilus() {
   const nama = document.getElementById("nama").value.trim();
