@@ -290,6 +290,7 @@
         <input type="number" step="any" placeholder="Latitude" value="${lat}">
         <input type="number" step="any" placeholder="Longitude" value="${lng}">
         <button class="undo-point" title="Undo">↩️</button>
+        <button class="insert-between" title="Insert Midpoint">➕</button>
       `;
 
             const inputs = div.querySelectorAll("input");
@@ -330,6 +331,34 @@
         }
       };
 
+          div.querySelector(".insert-between").onclick = () => {
+          const allRows = [...container.querySelectorAll(".point-row")];
+          const index = allRows.indexOf(div);
+          const inputs = div.querySelectorAll("input");
+          const lat1 = parseFloat(inputs[0].value);
+          const lng1 = parseFloat(inputs[1].value);
+        
+          if (index + 1 < allRows.length) {
+            const nextInputs = allRows[index + 1].querySelectorAll("input");
+            const lat2 = parseFloat(nextInputs[0].value);
+            const lng2 = parseFloat(nextInputs[1].value);
+        
+            if (!isNaN(lat1) && !isNaN(lng1) && !isNaN(lat2) && !isNaN(lng2)) {
+              const midLat = ((lat1 + lat2) / 2).toFixed(8);
+              const midLng = ((lng1 + lng2) / 2).toFixed(8);
+              const newRow = addPointRow(midLat, midLng);
+              container.insertBefore(newRow, allRows[index + 1]);
+              updatePointIndexes();
+              previewPolygon();
+            } else {
+              alert("Pastikan koordinat valid.");
+            }
+          } else {
+            alert("Tidak bisa menyisipkan setelah titik terakhir.");
+          }
+        };
+
+
 
       div.querySelector(".delete-point").onclick = () => {
       container.removeChild(div);
@@ -340,6 +369,7 @@
 
       container.appendChild(div);
       updatePointIndexes();
+      return div;
     }
 
     function getPolygonCoords() {
