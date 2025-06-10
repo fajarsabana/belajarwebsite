@@ -342,18 +342,16 @@ window.submitWilus = submitWilus;
 }
 
 async function loadWilusFromDropdown() {
-  const uid = document.getElementById("uid").value.trim();
   const nama = document.getElementById("nama").value.trim();
 
-  if (!uid || !nama) {
-    console.log("Missing UID or Nama Lokasi");
+  if (!nama) {
+    console.log("Nama Lokasi kosong");
     return;
   }
 
   const { data, error } = await supabase
     .from("wilus_mapping_duplicate")
     .select("geom")
-    .eq("UID", uid)
     .eq("Nama Lokasi", nama)
     .single();
 
@@ -363,7 +361,7 @@ async function loadWilusFromDropdown() {
   }
 
   if (!data || !data.geom) {
-    console.warn("Data or geometry not found:", data);
+    console.warn("Data atau geometry tidak ditemukan:", data);
     return;
   }
 
@@ -371,7 +369,7 @@ async function loadWilusFromDropdown() {
 
   const coords = data.geom.coordinates?.[0];
   if (!coords || coords.length < 3) {
-    console.warn("Polygon coordinates are invalid or too short", coords);
+    console.warn("Polygon tidak valid:", coords);
     return;
   }
 
@@ -379,18 +377,14 @@ async function loadWilusFromDropdown() {
                    coords[0][1] === coords[coords.length - 1][1];
   const trimmed = isClosed ? coords.slice(0, -1) : coords;
 
-  console.log("Final coordinates to display:", trimmed);
-
-  // Clear form
   container.innerHTML = "";
-
-  // Insert coordinate input rows
   trimmed.forEach(([lng, lat]) => {
-    addPointRow(lat, lng);  // ⬅️ be sure lat first, lng second
+    addPointRow(lat, lng);
   });
 
   previewPolygon();
 }
+
 
     function tryLoadWilus() {
   const uid = document.getElementById("uid").value.trim();
