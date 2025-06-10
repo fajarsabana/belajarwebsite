@@ -341,6 +341,48 @@ window.submitWilus = submitWilus;
   });
 }
 
+async function loadWilusFromDropdown() {
+  const uid = document.getElementById("uid").value.trim();
+  const nama = document.getElementById("nama").value.trim();
+
+  if (!uid || !nama) {
+    return; // Don't proceed without both UID and Nama
+  }
+
+  const { data, error } = await supabase
+    .from("wilus_mapping_duplicate")
+    .select("geom")
+    .eq("UID", uid)
+    .eq("Nama Lokasi", nama)
+    .single();
+
+  if (error || !data || !data.geom) {
+    alert("Gagal mengambil data polygon: " + (error?.message || "data kosong"));
+    return;
+  }
+
+  const coords = data.geom.coordinates?.[0];
+  if (!coords || coords.length < 3) {
+    alert("Polygon tidak valid.");
+    return;
+  }
+
+  // Remove duplicate closing point if present
+  const trimmed = coords[0][0] === coords[coords.length - 1][0] &&
+                  coords[0][1] === coords[coords.length - 1][1]
+                  ? coords.slice(0, -1)
+                  : coords;
+
+  container.innerHTML = ""; // Clear existing inputs
+
+  trimmed.forEach(([lng, lat]) => {
+    addPointRow(lat, lng);  // Fill inputs
+  });
+
+  previewPolygon(); // Draw polygon
+}
+
+
 
 populateUIDDropdown();
 populateNamaLokasiDropdown();
