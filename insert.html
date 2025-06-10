@@ -72,7 +72,7 @@
     <div class="insert-wrapper">
       <div class="insert-left">
         <label>UID</label>
-        <select id="uid" required>
+        <select id="uid" required onchange="tryLoadWilus()">
           <option value="">-- Pilih UID Wilayah --</option>
           <option value="UID Aceh">UID Aceh</option>
           <option value="UID Sumut">UID Sumut</option>
@@ -102,7 +102,7 @@
           </div>
           <div class="form-col">
             <label>Nama Lokasi</label>
-            <select id="nama" required onchange="loadWilusFromDropdown()">
+            <select id="nama" required onchange="tryLoadWilus()">
             <option value="">-- Pilih Nama Lokasi --</option>
             </select>
 
@@ -391,6 +391,16 @@ async function loadWilusFromDropdown() {
 
   previewPolygon();
 }
+
+    function tryLoadWilus() {
+  const uid = document.getElementById("uid").value.trim();
+  const nama = document.getElementById("nama").value.trim();
+  if (uid && nama) {
+    loadWilusFromDropdown();
+  }
+}
+window.tryLoadWilus = tryLoadWilus;
+
 
 
 
