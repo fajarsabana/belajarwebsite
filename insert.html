@@ -331,7 +331,7 @@
         }
       };
 
-          div.querySelector(".insert-between").onclick = () => {
+        div.querySelector(".insert-between").onclick = () => {
           const allRows = [...container.querySelectorAll(".point-row")];
           const index = allRows.indexOf(div);
           const inputs = div.querySelectorAll("input");
@@ -348,23 +348,21 @@
               const midLng = ((lng1 + lng2) / 2).toFixed(8);
               const newRow = addPointRow(midLat, midLng);
               container.insertBefore(newRow, allRows[index + 1]);
-              updatePointIndexes();
-              previewPolygon();
             } else {
-              alert("Pastikan koordinat valid.");
+              const newRow = addPointRow('', '');
+              container.insertBefore(newRow, allRows[index + 1]);
             }
+            updatePointIndexes();
+            previewPolygon();
           } else {
-            alert("Tidak bisa menyisipkan setelah titik terakhir.");
+            // Add empty point at the end if nothing follows
+            const newRow = addPointRow('', '');
+            container.appendChild(newRow);
+            updatePointIndexes();
+            previewPolygon();
           }
         };
 
-
-
-      div.querySelector(".delete-point").onclick = () => {
-      container.removeChild(div);
-      updatePointIndexes();
-      previewPolygon();
-      };
 
 
       container.appendChild(div);
