@@ -322,7 +322,7 @@ window.submitWilus = submitWilus;
 
   const { data, error } = await supabase
     .from("wilus_mapping_duplicate")
-    .select("Nama Lokasi")
+    .select('"Nama Lokasi"')
     .order("Nama Lokasi", { ascending: true });
 
   if (error) {
