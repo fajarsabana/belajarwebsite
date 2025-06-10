@@ -72,7 +72,7 @@
     <div class="insert-wrapper">
       <div class="insert-left">
         <label>UID</label>
-        <select id="uid" required onchange="tryLoadWilus()">
+        <select id="uid" required>
           <option value="">-- Pilih UID Wilayah --</option>
           <option value="UID Aceh">UID Aceh</option>
           <option value="UID Sumut">UID Sumut</option>
@@ -387,11 +387,8 @@ async function loadWilusFromDropdown() {
 
 
     function tryLoadWilus() {
-  const uid = document.getElementById("uid").value.trim();
   const nama = document.getElementById("nama").value.trim();
-  if (uid && nama) {
-    loadWilusFromDropdown();
-  }
+  if (nama) loadWilusFromDropdown();
 }
 window.tryLoadWilus = tryLoadWilus;
 
