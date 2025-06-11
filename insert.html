@@ -158,43 +158,49 @@
     <div class="insert-wrapper">
       <div class="insert-left">
       <div class="insert-left-scrollable">
-        <label>UID</label>
-        <select id="uid" required>
-          <option value="">-- Pilih UID Wilayah --</option>
-          <option value="UID Aceh">UID Aceh</option>
-          <option value="UID Sumut">UID Sumut</option>
-          <option value="UID RKR">UID RKR</option>
-          <option value="UID S2JB">UID S2JB</option>
-          <option value="UID Lampung">UID Lampung</option>
-          <option value="UID Kaltimra">UID Kaltimra</option>
-          <option value="UID Kalselteng">UID Kalselteng</option>
-          <option value="UID Banten">UID Banten</option>
-          <option value="UID Jaya">UID Jaya</option>
-          <option value="UID Jabar">UID Jabar</option>
-          <option value="UID Jateng & DIY">UID Jateng & DIY</option>
-          <option value="UID Jatim">UID Jatim</option>
-          <option value="UID Bali">UID Bali</option>
-          <option value="UID NTB">UID NTB</option>
-          <option value="UID NTT">UID NTT</option>
-          <option value="UID Sulutenggo">UID Sulutenggo</option>
-          <option value="UID Sulselrabar">UID Sulselrabar</option>
-          <option value="UID MMU">UID MMU</option>
-          <option value="UID P2B">UID P2B</option>
-        </select>
-
-        <div class="form-row">
-          <div class="form-col">
-            <label>Pemegang Wilus</label>
-            <input type="text" id="pemegang" required>
-          </div>
-          <div class="form-col">
-            <label>Nama Lokasi</label>
-            <select id="nama" required onchange="tryLoadWilus()">
-            <option value="">-- Pilih Nama Lokasi --</option>
-            </select>
-
-          </div>
+        <!-- Nama Lokasi dropdown (for inserting new polygon) -->
+      <label>Nama Lokasi</label>
+      <select id="nama" required onchange="tryLoadWilus()">
+        <option value="">-- Pilih Nama Lokasi --</option>
+      </select>
+      
+      <!-- UID selector -->
+      <label>UID</label>
+      <select id="uid" required>
+        <option value="">-- Pilih UID Wilayah --</option>
+        <option value="UID Aceh">UID Aceh</option>
+        <option value="UID Sumut">UID Sumut</option>
+        <option value="UID RKR">UID RKR</option>
+        <option value="UID S2JB">UID S2JB</option>
+        <option value="UID Lampung">UID Lampung</option>
+        <option value="UID Kaltimra">UID Kaltimra</option>
+        <option value="UID Kalselteng">UID Kalselteng</option>
+        <option value="UID Banten">UID Banten</option>
+        <option value="UID Jaya">UID Jaya</option>
+        <option value="UID Jabar">UID Jabar</option>
+        <option value="UID Jateng & DIY">UID Jateng & DIY</option>
+        <option value="UID Jatim">UID Jatim</option>
+        <option value="UID Bali">UID Bali</option>
+        <option value="UID NTB">UID NTB</option>
+        <option value="UID NTT">UID NTT</option>
+        <option value="UID Sulutenggo">UID Sulutenggo</option>
+        <option value="UID Sulselrabar">UID Sulselrabar</option>
+        <option value="UID MMU">UID MMU</option>
+        <option value="UID P2B">UID P2B</option>
+      </select>
+      
+      <!-- Existing location input (for editing) -->
+      <div class="form-row">
+        <div class="form-col">
+          <label>Pemegang Wilus</label>
+          <input type="text" id="pemegang" required>
         </div>
+        <div class="form-col">
+          <label>Existing Location</label>
+          <input type="text" id="existingLocation" placeholder="Isi jika ingin mengedit polygon yang ada">
+        </div>
+      </div>
+
 
         <label>Provinsi</label>
 <select id="provinsi" required>
