@@ -393,15 +393,15 @@
       }).filter(Boolean);
     }
 
-    function previewPolygon() {
+    function previewPolygon(forceFit = true) {
       const coords = getPolygonCoords();
-      if (coords.length < 3) ;
+      if (coords.length < 3) return;
       coords.push(coords[0]);
-
+    
       if (previewLayer) map.removeLayer(previewLayer);
       markerLayers.forEach(m => map.removeLayer(m));
       markerLayers = [];
-
+    
       previewLayer = L.polygon(coords.map(p => [p[1], p[0]]), { color: "blue", fillOpacity: 0.3 }).addTo(map);
       coords.slice(0, -1).forEach(([lng, lat], i) => {
         const marker = L.marker([lat, lng], {
@@ -409,8 +409,11 @@
         }).addTo(map);
         markerLayers.push(marker);
       });
-      map.fitBounds(previewLayer.getBounds());
+    
+      // Only auto-fit if user triggered it manually
+      if (forceFit) map.fitBounds(previewLayer.getBounds());
     }
+
 
     for (let i = 0; i < 5; i++) addPointRow();
     new Sortable(container, {
@@ -621,7 +624,7 @@ function onExistingLocationChange() {
         activeLatInput.style.border = "2px solid dodgerblue";
         activeLngInput.style.border = "2px solid dodgerblue";
 
-        previewPolygon(); // optional: updates map live while dragging
+        previewPolygon(false); // optional: updates map live while dragging
       }
     });
 
