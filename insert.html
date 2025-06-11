@@ -158,12 +158,11 @@
     <div class="insert-wrapper">
       <div class="insert-left">
       <div class="insert-left-scrollable">
-        <!-- Nama Lokasi dropdown (for inserting new polygon) -->
-      <label>Nama Lokasi</label>
-      <select id="nama" required onchange="tryLoadWilus()">
-        <option value="">-- Pilih Nama Lokasi --</option>
+      <!-- Existing Location (from database) -->
+      <label>Existing Location</label>
+      <select id="existingLocation" onchange="onExistingLocationChange()">
+        <option value="">-- Pilih Lokasi yang Sudah Ada --</option>
       </select>
-      
       <!-- UID selector -->
       <label>UID</label>
       <select id="uid" required>
@@ -201,9 +200,7 @@
         </div>
         <div class="form-col">
           <label>Nama Lokasi</label>
-          <select id="nama" required onchange="tryLoadWilus()">
-            <option value="">-- Pilih Nama Lokasi --</option>
-          </select>
+          <input type="text" id="nama" placeholder="Bisa ubah nama lokasi di sini" required />
         </div>
       </div>
 
