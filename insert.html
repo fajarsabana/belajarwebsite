@@ -618,6 +618,9 @@ function onExistingLocationChange() {
       if (isMouseDown && activeLatInput && activeLngInput) {
         activeLatInput.value = e.latlng.lat.toFixed(6);
         activeLngInput.value = e.latlng.lng.toFixed(6);
+        activeLatInput.style.border = "2px solid dodgerblue";
+        activeLngInput.style.border = "2px solid dodgerblue";
+
         previewPolygon(); // optional: updates map live while dragging
       }
     });
