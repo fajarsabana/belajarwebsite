@@ -158,11 +158,12 @@
     <div class="insert-wrapper">
       <div class="insert-left">
       <div class="insert-left-scrollable">
-      <!-- Existing Location (from database) -->
+      <!-- Existing Location (dropdown dari database) -->
       <label>Existing Location</label>
       <select id="existingLocation" onchange="onExistingLocationChange()">
         <option value="">-- Pilih Lokasi yang Sudah Ada --</option>
       </select>
+
       <!-- UID selector -->
       <label>UID</label>
       <select id="uid" required>
@@ -188,9 +189,6 @@
         <option value="UID P2B">UID P2B</option>
       </select>
       
-      <!-- Existing Location textbox (for editing polygon) -->
-      <label>Existing Location</label>
-      <input type="text" id="existingLocation" placeholder="Ketik lokasi yang ingin diedit (jika ada)" />
       
       <!-- Nama Lokasi dropdown (for new polygon) -->
       <div class="form-row">
@@ -581,6 +579,39 @@ document.getElementById("existingLocation").addEventListener("input", function (
     }
   }
 });
+
+async function populateExistingLocationDropdown() {
+  const dropdown = document.getElementById("existingLocation");
+
+  const { data, error } = await supabase
+    .from("wilus_mapping_duplicate")
+    .select('"Nama Lokasi"')
+    .order("Nama Lokasi", { ascending: true });
+
+  if (error) {
+    console.error("Gagal mengambil Existing Location:", error.message);
+    return;
+  }
+
+  const uniqueLokasi = [...new Set(data.map(item => item["Nama Lokasi"]))];
+
+  dropdown.innerHTML = '<option value="">-- Pilih Lokasi yang Sudah Ada --</option>';
+  uniqueLokasi.forEach(nama => {
+    const option = document.createElement("option");
+    option.value = nama;
+    option.textContent = nama;
+    dropdown.appendChild(option);
+  });
+}
+
+// panggil fungsi ini
+populateExistingLocationDropdown();
+
+function onExistingLocationChange() {
+  const selected = document.getElementById("existingLocation").value;
+  document.getElementById("nama").value = selected;
+  tryLoadWilus(); // load polygon, UID, pemegang, dst
+}
 
 
     
