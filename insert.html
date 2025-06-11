@@ -568,17 +568,7 @@ map.on("click", function (e) {
   }
 });
 
-document.getElementById("existingLocation").addEventListener("input", function () {
-  const val = this.value.trim();
-  const namaDropdown = document.getElementById("nama");
-  for (const option of namaDropdown.options) {
-    if (option.value.toLowerCase() === val.toLowerCase()) {
-      namaDropdown.value = option.value;
-      tryLoadWilus(); // auto-load polygon
-      break;
-    }
-  }
-});
+
 
 async function populateExistingLocationDropdown() {
   const dropdown = document.getElementById("existingLocation");
@@ -613,7 +603,7 @@ function onExistingLocationChange() {
   tryLoadWilus(); // load polygon, UID, pemegang, dst
 }
 
-
+window.onExistingLocationChange = onExistingLocationChange;
     
 window.loadWilusFromDropdown = loadWilusFromDropdown;
 
