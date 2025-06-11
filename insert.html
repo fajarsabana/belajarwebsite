@@ -189,17 +189,24 @@
         <option value="UID P2B">UID P2B</option>
       </select>
       
-      <!-- Existing location input (for editing) -->
+      <!-- Existing Location textbox (for editing polygon) -->
+      <label>Existing Location</label>
+      <input type="text" id="existingLocation" placeholder="Ketik lokasi yang ingin diedit (jika ada)" />
+      
+      <!-- Nama Lokasi dropdown (for new polygon) -->
       <div class="form-row">
         <div class="form-col">
           <label>Pemegang Wilus</label>
-          <input type="text" id="pemegang" required>
+          <input type="text" id="pemegang" required />
         </div>
         <div class="form-col">
-          <label>Existing Location</label>
-          <input type="text" id="existingLocation" placeholder="Isi jika ingin mengedit polygon yang ada">
+          <label>Nama Lokasi</label>
+          <select id="nama" required onchange="tryLoadWilus()">
+            <option value="">-- Pilih Nama Lokasi --</option>
+          </select>
         </div>
       </div>
+
 
 
         <label>Provinsi</label>
@@ -565,6 +572,19 @@ map.on("click", function (e) {
     previewPolygon();
   }
 });
+
+document.getElementById("existingLocation").addEventListener("input", function () {
+  const val = this.value.trim();
+  const namaDropdown = document.getElementById("nama");
+  for (const option of namaDropdown.options) {
+    if (option.value.toLowerCase() === val.toLowerCase()) {
+      namaDropdown.value = option.value;
+      tryLoadWilus(); // auto-load polygon
+      break;
+    }
+  }
+});
+
 
     
 window.loadWilusFromDropdown = loadWilusFromDropdown;
