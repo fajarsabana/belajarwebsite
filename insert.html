@@ -265,24 +265,7 @@
   </footer>
 
   <script type="module">
-    let isMouseDown = false;
-        // Track mouse state
-    map.getContainer().addEventListener("mousedown", () => {
-      isMouseDown = true;
-    });
-    map.getContainer().addEventListener("mouseup", () => {
-      isMouseDown = false;
-    });
-    
-    // While dragging, update coordinate input
-    map.on("mousemove", function (e) {
-      if (isMouseDown && activeLatInput && activeLngInput) {
-        activeLatInput.value = e.latlng.lat.toFixed(6);
-        activeLngInput.value = e.latlng.lng.toFixed(6);
-        previewPolygon(); // optional: updates map live while dragging
-      }
-    });
-
+   
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
     const supabase = createClient("https://jqueqchgsazhompvfifr.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxdWVxY2hnc2F6aG9tcHZmaWZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NzM5MDIsImV4cCI6MjA1NjU0OTkwMn0.8q1m-jIL4kRgck4pwDfOYFHgFMSg2BIfBSTgIWBc_PE");
 
@@ -620,6 +603,25 @@ function onExistingLocationChange() {
   document.getElementById("nama").value = selected;
   tryLoadWilus(); // load polygon, UID, pemegang, dst
 }
+
+     let isMouseDown = false;
+        // Track mouse state
+    map.getContainer().addEventListener("mousedown", () => {
+      isMouseDown = true;
+    });
+    map.getContainer().addEventListener("mouseup", () => {
+      isMouseDown = false;
+    });
+    
+    // While dragging, update coordinate input
+    map.on("mousemove", function (e) {
+      if (isMouseDown && activeLatInput && activeLngInput) {
+        activeLatInput.value = e.latlng.lat.toFixed(6);
+        activeLngInput.value = e.latlng.lng.toFixed(6);
+        previewPolygon(); // optional: updates map live while dragging
+      }
+    });
+
 
 window.onExistingLocationChange = onExistingLocationChange;
     
