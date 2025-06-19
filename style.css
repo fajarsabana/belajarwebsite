@@ -28,7 +28,7 @@ body, html {
     height: 40px;
 }
 
-.nav-links {
+.nav-links-main {
     display: flex;
     list-style: none;
     gap: 24px;
@@ -38,7 +38,14 @@ body, html {
     align-items: center;
     flex-wrap: nowrap;
     white-space: nowrap;
+}
+
+.nav-links-bar {
+    list-style: none;
+    display: flex;
+    justify-content: center;
     background: black;
+    padding: 15px;
 }
 
 .nav-links li {
@@ -53,6 +60,12 @@ body, html {
 
 .nav-links a:hover {
     color: orange;
+}
+
+.logout-btn-primary {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .logout-btn {
@@ -240,6 +253,12 @@ select#uid {
 .form-section input:focus {
     border-color: orange;
     outline: none;
+}
+
+.point-row-main {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
 .point-row {
