@@ -781,3 +781,126 @@ select#uid {
   margin-bottom: 10px;
 }
 
+ .insert-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      padding: 40px 60px;
+      max-width: 1200px;
+      margin: auto;
+      border-bottom: 1px solid #ccc;
+      height: calc(100vh - 100px); /* tingginya dikontrol langsung di sini */
+    }
+
+
+    .insert-left {
+      flex: 1; /* 1/3 */
+      max-width: none;
+    }
+    
+    .insert-right {
+      flex: 2; /* 2/3 */
+      min-width: 0;
+    }
+    .point-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .point-index {
+      width: 20px;
+      text-align: right;
+    }
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .form-row select,
+    .form-row input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+        .form-row input,
+    .form-row select,
+    #uid,
+    #provinsi {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+        select,
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+
+    .form-col {
+      flex: 1;
+      max-width: 100%;
+    }
+
+    .drag-handle {
+      cursor: grab;
+      user-select: none;
+    }
+    .point-row:active .drag-handle {
+      cursor: grabbing;
+    }
+
+  
+    .insert-left-scrollable {
+      max-height: calc(100vh - 160px); /* sesuaikan dengan tinggi header + margin bawah */
+      overflow-y: auto;
+      padding-right: 20px;
+      padding-bottom: 160px; /* berikan ruang agar tidak nabrak footer */
+      box-sizing: border-box;
+    }
+
+        .insert-left-scrollable {
+      scrollbar-width: thin;
+      scrollbar-color: #888 #f5f5f5;
+    }
+    .insert-left-scrollable::-webkit-scrollbar {
+      width: 6px;
+    }
+    .insert-left-scrollable::-webkit-scrollbar-thumb {
+      background-color: #999;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+    .insert-wrapper {
+      flex-direction: column;
+      height: auto;
+    }
+    .insert-right-fixed {
+      position: static;
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+
+      
+  .insert-right-fixed {
+    width: 450px;
+    position: sticky;
+    top: 80px;
+  }
+  #mapPreview {
+    height: 500px;
+    margin-bottom: 20px;
+  }
+    footer {
+  position: relative;
+  z-index: 10;
+  background: white;
+  padding: 10px;
+  text-align: center;
+}
