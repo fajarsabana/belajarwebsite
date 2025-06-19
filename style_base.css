@@ -1,0 +1,65 @@
+.nav-container {
+  display: flex;
+  align-items: center;
+  background: black;
+  padding: 10px 20px;
+}
+
+.nav-left {
+  flex: 0 0 auto;
+}
+
+.nav-right {
+  flex: 0 0 auto;
+}
+
+.nav-center {
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-logo {
+  height: 40px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 24px; /* smaller spacing between items */
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.logout-btn {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #e53935;         /* Soft red */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center; /* Centers nav items */
+    background: black;
+    padding: 15px;
+}
+
+.logout-btn {
+  margin-left: auto; /* Push it to far right */
+}
