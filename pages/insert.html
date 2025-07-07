@@ -4,14 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PLN - Wilus Baru</title>
-  <link rel="stylesheet" href="css/style_base.css" />
-  <link rel="stylesheet" href="css/style_insert_page.css" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/style_base.css" />
+  <link rel="stylesheet" href="../css/style_index_page.css" />
+  <link rel="stylesheet" href="../css/style_insert_page.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="css/style_index_page.css">
+  
+  <!-- JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <script type="module" src="../javascript/script.js"></script>
 </head>
+
 <body>
 <header>
   <nav class="nav-container">
@@ -21,7 +26,7 @@
     <div class="nav-center">
       <ul class="nav-links">
         <li><a href="../index.html" class="text-hover">Home</a></li>
-        <li><a href="../pages/insert.html" class="text-hover">Wilus Baru</a></li>
+        <li><a href="insert.html" class="text-hover">Wilus Baru</a></li>
       </ul>
     </div>
     <div class="nav-right">
@@ -31,11 +36,12 @@
 </header>
 
 
+
   <section id="insert-wilus" class="fade-in">
     <h2>Form Input Wilus Baru</h2>
     <div class="insert-wrapper">
       <div class="insert-left">
-      <div class="insert-left-scrollable">
+      <div class="insert-left-scrollable form-section">
       <!-- Existing Location (dropdown dari database) -->
       <label>Existing Location</label>
       <select id="existingLocation" onchange="onExistingLocationChange()">
