@@ -53,3 +53,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         map.invalidateSize();
     }, 500);
 });
+
+function showInfoPanel(data) {
+  const panel = document.getElementById("info-panel");
+  const content = document.getElementById("info-content");
+  content.innerHTML = `
+    <p><strong>Pemegang:</strong> ${data.pemegang}</p>
+    <p><strong>Nama Lokasi:</strong> ${data.nama}</p>
+    <p><strong>Provinsi:</strong> ${data.provinsi}</p>
+  `;
+  panel.style.transform = "translateX(0)";
+}
+
+// Saat menambahkan polygon:
+polygon.on('click', function () {
+  showInfoPanel({
+    pemegang: feature.properties["Pemegang Wilus"],
+    nama: feature.properties["Nama Lokasi"],
+    provinsi: feature.properties["Provinsi"]
+  });
+});
+
