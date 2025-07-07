@@ -45,14 +45,18 @@
 
     
 </head>
-    <script>
-  const infoPanel = document.getElementById("info-panel");
-  const toggleBtn = document.getElementById("toggleInfoPanel");
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const infoPanel = document.getElementById("info-panel");
+    const toggleBtn = document.getElementById("toggleInfoPanel");
 
-  toggleBtn.addEventListener("click", () => {
-    infoPanel.classList.toggle("show");
+    toggleBtn.addEventListener("click", () => {
+      infoPanel.classList.toggle("collapsed");
+      toggleBtn.textContent = infoPanel.classList.contains("collapsed") ? "▶" : "◀";
+    });
   });
 </script>
+
 
 <body>
     <header>
