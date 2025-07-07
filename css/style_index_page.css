@@ -5,6 +5,10 @@
     margin: 0;
 }
 
+.info-panel.show {
+  transform: translateX(0); /* Geser masuk */
+}
+
 .info-panel {
     position: fixed;
     top: 0;
