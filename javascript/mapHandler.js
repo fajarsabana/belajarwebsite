@@ -197,22 +197,33 @@ export async function loadMapAndSidebar(map) {
             let marker = L.marker(center, { icon: customIcon });
             markerCluster.addLayer(marker);
 
+                
+        shape = L.polygon(polygonCoordinates, {
+            color: randomColor,
+            fillColor: randomColor,
+            fillOpacity: 0.4,
+            weight: 2
+        });
         
-            shape.feature = shape.feature || {};
-            shape.feature.properties = {
-                "UID": location["UID"] || "No Data",
-                "Pemegang Wilus": location["Pemegang Wilus"] || "No Data",
-                "Nama Lokasi": location["Nama Lokasi"] || "No Data"
-            };
-            shape.on("click", function () {
+        shape.feature = shape.feature || {};
+        shape.feature.properties = {
+            "UID": location["UID"] || "No Data",
+            "Pemegang Wilus": location["Pemegang Wilus"] || "No Data",
+            "Nama Lokasi": location["Nama Lokasi"] || "No Data"
+        };
+        
+        // ⬇️ Letakkan di sini sebelum addLayer
+        shape.on("click", function () {
             const props = shape.feature.properties;
             shape.bindPopup(`
-            <b>Nama UID:</b> ${props["UID"]}<br>
-            <b>Nama Pemilik Wilus:</b> ${props["Pemegang Wilus"]}<br>
-            <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}
+                <b>Nama UID:</b> ${props["UID"]}<br>
+                <b>Nama Pemilik Wilus:</b> ${props["Pemegang Wilus"]}<br>
+                <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}
             `).openPopup();
-});
-                    
+        });
+        
+        polygonLayerGroup.addLayer(shape); // ⬅️ terakhir
+
         
         }
 
