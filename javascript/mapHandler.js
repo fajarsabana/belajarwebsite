@@ -193,20 +193,25 @@ export async function loadMapAndSidebar(map) {
         })
             polygonLayerGroup.addLayer(shape); // Don't add to map yet, just to group
 
-            // Make marker at polygon center:
             let center = shape.getBounds().getCenter();
             let marker = L.marker(center, { icon: customIcon });
-            marker.bindPopup(`
-                <b>📍 Lokasi Kawasan:</b> ${location["Nama Lokasi"]}<br>
-                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"]}
-            `);
             markerCluster.addLayer(marker);
+
         
             shape.feature = shape.feature || {};
             shape.feature.properties = {
+                "UID": location["UID"] || "No Data",
                 "Pemegang Wilus": location["Pemegang Wilus"] || "No Data",
                 "Nama Lokasi": location["Nama Lokasi"] || "No Data"
             };
+            shape.on("click", function () {
+            const props = shape.feature.properties;
+            shape.bindPopup(`
+            <b>Nama UID:</b> ${props["UID"]}<br>
+            <b>Nama Pemilik Wilus:</b> ${props["Pemegang Wilus"]}<br>
+            <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}
+            `).openPopup();
+});
                     
         
         }
