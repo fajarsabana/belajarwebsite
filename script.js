@@ -52,4 +52,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     setTimeout(() => {
         map.invalidateSize();
     }, 500);
+
+        const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebar-toggle-handle");
+
+    if (sidebar && sidebarToggle) {
+        sidebar.classList.add("collapsed");
+        sidebarToggle.textContent = "▶";
+        document.getElementById("resetMapBtn").style.display = "block";
+        document.getElementById("wilusInfoBox").style.display = "block";
+    }
+
 });
