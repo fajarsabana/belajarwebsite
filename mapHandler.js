@@ -181,16 +181,28 @@ export async function loadMapAndSidebar(map) {
 
             const key = location["Nama Lokasi"];
             if (!polygonColorMap[key]) {
-    polygonColorMap[key] = '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
-           const randomColor = polygonColorMap[key];
+                polygonColorMap[key] = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            }
+                       const randomColor = polygonColorMap[key];
+            
+                    shape = L.polygon(polygonCoordinates, {
+                        color: randomColor,
+                        fillColor: randomColor,
+                        fillOpacity: 0.4,
+                        weight: 2
+                    })
+                                shape.bindPopup(`
+                <b>📍 Nama Lokasi:</b> ${location["Nama Lokasi"]}<br>
+                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"]}
+            `);
+            
+                                shape.on("click", () => {
+                shape.openPopup(); // ✅ ini yang bikin popup tampil saat klik
+            });
+            
 
-        shape = L.polygon(polygonCoordinates, {
-            color: randomColor,
-            fillColor: randomColor,
-            fillOpacity: 0.4,
-            weight: 2
-        })
+            shape.on("click", () => console.log("Klik polygon:", location["Nama Lokasi"]));
+
             polygonLayerGroup.addLayer(shape); // Don't add to map yet, just to group
 
             // Make marker at polygon center:
