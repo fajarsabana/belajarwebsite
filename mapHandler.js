@@ -191,10 +191,14 @@ export async function loadMapAndSidebar(map) {
                         fillOpacity: 0.4,
                         weight: 2
                     })
-                                shape.bindPopup(`
-                <b>📍 Nama Lokasi:</b> ${location["Nama Lokasi"]}<br>
-                🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"]}
-            `);
+                          shape.bindPopup(`
+                        <b>📍 Nama Lokasi:</b> ${location["Nama Lokasi"]}<br>
+                        🏢 <b>Pemegang Wilus:</b> ${location["Pemegang Wilus"]}<br><br>
+                        <button onclick="openInfoPanel('${location["Nama Lokasi"]}', 'UID: ${location["UID"]}<br>Pemegang Wilus: ${location["Pemegang Wilus"]}')">
+                            🔍 More Info
+                        </button>
+                    `);
+
             
                                 shape.on("click", () => {
                 shape.openPopup(); // ✅ ini yang bikin popup tampil saat klik
