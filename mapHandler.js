@@ -512,9 +512,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (toggleSidebarHandle) {
         toggleSidebarHandle.addEventListener("click", () => {
-            sidebar.classList.toggle("collapsed");
-            toggleSidebarHandle.textContent = sidebar.classList.contains("collapsed") ? "▶" : "◀";
+            const sidebarCollapsed = sidebar.classList.toggle("collapsed");
+            toggleSidebarHandle.textContent = sidebarCollapsed ? "▶" : "◀";
+        
+            // 🔁 Toggle visibility of "Kembali ke Peta Utama" and "Wilus Info Box"
+            document.getElementById("resetMapBtn").style.display = sidebarCollapsed ? "block" : "none";
+            document.getElementById("wilusInfoBox").style.display = sidebarCollapsed ? "block" : "none";
         });
+
     }
 
     if (toggleInfoPanelBtn) {
