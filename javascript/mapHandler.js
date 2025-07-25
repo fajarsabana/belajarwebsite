@@ -213,47 +213,39 @@ export async function loadMapAndSidebar(map) {
         };
         
         // ⬇️ Letakkan di sini sebelum addLayer
-        shape.on("click", function () {
-            const props = shape.feature.properties;
-        
-            shape.bindPopup(`
-                <b>Nama UID:</b> ${props["UID"]}<br>
-                <b>Nama Pemilik Wilus:</b> ${props["Pemegang Wilus"]}<br>
-                <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}
-            `).openPopup();
-        
-            window.openInfoPanel = function(title, description) {
-                const panel = document.getElementById("info-panel");
+            shape.on("click", function () {
+                const props = shape.feature.properties;
             
-                // 💬 Tampilkan tombol More Info
-                document.getElementById("info-content").innerHTML = `
-                    <h4>${title}</h4>
-                    <p>${description}</p>
+                shape.bindPopup(`
+                    <b>Nama UID:</b> ${props["UID"]}<br>
+                    <b>Nama Pemilik Wilus:</b> ${props["Pemegang Wilus"]}<br>
+                    <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}<br><br>
                     <button id="showMoreInfoBtn" class="more-info-button">ℹ️ More Info</button>
-                `;
+                `).openPopup();
             
-                // ❌ Jangan langsung buka panel dulu
-                panel.classList.remove("show");
-                panel.classList.add("collapsed");
-                window.infoPanelOpen = false;
-            
-                // 🎯 Tambahkan event click untuk tombol More Info
+                // Tambahkan event listener setelah popup muncul
                 setTimeout(() => {
                     const btn = document.getElementById("showMoreInfoBtn");
                     if (btn) {
                         btn.addEventListener("click", () => {
+                            const panel = document.getElementById("info-panel");
                             panel.classList.remove("collapsed");
                             panel.classList.add("show");
                             window.infoPanelOpen = true;
-                            // Hide other UI if needed
+            
+                            // Kosongkan dan isi panel kanan
+                            document.getElementById("info-content").innerHTML = `
+                                <h4>${props["Nama Lokasi"]}</h4>
+                                <p>UID: ${props["UID"]}<br>Pemilik: ${props["Pemegang Wilus"]}</p>
+                            `;
+            
+                            // Sembunyikan tombol map utama
                             document.getElementById("resetMapBtn").style.display = "none";
                             document.getElementById("wilusInfoBox").style.display = "none";
                         });
                     }
-                }, 100); // delay sedikit untuk memastikan tombol sudah muncul
-}
-
-        });
+                }, 200); // delay agar popup siap
+            });
 
         
         polygonLayerGroup.addLayer(shape); // ⬅️ terakhir
