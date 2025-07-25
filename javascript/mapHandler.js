@@ -258,10 +258,6 @@ export async function loadMapAndSidebar(map) {
         subItem.addEventListener("click", function () {
             console.log("📍 Sidebar item clicked:", location["Nama Lokasi"], location.geom);
             
-            openInfoPanel(
-                location["Nama Lokasi"],
-                `UID: ${location["UID"]}<br>Pemegang Wilus: ${location["Pemegang Wilus"]}`
-            );
             document.getElementById("resetMapBtn").style.display = "none";
             document.getElementById("wilusInfoBox").style.display = "none";
 
