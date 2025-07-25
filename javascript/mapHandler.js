@@ -215,12 +215,19 @@ export async function loadMapAndSidebar(map) {
         // ⬇️ Letakkan di sini sebelum addLayer
         shape.on("click", function () {
             const props = shape.feature.properties;
+        
             shape.bindPopup(`
                 <b>Nama UID:</b> ${props["UID"]}<br>
                 <b>Nama Pemilik Wilus:</b> ${props["Pemegang Wilus"]}<br>
                 <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}
             `).openPopup();
+        
+            openInfoPanel(
+                props["Nama Lokasi"],
+                `UID: ${props["UID"]}<br>Pemegang Wilus: ${props["Pemegang Wilus"]}`
+            );
         });
+
         
         polygonLayerGroup.addLayer(shape); // ⬅️ terakhir
 
@@ -236,13 +243,16 @@ export async function loadMapAndSidebar(map) {
                     openInfoPanel(
                         location["Nama Lokasi"],
                         `UID: ${location["UID"]}<br>Pemegang Wilus: ${location["Pemegang Wilus"]}`
+                        document.getElementById("resetMapBtn").style.display = "none";
+                        document.getElementById("wilusInfoBox").style.display = "none";
+
                     );
                 }
 
             if (location.geom && location.geom.type === "Point") {
                 console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
                 map.setView([location.geom.coordinates[1], location.geom.coordinates[0]], 14); // Ensure correct order
-            } 
+            }
             else if (location.geom && location.geom.type === "Polygon" 
             && Array.isArray(location.geom.coordinates) 
             && location.geom.coordinates.length > 0 
@@ -501,6 +511,9 @@ window.closeInfoPanel = function() {
     panel.classList.remove("show");
     panel.classList.add("collapsed");
     window.infoPanelOpen = false;
+    document.getElementById("resetMapBtn").style.display = "block";
+    document.getElementById("wilusInfoBox").style.display = "block";
+
 }
 
 
