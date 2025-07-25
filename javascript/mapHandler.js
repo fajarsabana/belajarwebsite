@@ -223,9 +223,37 @@ export async function loadMapAndSidebar(map) {
             `).openPopup();
         
             openInfoPanel(
-                props["Nama Lokasi"],
-                `UID: ${props["UID"]}<br>Pemegang Wilus: ${props["Pemegang Wilus"]}`
-            );
+            window.openInfoPanel = function(title, description) {
+                const panel = document.getElementById("info-panel");
+            
+                // 💬 Tampilkan tombol More Info
+                document.getElementById("info-content").innerHTML = `
+                    <h4>${title}</h4>
+                    <p>${description}</p>
+                    <button id="showMoreInfoBtn" class="more-info-button">ℹ️ More Info</button>
+                `;
+            
+                // ❌ Jangan langsung buka panel dulu
+                panel.classList.remove("show");
+                panel.classList.add("collapsed");
+                window.infoPanelOpen = false;
+            
+                // 🎯 Tambahkan event click untuk tombol More Info
+                setTimeout(() => {
+                    const btn = document.getElementById("showMoreInfoBtn");
+                    if (btn) {
+                        btn.addEventListener("click", () => {
+                            panel.classList.remove("collapsed");
+                            panel.classList.add("show");
+                            window.infoPanelOpen = true;
+                            // Hide other UI if needed
+                            document.getElementById("resetMapBtn").style.display = "none";
+                            document.getElementById("wilusInfoBox").style.display = "none";
+                        });
+                    }
+                }, 100); // delay sedikit untuk memastikan tombol sudah muncul
+}
+
         });
 
         
@@ -512,8 +540,8 @@ window.closeInfoPanel = function() {
     window.infoPanelOpen = false;
     document.getElementById("resetMapBtn").style.display = "block";
     document.getElementById("wilusInfoBox").style.display = "block";
-
 }
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
