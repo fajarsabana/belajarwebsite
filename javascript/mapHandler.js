@@ -238,16 +238,17 @@ export async function loadMapAndSidebar(map) {
             // ✅ Click to Zoom into Shape
         subItem.addEventListener("click", function () {
             console.log("📍 Sidebar item clicked:", location["Nama Lokasi"], location.geom);
+            
+            if (window.infoPanelOpen) {
+                openInfoPanel(
+                    location["Nama Lokasi"],
+                    `UID: ${location["UID"]}<br>Pemegang Wilus: ${location["Pemegang Wilus"]}`
+                );
+            
+                document.getElementById("resetMapBtn").style.display = "none";
+                document.getElementById("wilusInfoBox").style.display = "none";
+            }
 
-                            if (window.infoPanelOpen) {
-                    openInfoPanel(
-                        location["Nama Lokasi"],
-                        `UID: ${location["UID"]}<br>Pemegang Wilus: ${location["Pemegang Wilus"]}`
-                        document.getElementById("resetMapBtn").style.display = "none";
-                        document.getElementById("wilusInfoBox").style.display = "none";
-
-                    );
-                }
 
             if (location.geom && location.geom.type === "Point") {
                 console.log("Zooming to Point:", location["Nama Lokasi"], location.geom.coordinates);
