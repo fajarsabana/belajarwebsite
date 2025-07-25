@@ -222,7 +222,6 @@ export async function loadMapAndSidebar(map) {
                 <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}
             `).openPopup();
         
-            openInfoPanel(
             window.openInfoPanel = function(title, description) {
                 const panel = document.getElementById("info-panel");
             
