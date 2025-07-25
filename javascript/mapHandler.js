@@ -511,27 +511,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 window.infoPanelOpen = false;
 // ✅ Open Info Panel
-window.openInfoPanel = function(title, description) {
-    const panel = document.getElementById("info-panel");
-    panel.classList.remove("collapsed");  // 🔧 ensure it's visible
-    panel.classList.add("show");
+        shape.on("click", function () {
+            const props = shape.feature.properties;
+        
+            shape.bindPopup(`
+                <b>Nama UID:</b> ${props["UID"]}<br>
+                <b>Nama Pemilik Wilus:</b> ${props["Pemegang Wilus"]}<br>
+                <b>Nama Lokasi:</b> ${props["Nama Lokasi"]}
+            `).openPopup();
+        
+            const panel = document.getElementById("info-panel");
+        
+            // Isi konten info-panel dengan tombol More Info
+            document.getElementById("info-content").innerHTML = `
+                <h4>${props["Nama Lokasi"]}</h4>
+                <p>UID: ${props["UID"]}<br>Pemegang Wilus: ${props["Pemegang Wilus"]}</p>
+                <button id="showMoreInfoBtn" class="more-info-button">ℹ️ More Info</button>
+            `;
+        
+            // Pastikan panel tetap tertutup sampai tombol diklik
+            panel.classList.remove("show");
+            panel.classList.add("collapsed");
+            window.infoPanelOpen = false;
+        
+            // Tambahkan event ke tombol "More Info"
+            setTimeout(() => {
+                const btn = document.getElementById("showMoreInfoBtn");
+                if (btn) {
+                    btn.addEventListener("click", () => {
+                        panel.classList.remove("collapsed");
+                        panel.classList.add("show");
+                        window.infoPanelOpen = true;
+                        document.getElementById("resetMapBtn").style.display = "none";
+                        document.getElementById("wilusInfoBox").style.display = "none";
+                    });
+                }
+            }, 100);
+        });
 
-    document.getElementById("info-content").innerHTML = `
-        <h4>${title}</h4>
-        <p>${description}</p>
-    `;
-    window.infoPanelOpen = true;
-}
 
 // ✅ Close Info Panel
-window.closeInfoPanel = function() {
+window.closeInfoPanel = function () {
     const panel = document.getElementById("info-panel");
     panel.classList.remove("show");
     panel.classList.add("collapsed");
     window.infoPanelOpen = false;
     document.getElementById("resetMapBtn").style.display = "block";
     document.getElementById("wilusInfoBox").style.display = "block";
-}
+};
 
 
 
