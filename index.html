@@ -55,6 +55,17 @@
       toggleBtn.textContent = infoPanel.classList.contains("collapsed") ? "▶" : "◀";
     });
   });
+      document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.getElementById("sidebar");
+  const toggleHandle = document.getElementById("sidebar-toggle-handle");
+
+  if (toggleHandle && sidebar) {
+    toggleHandle.addEventListener("click", () => {
+      sidebar.classList.toggle("collapsed");
+      toggleHandle.textContent = sidebar.classList.contains("collapsed") ? "▶" : "◀";
+    });
+  }
+});
 </script>
 
 
